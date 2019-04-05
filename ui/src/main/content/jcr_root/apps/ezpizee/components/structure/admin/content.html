@@ -1,0 +1,41 @@
+<main class="main" id="top" data-sly-use.ezpzPageProps="com.ezpizee.aem.models.PageProperties">
+    <div class="container-fluid">
+        <nav class="navbar navbar-vertical navbar-expand-lg navbar-light navbar-glass">
+            <a class="navbar-brand text-left" href="${ezpzPageProps.data.baseUrl}">
+                <div class="d-flex align-items-center text-primary py-3">
+                    <div class="d-inline-flex flex-center">
+                        <img class="mr-2" src="${ezpzPageProps.data.logo}" alt="Ezpizee logo" width="40" />
+                        <span class="text-sans-serif sitename">${ezpzPageProps.data.sitename}</span>
+                    </div>
+                </div>
+            </a>
+            <sly data-sly-resource="${'mainnav' @ resourceType='/apps/ezpizee/components/content/mainnav'}"></sly>
+        </nav>
+        <div class="content">
+            <nav class="navbar navbar-light navbar-glass fs--1 font-weight-semi-bold row navbar-top sticky-kit navbar-expand">
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand text-left ml-3" href="${ezpzPageProps.data.baseUrl}">
+                    <div class="d-flex align-items-center text-primary">
+                        <div class="d-inline-flex flex-center">
+                            <img class="mr-2" src="${ezpzPageProps.data.logo}" alt="" width="40" />
+                            <span class="text-sans-serif">${ezpzPageProps.data.sitename}</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown1">
+                    <sly data-sly-resource="${'usernav' @ resourceType='/apps/ezpizee/components/content/usernav'}"></sly>
+                </div>
+            </nav>
+            <div class="commerce-system-error">
+                <div data-sly-test="${queueMessage}" class="alert alert-${queueMessage.type ? queueMessage.type : 'info'}">
+                    ${queueMessage.message}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            </div>
+            <div id="commerce-spa"></div>
+            <sly data-sly-resource="${'footer' @ resourceType='/apps/ezpizee/components/content/footer'}"></sly>
+        </div>
+    </div>
+</main>

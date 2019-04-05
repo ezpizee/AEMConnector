@@ -1,0 +1,1 @@
+Handlebars.registerHelper('strip_tags', function(html) {return html ? phpjs.strip_tags(html, '<br>') : html;});

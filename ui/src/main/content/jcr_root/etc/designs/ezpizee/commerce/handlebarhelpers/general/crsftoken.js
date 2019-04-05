@@ -1,0 +1,1 @@
+Handlebars.registerHelper('csrftoken', function() {return WC.params.get('csrftoken')||'';});

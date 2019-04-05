@@ -1,0 +1,71 @@
+@brand-color-yellow: #ffb533;
+@brand-color-red: #eb1a2d;
+@brand-color-green: #d6dd23;
+@depth-padding: 10px;
+
+.alert-notice {
+  color: #1e5b6d;
+  background-color: #d7eff6;
+  border-color: #c8e9f2;
+}
+.alert-error {
+  color: #7f4320;
+  background-color: #fde6d8;
+  border-color: #fcdbc9;
+}
+.form-error.alert {
+  ul {
+    margin: 0;
+    padding: 0 0 0 15px;
+    li {
+      font-size: 12px;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+.has-validation-callback {
+  .help-block.form-error {
+    display: none !important;
+    &.show {display: block !important;}
+  }
+  /*
+  .email-field, .username-field {
+    .help-block.form-error {
+      display: block !important;
+    }
+  }
+  */
+  .custom-checkbox.has-error {
+    border: 1px solid rgb(185, 74, 72);
+  }
+}
+.hide {display:none !important;}
+.pointer {cursor: pointer !important;}
+.main {
+  a.sitename:hover {
+    text-decoration: none;
+  }
+  .sitename {
+    color: @brand-color-yellow !important;
+  }
+}
+.depth {
+  &.level {
+    &-0 {padding-left: @depth-padding*0;}
+    &-1 {padding-left: @depth-padding*1;}
+    &-2 {padding-left: @depth-padding*2;}
+    &-3 {padding-left: @depth-padding*3;}
+    &-4 {padding-left: @depth-padding*4;}
+    &-5 {padding-left: @depth-padding*5;}
+    &-6 {padding-left: @depth-padding*6;}
+    &-7 {padding-left: @depth-padding*7;}
+    &-8 {padding-left: @depth-padding*8;}
+    &-9 {padding-left: @depth-padding*9;}
+    &-10 {padding-left: @depth-padding*10;}
+  }
+}
+.modal-body-content {
+  max-height: 500px;
+  overflow: auto;
+}
