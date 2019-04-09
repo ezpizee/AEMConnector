@@ -91,6 +91,22 @@ public class DataUtil {
         return data;
     }
 
+    public static Map<String, String> jsonObject2MapString(JSONObject object) {
+        Map<String, String> data = new HashMap<>();
+        for (String key : object.keySet()) {
+            data.put(key, (String)object.get(key));
+        }
+        return data;
+    }
+
+    public static Map<String, Object> jsonObject2MapObject(JSONObject object) {
+        Map<String, Object> data = new HashMap<>();
+        for (String key : object.keySet()) {
+            data.put(key, object.get(key));
+        }
+        return data;
+    }
+
     public static Map<String, String> map2MapString(Map<String, Object> map) {
         Map<String, String> data = new HashMap<>();
         for (String key : map.keySet()) {

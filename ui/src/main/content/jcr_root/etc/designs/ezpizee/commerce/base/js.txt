@@ -1,5 +1,3 @@
-script/handlebars.js
-script/jquery.form-validator.min.js
 script/phpjs.js
 script/spin.js
 script/lightbox.js

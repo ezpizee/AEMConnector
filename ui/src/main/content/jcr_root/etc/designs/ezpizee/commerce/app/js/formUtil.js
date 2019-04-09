@@ -84,29 +84,46 @@ WC.formUtil = function() {
                         }
                         let oldAction = $form.attr('action');
                         let parts = oldAction.split('#!');
-                        let action = parts[parts.length-1];
-                        let parts2 = action.split('?');
-                        $form.attr('action', action+(parts2.length>1?'&':'?')+'response=json');
+                        if (parts.length === 2) {
+                            let action = parts[parts.length-1];
+                            let parts2 = action.split('?');
+                            $form.attr('action', action+(parts2.length>1?'&':'?')+'response=json');
+                        }
                         // ajax submit the form via jquery.form
                         let spinner = WC.spinner.start();
                         $form.ajaxSubmit({
+                            beforeSend: function(xhr) {
+                                if (typeof csrftoken === "undefined") {
+                                    if ($form.find('[name="CSRF-Token"]').length) {
+                                        xhr.setRequestHeader("CSRF-Token", $form.find('[name="CSRF-Token"]').val());
+                                    }
+                                    else if ($form.find('[name="csrftoken"]').length) {
+                                        xhr.setRequestHeader("csrftoken", $form.find('[name="csrftoken"]').val());
+                                    }
+                                }
+                            },
                             success: function(resp) {
                                 if (phpjs.is_string(resp)) {resp=phpjs.json_decode(resp)||{};}
                                 if (typeof resp.success !== "undefined") {
                                     WC.renderAlert('success', resp.message||"Unknown message", formMsgId($form));
-                                    if (typeof resp.data !== "undefined" && typeof resp.data.id !== "undefined" &&
-                                        phpjs.strpos(oldAction, 'edit_id='+resp.data.id) === false
-                                    ) {
+                                    if (typeof resp.data !== "undefined" && phpjs.is_object(resp.data) &&
+                                        typeof resp.data.id !== "undefined" && phpjs.strpos(oldAction, 'edit_id='+resp.data.id) === false) {
                                         oldAction = oldAction + '?edit_id='+resp.data.id;
                                         location.href = oldAction;
                                     }
                                     else {
                                         $form.attr('action', oldAction);
                                     }
+                                    if ($form.attr('data-onsubmit-success')) {
+                                        $form.attr('data-onsubmit-success')(resp);
+                                    }
                                 }
                                 else {
                                     WC.renderAlert('error', resp.message||"Unknown message", formMsgId($form));
                                     $form.attr('action', oldAction);
+                                    if ($form.attr('data-onsubmit-error')) {
+                                        $form.attr('data-onsubmit-error')(resp);
+                                    }
                                 }
                                 spinner.stop();
                             },
@@ -126,9 +143,31 @@ WC.formUtil = function() {
                         return false;
                     }
                 });
+                aemCSRFToken();
             }
         }
     };
+
+    function aemCSRFToken() {
+        if (typeof csrftoken === "undefined" && typeof csrfTokenPath !== "undefined") {
+            if ($('[name="CSRF-Token"]').length) {
+                fetchCSRFToken(csrfTokenPath);
+                setInterval(function() {fetchCSRFToken(csrfTokenPath);}, 100000);
+            }
+        }
+    }
+
+    function fetchCSRFToken(uri) {
+        $.ajax({
+            url: uri,
+            dataType: 'json',
+            success: function(data) {
+                if (data && data.token) {
+                    $('[name="CSRF-Token"]').attr('value', data.token);
+                }
+            }
+        });
+    }
 
     function formMsgId($form) {
         if (!$('#'+$form.attr('id')+'-msg').length) {

@@ -15,13 +15,13 @@ var WC = function() {
         return '';
     };
     that.bindCSRFTokenToAjaxCalls = function() {
-        $.ajaxSetup({
-            beforeSend: function (xhr) {
-                if (csrftoken !== undefined) {
+        if (typeof csrftoken !== "undefined") {
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader("csrftoken", csrftoken);
                 }
-            }
-        });
+            });
+        }
     };
     return that;
 }();

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+          xmlns:cq="http://www.day.com/jcr/cq/1.0"
+          xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          cq:showOnCreate="{Boolean}true"
+          jcr:primaryType="nt:unstructured"
+          jcr:title="Ezpizee API Setting"
+          sling:resourceType="granite/ui/components/foundation/section">
+    <layout
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+        margin="{Boolean}false"/>
+    <items jcr:primaryType="nt:unstructured">
+        <column
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/container">
+            <items jcr:primaryType="nt:unstructured">
+                <endpoint
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                        fieldDescription="For pulling the data from Ezpizee Commerce"
+                        fieldLabel="API Endpoint"
+                        name="./endpoint">
+                    <datasource
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="/apps/ezpizee/components/datasource/endpoints"/>
+                </endpoint>
+                <method
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                        fieldDescription="API request method"
+                        fieldLabel="Method"
+                        name="./method">
+                    <datasource
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="/apps/ezpizee/components/datasource/methods"/>
+                </method>
+                <dataFields
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Fields"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                    <layout
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/layouts/collapsible"/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <fields
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/multifield">
+                            <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/fieldset"
+                                    acs-commons-nested="JSON_STORE"
+                                    name="./fields">
+                                <layout
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                                        method="absolute"/>
+                                <items jcr:primaryType="nt:unstructured">
+                                    <column
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/container">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <field
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                    fieldDescription="For displaying the data"
+                                                    fieldLabel="Field"
+                                                    name="./field">
+                                                <datasource
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="/apps/ezpizee/components/datasource/fields"/>
+                                            </field>
+                                        </items>
+                                    </column>
+                                </items>
+                            </field>
+                        </fields>
+                    </items>
+                </dataFields>
+                <dataActions
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Actions"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                    <layout
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/layouts/collapsible"/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <actions
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/multifield">
+                            <field
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/fieldset"
+                                    acs-commons-nested="JSON_STORE"
+                                    name="./actions">
+                                <layout
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                                        method="absolute"/>
+                                <items jcr:primaryType="nt:unstructured">
+                                    <column
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/container">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <action
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                    fieldDescription="For displaying the actionable buttons for user to take"
+                                                    fieldLabel="Actions"
+                                                    name="./action">
+                                                <datasource
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="/apps/ezpizee/components/datasource/actions"/>
+                                            </action>
+                                        </items>
+                                    </column>
+                                </items>
+                            </field>
+                        </actions>
+                    </items>
+                </dataActions>
+                <targetPage
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                        fieldLabel="Target Page"
+                        name="./targetPage"
+                        rootPath="/content/ezpizee"/>
+                <formApiEndpoint
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                        fieldDescription="For data submission request"
+                        fieldLabel="Form API Endpoint"
+                        name="./form_api_endpoint">
+                    <datasource
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="/apps/ezpizee/components/datasource/endpoints"/>
+                </formApiEndpoint>
+            </items>
+        </column>
+    </items>
+</jcr:root>

@@ -76,6 +76,11 @@ public class DateFormatUtil {
         }
     }
 
+    public static int getCurrentYear() {
+        Calendar cal = Calendar.getInstance();
+        return cal.get(Calendar.YEAR);
+    }
+
     public static long strToTimestamp(String dateString) {
         if (StringUtils.isNotEmpty(dateString)) {
             Calendar c = getCalendar(dateString);

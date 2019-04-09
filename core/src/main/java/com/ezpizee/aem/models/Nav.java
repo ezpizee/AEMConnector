@@ -1,5 +1,6 @@
 package com.ezpizee.aem.models;
 
+
 import com.day.cq.wcm.api.Page;
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.utils.HashUtil;
@@ -52,7 +53,7 @@ public class Nav extends BaseProperties {
         if (jcrRes != null && jcrRes.getValueMap().containsKey("icon")) {
             item.put("icon", jcrRes.getValueMap().get("icon"));
         }
-        item.put("id", "item-"+HashUtil.md5(page.getPath()));
+        item.put("id", "item-"+ HashUtil.md5(page.getPath()));
         return item;
     }
 
