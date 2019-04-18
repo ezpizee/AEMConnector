@@ -29,7 +29,6 @@ public class Response
             //LOG.info("Commerce Admin API Call Response "+content);
             final JSONObject jsonData = DataUtil.toJSONObject(content);
             if (jsonData.containsKey(KEY_SUCESS) && jsonData.containsKey(KEY_STATUS_CODE) && jsonData.containsKey(KEY_MESSAGE) && jsonData.containsKey(KEY_DATA)) {
-                this.noData = this.getDataAsJSONArray().isEmpty() || this.getDataAsJSONObject().isEmpty();
                 this.success = jsonData.containsKey(KEY_SUCESS) && (boolean) jsonData.get(KEY_SUCESS);
                 this.statusCode = jsonData.containsKey(KEY_STATUS_CODE) ? (long) jsonData.get(KEY_STATUS_CODE) : 500;
                 this.message = jsonData.containsKey(KEY_MESSAGE) ? (String) jsonData.get(KEY_MESSAGE) : "Failed to process";
@@ -37,9 +36,11 @@ public class Response
                 if (jsonData.containsKey(KEY_DATA)) {
                     if (jsonData.get(KEY_DATA) instanceof JSONObject) {
                         this.setData((JSONObject) jsonData.get(KEY_DATA));
+                        this.noData = this.getDataAsJSONObject().isEmpty();
                     }
                     else if (jsonData.get(KEY_DATA) instanceof JSONArray) {
                         this.setData((JSONArray) jsonData.get(KEY_DATA));
+                        this.noData = this.getDataAsJSONArray().isEmpty();
                     }
                 }
             }
@@ -59,11 +60,11 @@ public class Response
     public void setStatusCode(int a) {this.statusCode=a;}
     public void setData(JSONObject a) {
         this.dataIsJSONObject = true;
-        this.jsonObjectData=a;
+        this.jsonObjectData = a;
     }
     public void setData(JSONArray a) {
         this.dataIsJSONArray = true;
-        this.jsonArrayData=a;
+        this.jsonArrayData = a;
     }
 
     public boolean isSuccess() {return this.success;}
@@ -72,6 +73,7 @@ public class Response
     public boolean messageIs(String msg) {return this.message.equals(msg);}
     public boolean hasData() {return !this.noData;}
     public boolean hasData(String key) { return this.getDataAsJSONObject().containsKey(key); }
+    public boolean hasData(int key) { return this.getDataAsJSONArray().indexOf(key) != -1; }
     public boolean isDebug() { return this.isDebug; }
     public boolean isDataJSONObject() {return this.dataIsJSONObject;}
     public boolean isDataJSONArray() {return this.dataIsJSONArray;}

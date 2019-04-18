@@ -94,11 +94,15 @@ WC.formUtil = function() {
                         $form.ajaxSubmit({
                             beforeSend: function(xhr) {
                                 if (typeof csrftoken === "undefined") {
-                                    if ($form.find('[name="CSRF-Token"]').length) {
-                                        xhr.setRequestHeader("CSRF-Token", $form.find('[name="CSRF-Token"]').val());
+                                    var csrfTokenField = $form.find('[name="CSRF-Token"]');
+                                    if (csrfTokenField.length) {
+                                        xhr.setRequestHeader("CSRF-Token", csrfTokenField.val());
                                     }
-                                    else if ($form.find('[name="csrftoken"]').length) {
-                                        xhr.setRequestHeader("csrftoken", $form.find('[name="csrftoken"]').val());
+                                    else {
+                                        csrfTokenField = $form.find('[name="csrftoken"]');
+                                        if (csrfTokenField.length) {
+                                            xhr.setRequestHeader("csrftoken", csrfTokenField.val());
+                                        }
                                     }
                                 }
                             },
@@ -285,7 +289,7 @@ WC.formUtil.productManager = function(){
                 });
             }
             else if (defaultProductTypeAttrsFieldsetContent !== null) {
-               product_type_attrs_set.html(defaultProductTypeAttrsFieldsetContent);
+                product_type_attrs_set.html(defaultProductTypeAttrsFieldsetContent);
             }
         }
     };

@@ -30,7 +30,7 @@
                             translateOptions="{Boolean}true">
                             <datasource
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="/apps/evinrudekot/datasource/languages"
+                                sling:resourceType="/apps/ezpizee/components/datasource/languages"
                                 addNone="{Boolean}true"/>
                         </language>
                         <redirect

@@ -88,11 +88,10 @@ public class Client
     }
 
     private Response getRequest() {
-        if (StringUtils.isNotEmpty(this.uri) && this.method.equals(MethodEnum.GET)) {
+        if (StringUtils.isNotEmpty(this.uri)) {
             this.defaultHeaders();
             try {
                 GetRequest request = Unirest.get(this.uri);
-                request.header(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
                 if (!this.headers.isEmpty()) { request.headers(this.headers); }
                 HttpResponse<JsonNode> jsonResponse = request.asJson();
                 LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
@@ -105,7 +104,7 @@ public class Client
             }
         }
         else {
-            LOG.error("uri is missing or method is not " + MethodEnum.GET);
+            LOG.error("uri is missing");
         }
         return new Response(StringUtils.EMPTY);
     }
@@ -128,7 +127,6 @@ public class Client
                     request = Unirest.patch(this.uri);
                 }
                 if (request != null) {
-                    request.header(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
                     if (formParams != null && !formParams.isEmpty()) {
                         for(String key : formParams.keySet()) {
                             request.field(key, formParams.get(key));
@@ -163,6 +161,7 @@ public class Client
     }
 
     private void defaultHeaders() {
+        this.setHeader(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
         this.setHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
         this.setHeader(Constants.HEADER_PARAM_USER_NAME, this.appConfig.getUserName());
         if (this.requiredAccessToken) {

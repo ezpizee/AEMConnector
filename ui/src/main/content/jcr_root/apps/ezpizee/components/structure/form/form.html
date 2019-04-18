@@ -7,9 +7,9 @@
                 <div class="col-6"><h3 class="mb-0 mt-0">${properties.jcr:title}</h3></div>
                 <div class="col-6">
                     <div class="text-right">
-                        <a data-sly-test="${commerce.data.actions.cancel}" href="${commerce.data.targetPage}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;${'LABEL_BACK' @ i18n}</a></sly>
+                        <a data-sly-test="${commerce.data.actions.cancel}" href="${commerce.data.targetPage}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;${'BACK' @ i18n}</a></sly>
                         &nbsp;
-                        <button data-sly-test="${commerce.data.actions.save}" type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;${'LABEL_SAVE' @ i18n}</button></sly>
+                        <button data-sly-test="${commerce.data.actions.save}" type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;${'SAVE' @ i18n}</button></sly>
                     </div>
                 </div>
             </div>
@@ -17,127 +17,127 @@
         <div class="card-body text-justify">
             <sly data-sly-test="${commerce.data.fields.name}">
                 <div class="form-group">
-                    <label class="control-label" for="name">${'LABEL_NAME' @ i18n}</label>
+                    <label class="control-label" for="name">${'NAME' @ i18n}</label>
                     <input type="text" name="commerce_form[name]" id="name" class="form-control" value="${commerce.data.data.name}" data-validation="required" />
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.internal_name}">
                 <div class="form-group">
-                    <label class="control-label" for="internal_name">${'LABEL_INTERNAL_NAME' @ i18n}</label>
+                    <label class="control-label" for="internal_name">${'INTERNAL_NAME' @ i18n}</label>
                     <input type="text" name="commerce_form[internal_name]" id="internal_name" class="form-control" value="${commerce.data.data.internal_name}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.public_name}">
                 <div class="form-group">
-                    <label class="control-label" for="public_name">${'LABEL_PUBLIC_NAME' @ i18n}</label>
+                    <label class="control-label" for="public_name">${'PUBLIC_NAME' @ i18n}</label>
                     <input type="text" name="commerce_form[public_name]" id="public_name" class="form-control" value="${commerce.data.data.public_name}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.config_value}">
                 <div class="form-group">
-                    <label class="control-label" for="config_value">${'LABEL_CONFIG_VALUE' @ i18n}</label>
+                    <label class="control-label" for="config_value">${'CONFIG_VALUE' @ i18n}</label>
                     <input type="text" name="commerce_form[config_value]" id="config_value" class="form-control" value="${commerce.data.data.config_value}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.description}">
                 <div class="form-group">
-                    <label class="control-label" for="description">${'LABEL_DESCRIPTION' @ i18n}</label>
+                    <label class="control-label" for="description">${'DESCRIPTION' @ i18n}</label>
                     <textarea name="commerce_form[description]" id="description" class="form-control basic">${commerce.data.data.description}</textarea>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.min_amount}">
                 <div class="form-group">
-                    <label class="control-label" for="min_amount">${'LABEL_MIN_AMOUNT' @ i18n}</label>
+                    <label class="control-label" for="min_amount">${'MIN_AMOUNT' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[min_amount]" id="min_amount" class="form-control" value="${commerce.data.data.min_amount}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.max_amount}">
                 <div class="form-group">
-                    <label class="control-label" for="max_amount">${'LABEL_MAX_AMOUNT' @ i18n}</label>
+                    <label class="control-label" for="max_amount">${'MAX_AMOUNT' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[max_amount]" id="max_amount" class="form-control" value="${commerce.data.data.max_amount}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.fee_per_transaction}">
                 <div class="form-group">
-                    <label class="control-label" for="fee_per_transaction">${'LABEL_FEE_PER_TRANSACTION' @ i18n} (%)</label>
+                    <label class="control-label" for="fee_per_transaction">${'FEE_PER_TRANSACTION' @ i18n} (%)</label>
                     <input type="number" step="any" name="commerce_form[fee_per_transaction]" id="fee_per_transaction" class="form-control" value="${commerce.data.data.fee_per_transaction}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.tax_code}">
                 <div class="form-group">
-                    <label class="control-label" for="tax_code">${'LABEL_TAX_CODE' @ i18n}</label>
+                    <label class="control-label" for="tax_code">${'TAX_CODE' @ i18n}</label>
                     <input type="text" name="commerce_form[tax_code]" id="tax_code" class="form-control" value="${commerce.data.data.tax_code}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.duration}">
                 <div class="form-group">
-                    <label class="control-label" for="duration">${'LABEL_DURATION'}} ({{i18n 'BUSINESS_DAY' @ i18n})</label>
+                    <label class="control-label" for="duration">${'DURATION'}} ({{i18n 'BUSINESS_DAY' @ i18n})</label>
                     <input type="text" name="commerce_form[duration]" id="duration" class="form-control" value="${commerce.data.data.duration}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.shipping_cost}">
                 <div class="form-group">
-                    <label class="control-label" for="shipping_cost">${'LABEL_SHIPPING_COST' @ i18n}</label>
+                    <label class="control-label" for="shipping_cost">${'SHIPPING_COST' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[shipping_cost]" id="shipping_cost" class="form-control" value="${commerce.data.data.shipping_cost}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.package_fee}">
                 <div class="form-group">
-                    <label class="control-label" for="package_fee">${'LABEL_PACKAGE_FEE' @ i18n}</label>
+                    <label class="control-label" for="package_fee">${'PACKAGE_FEE' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[package_fee]" id="package_fee" class="form-control" value="${commerce.data.data.package_fee}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.min_weight}">
                 <div class="form-group">
-                    <label class="control-label" for="min_weight">${'LABEL_MIN_WEIGHT' @ i18n}</label>
+                    <label class="control-label" for="min_weight">${'MIN_WEIGHT' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[min_weight]" id="min_weight" class="form-control" value="${commerce.data.data.min_weight}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.max_weight}">
                 <div class="form-group">
-                    <label class="control-label" for="max_weight">${'LABEL_MAX_WEIGHT' @ i18n}</label>
+                    <label class="control-label" for="max_weight">${'MAX_WEIGHT' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[max_weight]" id="max_weight" class="form-control" value="${commerce.data.data.max_weight}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.min_numprods}">
                 <div class="form-group">
-                    <label class="control-label" for="min_numprods">${'LABEL_MIN_NUMPRODS' @ i18n}</label>
+                    <label class="control-label" for="min_numprods">${'MIN_NUMPRODS' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[min_numprods]" id="min_numprods" class="form-control" value="${commerce.data.data.min_numprods}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.max_numprods}">
                 <div class="form-group">
-                    <label class="control-label" for="max_numprods">${'LABEL_MAX_NUMPRODS' @ i18n}</label>
+                    <label class="control-label" for="max_numprods">${'MAX_NUMPRODS' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[max_numprods]" id="max_numprods" class="form-control" value="${commerce.data.data.max_numprods}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.min_orderamount}">
                 <div class="form-group">
-                    <label class="control-label" for="min_orderamount">${'LABEL_MIN_ORDERAMOUNT' @ i18n}</label>
+                    <label class="control-label" for="min_orderamount">${'MIN_ORDERAMOUNT' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[min_orderamount]" id="min_orderamount" class="form-control" value="${commerce.data.data.min_orderamount}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.max_orderamount}">
                 <div class="form-group">
-                    <label class="control-label" for="max_orderamount">${'LABEL_MAX_ORDERAMOUNT' @ i18n}</label>
+                    <label class="control-label" for="max_orderamount">${'MAX_ORDERAMOUNT' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[max_orderamount]" id="max_orderamount" class="form-control" value="${commerce.data.data.max_orderamount}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.min_amount_get_free}">
                 <div class="form-group">
-                    <label class="control-label" for="min_amount_get_free">${'LABEL_MIN_AMOUNT_GET_FREE' @ i18n}</label>
+                    <label class="control-label" for="min_amount_get_free">${'MIN_AMOUNT_GET_FREE' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[min_amount_get_free]" id="min_amount_get_free" class="form-control" value="${commerce.data.data.min_amount_get_free}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.tax_rate}">
                 <div class="form-group">
-                    <label class="control-label" for="tax_rate">${'LABEL_TAX_RATE' @ i18n} (%)</label>
+                    <label class="control-label" for="tax_rate">${'TAX_RATE' @ i18n} (%)</label>
                     <input type="number" step="any" name="commerce_form[tax_rate]" id="tax_rate" class="form-control" value="${commerce.data.data.tax_rate}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.product_attrs}">
                 <div class="form-group">
-                    <label class="control-label">${'LABEL_PRODUCT_ATTRS' @ i18n}</label>
+                    <label class="control-label">${'PRODUCT_ATTRS' @ i18n}</label>
                     <sly data-sly-test="${commerce.data.data.product_attrs_list}">
                         <ul class="product_attrs_list" data-sly-list.="${commerce.data.data.product_attrs_list}">
                             <li>
@@ -160,52 +160,52 @@
 
             <sly data-sly-test="${commerce.data.fields.sku}">
                 <div class="form-group">
-                    <label class="control-label" for="sku">${'LABEL_SKU' @ i18n}</label>
+                    <label class="control-label" for="sku">${'SKU' @ i18n}</label>
                     <input type="text" name="commerce_form[sku]" id="sku" class="form-control" value="${commerce.data.data.sku}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.barcode}">
                 <div class="form-group">
-                    <label class="control-label" for="barcode">${'LABEL_BARCODE' @ i18n}</label>
+                    <label class="control-label" for="barcode">${'BARCODE' @ i18n}</label>
                     <input type="text" name="commerce_form[barcode]" id="barcode" class="form-control" value="${commerce.data.data.barcode}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.in_stock}">
                 <div class="form-group">
-                    <label class="control-label" for="in_stock">${'LABEL_IN_STOCK' @ i18n}</label>
+                    <label class="control-label" for="in_stock">${'IN_STOCK' @ i18n}</label>
                     <input type="text" name="commerce_form[in_stock]" id="in_stock" class="form-control" value="${commerce.data.data.in_stock}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.price}">
                 <div class="form-group">
-                    <label class="control-label" for="price">${'LABEL_PRICE' @ i18n}</label>
+                    <label class="control-label" for="price">${'PRICE' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[price]" id="price" class="form-control" value="${commerce.data.data.price}"/>
                 </div>
             </sly>
 
             <sly data-sly-test="${commerce.data.fields.start_date}">
                 <div class="form-group">
-                    <label class="control-label" for="start_date">${'LABEL_START_DATE' @ i18n}</label>
+                    <label class="control-label" for="start_date">${'START_DATE' @ i18n}</label>
                     <input type="datetime-local" name="commerce_form[start_date]" id="start_date" class="form-control" value="${commerce.data.data.start_date}"/>
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.end_date}">
                 <div class="form-group">
-                    <label class="control-label" for="end_date">${'LABEL_END_DATE' @ i18n}</label>
+                    <label class="control-label" for="end_date">${'END_DATE' @ i18n}</label>
                     <input type="datetime-local" name="commerce_form[end_date]" id="end_date" class="form-control" value="${commerce.data.data.end_date}"/>
                 </div>
             </sly>
 
             <sly data-sly-test="${commerce.data.fields.published_start}">
                 <div class="form-group">
-                    <label class="control-label" for="published_start">${'LABEL_PUBLISH_START_DATE' @ i18n}</label>
+                    <label class="control-label" for="published_start">${'PUBLISH_START_DATE' @ i18n}</label>
                     <input type="datetime-local" name="commerce_form[published_start]" id="published_start" class="form-control"
                            value="${commerce.data.data.published_start}" />
                 </div>
             </sly>
             <sly data-sly-test="${commerce.data.fields.published_end}">
                 <div class="form-group">
-                    <label class="control-label" for="published_end">${'LABEL_PUBLISH_END_DATE' @ i18n}</label>
+                    <label class="control-label" for="published_end">${'PUBLISH_END_DATE' @ i18n}</label>
                     <input type="datetime-local" name="commerce_form[published_end]" id="published_end" class="form-control"
                            value="${commerce.data.data.published_end}" />
                 </div>
@@ -232,7 +232,7 @@
             <sly data-sly-test="${commerce.data.fields.modal_product_1}">{{> partials/modal_product_1 }}</sly>
             <sly data-sly-test="${commerce.data.fields.product_1_percentage_off}">
                 <div class="form-group">
-                    <label class="control-label" for="product_1_percentage_off">${'LABEL_PERCENTAGE_OFF_1' @ i18n}</label>
+                    <label class="control-label" for="product_1_percentage_off">${'PERCENTAGE_OFF_1' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[product_1_percentage_off]" id="product_1_percentage_off"
                            class="form-control" value="${commerce.data.data.product_1_percentage_off}"/>
                 </div>
@@ -240,7 +240,7 @@
             <sly data-sly-test="${commerce.data.fields.modal_product_2}">{{> partials/modal_product_2 }}</sly>
             <sly data-sly-test="${commerce.data.fields.product_2_percentage_off}">
                 <div class="form-group">
-                    <label class="control-label" for="product_2_percentage_off">${'LABEL_PERCENTAGE_OFF_2' @ i18n}</label>
+                    <label class="control-label" for="product_2_percentage_off">${'PERCENTAGE_OFF_2' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[product_2_percentage_off]" id="product_2_percentage_off"
                            class="form-control" value="${commerce.data.data.product_2_percentage_off}"/>
                 </div>
@@ -259,7 +259,7 @@
 
             <sly data-sly-test="${commerce.data.fields.percentage_off}">
                 <div class="form-group">
-                    <label class="control-label" for="percentage_off">${'LABEL_PERCENTAGE_OFF' @ i18n}</label>
+                    <label class="control-label" for="percentage_off">${'PERCENTAGE_OFF' @ i18n}</label>
                     <input type="number" step="any" name="commerce_form[percentage_off]" id="percentage_off" class="form-control"
                            value="${commerce.data.data.percentage_off}"/>
                 </div>

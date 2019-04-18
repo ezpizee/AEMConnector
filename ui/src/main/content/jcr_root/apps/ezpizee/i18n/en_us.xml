@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+		  jcr:language="en"
+		  jcr:mixinTypes="[mix:language]"
+		  jcr:primaryType="nt:folder">
+	<action
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="ACTION"
+			sling:message="Action"/>
+	<edit
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="EDIT"
+			sling:message="Edit"/>
+	<delete
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="DELETE"
+			sling:message="Delete"/>
+	<add
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="ADD"
+			sling:message="Add"/>
+	<save
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="SAVE"
+			sling:message="Save"/>
+	<cancel
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="CANCEL"
+			sling:message="Cancel"/>
+	<noResult
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="NO_RESULTS"
+			sling:message="No item was found"/>
+	<next
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="NEXT"
+			sling:message="Next"/>
+	<previous
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="PREVIOUS"
+			sling:message="Previous"/>
+	<more
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="MORE"
+			sling:message="More..."/>
+	<less
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="LESS"
+			sling:message="Less"/>
+	<id
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="id"
+			sling:message="ID"/>
+	<name
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="name"
+			sling:message="Name"/>
+	<name_with_depth
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="name_with_depth"
+			sling:message="Name"/>
+	<internal_name
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="internal_name"
+			sling:message="Internal Name"/>
+	<public_name
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="public_name"
+			sling:message="Public Name"/>
+	<description
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="description"
+			sling:message="Description"/>
+	<parent
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="parent"
+			sling:message="Parent"/>
+	<addr_street
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="addr_street"
+			sling:message="Street"/>
+	<addr_city
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="addr_city"
+			sling:message="City"/>
+	<addr_province
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="addr_province"
+			sling:message="State / Province"/>
+	<addr_country
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="addr_country"
+			sling:message="Country"/>
+	<addr_postalcode
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="addr_postalcode"
+			sling:message="Zip / Postal Code"/>
+	<email
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="email"
+			sling:message="Email"/>
+	<url
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="url"
+			sling:message="URL"/>
+	<telephone
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="telephone"
+			sling:message="Telephone"/>
+	<telephone_type
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="telephone_type"
+			sling:message="Telephone type"/>
+	<parent_name
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="parent_name"
+			sling:message="Parent Name"/>
+	<tax_code
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="tax_code"
+			sling:message="Tax Code"/>
+	<tax_rate
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="tax_rate"
+			sling:message="Tax Rate"/>
+	<start_date
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="start_date"
+			sling:message="Start Date"/>
+	<end_date
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="end_date"
+			sling:message="End Date"/>
+	<offer_type
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="offer_type"
+			sling:message="Offer Type"/>
+	<percentage_off
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="percentage_off"
+			sling:message="Percentage off"/>
+	<published
+			jcr:primaryType="sling:MessageEntry"
+			sling:key="published"
+			sling:message="Is Published?"/>
+</jcr:root>

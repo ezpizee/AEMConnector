@@ -53,9 +53,7 @@ public class AppConfig
     public String getAccessToken(){return this.data.getOrDefault(KEY_ACCESS_TOKEN, StringUtils.EMPTY);}
 
     public boolean isValid() {
-        if (
-            data.isEmpty()) {return false;
-        }
+        if (data.isEmpty()) {return false;}
         for (String prop : PROPS) {
             if (!data.containsKey(prop) || StringUtils.isEmpty(data.get(prop))) {
                 return false;
