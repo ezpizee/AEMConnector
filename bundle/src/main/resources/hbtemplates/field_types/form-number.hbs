@@ -1,0 +1,15 @@
+{{#if params}}
+    <div class="form-group">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <input type="number"
+               step="any"
+               {{#if params.config.start}}min="{{params.config.start}}"{{/if}}
+               {{#if params.config.end}}max="{{params.config.end}}"{{/if}}
+               {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+               class="form-control"
+               name="commerce_form[attrs][{{params.name}}][value]"
+               id="{{params.name}}" value="{{value}}" />
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}" />
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}" />
+    </div>
+{{/if}}

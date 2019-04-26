@@ -1,0 +1,55 @@
+<div class="form-group">
+    <label class="control-label" for="file_name">{{i18n 'LABEL_FILE'}}</label>
+    <div class="input-group mb-2">
+        <input type="text" class="form-control" id="file_name" disabled value="{{item_data.asset.name}}{{item_data.asset.title}}"
+               placeholder="{{i18n 'LABEL_FILE'}}" />
+        <div class="input-group-append pointer" onclick="WC.fileModal({title:'{{i18n 'LABEL_FILE'}}'})">
+            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+        </div>
+        <input type="hidden" name="commerce_form[file_id]" id="file_id" value="{{item_data.asset.id}}" />
+    </div>
+    {{#if item_data.asset.file.attrs.is_image}}
+        {{#if item_data.asset.file.path}}
+            <div class="img_preview">
+                <a href="{{item_data.asset.file.path}}" data-toggle="lightbox">
+                    <img src="{{item_data.asset.file.path}}" alt="{{item_data.asset.name}}" class="rounded img-thumbnail" />
+                </a>
+            </div>
+        {{/if}}
+    {{else}}
+        {{#if item_data.asset.attrs.is_image}}
+            {{#if item_data.asset.path}}
+                <div class="img_preview">
+                    <a href="{{item_data.asset.path}}" data-toggle="lightbox">
+                        <img src="{{item_data.asset.path}}" alt="{{item_data.asset.title}}" class="rounded img-thumbnail" />
+                    </a>
+                </div>
+            {{/if}}
+        {{else}}
+            {{#if item_data.file.attrs.is_image}}
+                {{#if item_data.file.path}}
+                    <div class="img_preview">
+                        <a href="{{item_data.file.path}}" data-toggle="lightbox">
+                            <img src="{{item_data.file.path}}" alt="{{item_data.file.title}}" class="rounded img-thumbnail" />
+                        </a>
+                    </div>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    {{/if}}
+    {{#if item_data.asset.file.attrs.is_doc}}
+        {{#if item_data.asset.file.path}}
+            <div class="doc_link">
+                <a href="{{item_data.asset.file.path}}" title="{{item_data.asset.name}}">{{item_data.asset.name}}</a>
+            </div>
+        {{/if}}
+    {{/if}}
+    {{#if item_data.asset.attrs.is_doc}}
+        {{#if item_data.asset.path}}
+            <div class="doc_link">
+                <a href="{{item_data.asset.path}}" title="{{item_data.asset.title}}">{{item_data.asset.name}}</a>
+            </div>
+        {{/if}}
+    {{/if}}
+</div>
+{{addscriptdeclaration 'WC.utilities.applyLightBox()'}}

@@ -1,0 +1,15 @@
+{{#if params.config.key}}
+    <h4>{{name}}</h4>
+    {{#each params.config.key}}
+        <div class="form-check">
+            <input type="radio" name="commerce_form[attrs][{{../params.name}}][value]"
+                   id="{{../params.name}}-{{@index}}" class="form-check-input" value="{{this}}"
+                   {{#if ../value}}{{#eq this ../value}} checked{{/eq}}{{/if}} />
+            <label class="form-check-label" for="{{../params.name}}-{{@index}}">
+                {{findelementbykey ../params.config.value @index}}
+            </label>
+        </div>
+    {{/each}}
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}" />
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}" />
+{{/if}}

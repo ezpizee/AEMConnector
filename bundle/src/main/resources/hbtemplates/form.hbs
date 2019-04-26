@@ -1,0 +1,263 @@
+<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}?edit_id={{item_data.id}}{{/if}}{{/if}}"
+    method="post" class="commerce-form">
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                <div class="col-6">
+                    <div class="text-right">
+                        {{#if actions.cancel}}<a href="{{list_page}}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}</a>{{/if}}
+                        &nbsp;
+                        {{#if actions.save}}<button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;{{i18n 'LABEL_SAVE'}}</button>{{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            {{#if fieldKeys.name}}
+                <div class="form-group">
+                    <label class="control-label" for="name">{{i18n 'LABEL_NAME'}}</label>
+                    <input type="text" name="commerce_form[name]" id="name" class="form-control"
+                           data-validation="required"
+                           value="{{item_data.name}}" />
+                </div>
+            {{/if}}
+            {{#if fieldKeys.internal_name}}
+                <div class="form-group">
+                    <label class="control-label" for="internal_name">{{i18n 'LABEL_INTERNAL_NAME'}}</label>
+                    <input type="text" name="commerce_form[internal_name]" id="internal_name" class="form-control" value="{{item_data.internal_name}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.public_name}}
+                <div class="form-group">
+                    <label class="control-label" for="public_name">{{i18n 'LABEL_PUBLIC_NAME'}}</label>
+                    <input type="text" name="commerce_form[public_name]" id="public_name" class="form-control" value="{{item_data.public_name}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.config_value}}
+                <div class="form-group">
+                    <label class="control-label" for="config_value">{{i18n 'LABEL_CONFIG_VALUE'}}</label>
+                    <input type="text" name="commerce_form[config_value]" id="config_value" class="form-control" value="{{item_data.config_value}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.description}}
+                <div class="form-group">
+                    <label class="control-label" for="description">{{i18n 'LABEL_DESCRIPTION'}}</label>
+                    <textarea name="commerce_form[description]" id="description" class="form-control basic">{{item_data.description}}</textarea>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_amount}}
+                <div class="form-group">
+                    <label class="control-label" for="min_amount">{{i18n 'LABEL_MIN_AMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_amount]" id="min_amount" class="form-control" value="{{item_data.min_amount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_amount}}
+                <div class="form-group">
+                    <label class="control-label" for="max_amount">{{i18n 'LABEL_MAX_AMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_amount]" id="max_amount" class="form-control" value="{{item_data.max_amount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.fee_per_transaction}}
+                <div class="form-group">
+                    <label class="control-label" for="fee_per_transaction">{{i18n 'LABEL_FEE_PER_TRANSACTION'}} (%)</label>
+                    <input type="number" step="any" name="commerce_form[fee_per_transaction]" id="fee_per_transaction" class="form-control" value="{{item_data.fee_per_transaction}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.tax_code}}
+                <div class="form-group">
+                    <label class="control-label" for="tax_code">{{i18n 'LABEL_TAX_CODE'}}</label>
+                    <input type="text" name="commerce_form[tax_code]" id="tax_code" class="form-control" value="{{item_data.tax_code}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.duration}}
+                <div class="form-group">
+                    <label class="control-label" for="duration">{{i18n 'LABEL_DURATION'}} ({{i18n 'BUSINESS_DAY'}})</label>
+                    <input type="text" name="commerce_form[duration]" id="duration" class="form-control" value="{{item_data.duration}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.shipping_cost}}
+                <div class="form-group">
+                    <label class="control-label" for="shipping_cost">{{i18n 'LABEL_SHIPPING_COST'}}</label>
+                    <input type="number" step="any" name="commerce_form[shipping_cost]" id="shipping_cost" class="form-control" value="{{item_data.shipping_cost}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.package_fee}}
+                <div class="form-group">
+                    <label class="control-label" for="package_fee">{{i18n 'LABEL_PACKAGE_FEE'}}</label>
+                    <input type="number" step="any" name="commerce_form[package_fee]" id="package_fee" class="form-control" value="{{item_data.package_fee}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_weight}}
+                <div class="form-group">
+                    <label class="control-label" for="min_weight">{{i18n 'LABEL_MIN_WEIGHT'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_weight]" id="min_weight" class="form-control" value="{{item_data.min_weight}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_weight}}
+                <div class="form-group">
+                    <label class="control-label" for="max_weight">{{i18n 'LABEL_MAX_WEIGHT'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_weight]" id="max_weight" class="form-control" value="{{item_data.max_weight}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_numprods}}
+                <div class="form-group">
+                    <label class="control-label" for="min_numprods">{{i18n 'LABEL_MIN_NUMPRODS'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_numprods]" id="min_numprods" class="form-control" value="{{item_data.min_numprods}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_numprods}}
+                <div class="form-group">
+                    <label class="control-label" for="max_numprods">{{i18n 'LABEL_MAX_NUMPRODS'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_numprods]" id="max_numprods" class="form-control" value="{{item_data.max_numprods}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_orderamount}}
+                <div class="form-group">
+                    <label class="control-label" for="min_orderamount">{{i18n 'LABEL_MIN_ORDERAMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_orderamount]" id="min_orderamount" class="form-control" value="{{item_data.min_orderamount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_orderamount}}
+                <div class="form-group">
+                    <label class="control-label" for="max_orderamount">{{i18n 'LABEL_MAX_ORDERAMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_orderamount]" id="max_orderamount" class="form-control" value="{{item_data.max_orderamount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_amount_get_free}}
+                <div class="form-group">
+                    <label class="control-label" for="min_amount_get_free">{{i18n 'LABEL_MIN_AMOUNT_GET_FREE'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_amount_get_free]" id="min_amount_get_free" class="form-control" value="{{item_data.min_amount_get_free}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.tax_rate}}
+                <div class="form-group">
+                    <label class="control-label" for="tax_rate">{{i18n 'LABEL_TAX_RATE'}} (%)</label>
+                    <input type="number" step="any" name="commerce_form[tax_rate]" id="tax_rate" class="form-control" value="{{item_data.tax_rate}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.product_attrs}}
+                <div class="form-group">
+                    <label class="control-label">{{i18n 'LABEL_PRODUCT_ATTRS'}}</label>
+                    {{#if item_data.product_attrs_list}}{{require "partials/product_attrs" this}}{{/if}}
+                    {{#unless item_data.product_attrs_list}}<div id="product_attrs_set"></div>{{/unless}}
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.sku}}
+                <div class="form-group">
+                    <label class="control-label" for="sku">{{i18n 'LABEL_SKU'}}</label>
+                    <input type="text" name="commerce_form[sku]" id="sku" class="form-control" value="{{item_data.sku}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.barcode}}
+                <div class="form-group">
+                    <label class="control-label" for="barcode">{{i18n 'LABEL_BARCODE'}}</label>
+                    <input type="text" name="commerce_form[barcode]" id="barcode" class="form-control" value="{{item_data.barcode}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.in_stock}}
+                <div class="form-group">
+                    <label class="control-label" for="in_stock">{{i18n 'LABEL_IN_STOCK'}}</label>
+                    <input type="text" name="commerce_form[in_stock]" id="in_stock" class="form-control" value="{{item_data.in_stock}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.price}}
+                <div class="form-group">
+                    <label class="control-label" for="price">{{i18n 'LABEL_PRICE'}}</label>
+                    <input type="number" step="any" name="commerce_form[price]" id="price" class="form-control" value="{{item_data.price}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.start_date}}
+                <div class="form-group">
+                    <label class="control-label" for="start_date">{{i18n 'LABEL_START_DATE'}}</label>
+                    <input type="text" name="commerce_form[start_date]" id="start_date" data-trigger="datepicker" class="form-control" value="{{item_data.start_date}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.end_date}}
+                <div class="form-group">
+                    <label class="control-label" for="end_date">{{i18n 'LABEL_END_DATE'}}</label>
+                    <input type="text" name="commerce_form[end_date]" id="end_date" data-trigger="datepicker" class="form-control" value="{{item_data.end_date}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.published_start}}
+                <div class="form-group">
+                    <label class="control-label" for="published_start">{{i18n 'LABEL_PUBLISH_START_DATE'}}</label>
+                    <input type="datetime-local" name="commerce_form[published_start]" id="published_start" class="form-control"
+                           value="{{item_data.published_start}}" />
+                </div>
+            {{/if}}
+            {{#if fieldKeys.published_end}}
+                <div class="form-group">
+                    <label class="control-label" for="published_end">{{i18n 'LABEL_PUBLISH_END_DATE'}}</label>
+                    <input type="datetime-local" name="commerce_form[published_end]" id="published_end" class="form-control"
+                           value="{{item_data.published_end}}" />
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.modal_file}}{{require "partials/modal_file" this}}{{/if}}
+            {{#if fieldKeys.field_type}}{{require "partials/field_type" this}}{{/if}}
+            {{#if fieldKeys.modal_common_countries}}{{require "partials/modal_common_countries" this}}{{/if}}
+            {{#if fieldKeys.modal_common_currencies}}{{require "partials/modal_common_currencies" this}}{{/if}}
+            {{#if fieldKeys.modal_currency}}{{require "partials/modal_currency" this}}{{/if}}
+            {{#if fieldKeys.modal_country}}{{require "partials/modal_country" this}}{{/if}}
+            {{#if fieldKeys.modal_temperature}}{{require "partials/modal_temperature" this}}{{/if}}
+            {{#if fieldKeys.modal_length}}{{require "partials/modal_length" this}}{{/if}}
+            {{#if fieldKeys.modal_weight}}{{require "partials/modal_weight" this}}{{/if}}
+            {{#if fieldKeys.modal_store}}{{require "partials/modal_store" this}}{{/if}}
+            {{#if fieldKeys.modal_payment_service}}{{require "partials/modal_payment_service" this}}{{/if}}
+            {{#if fieldKeys.modal_address}}{{require "partials/modal_address" this}}{{/if}}
+            {{#if fieldKeys.modal_category}}{{require "partials/modal_category" this}}{{/if}}
+            {{#if fieldKeys.modal_category_parent}}{{require "partials/modal_category_parent" this}}{{/if}}
+            {{#if fieldKeys.category_ordering}}{{require "partials/category_ordering" this}}{{/if}}
+            {{#if fieldKeys.modal_product_type}}{{require "partials/modal_product_type" this}}{{/if}}
+            {{#if fieldKeys.modal_product}}{{require "partials/modal_product" this}}{{/if}}
+
+            {{#if fieldKeys.modal_product_1}}{{require "partials/modal_product_1" this}}{{/if}}
+            {{#if fieldKeys.product_1_percentage_off}}
+                <div class="form-group">
+                    <label class="control-label" for="product_1_percentage_off">{{i18n 'LABEL_PERCENTAGE_OFF_1'}}</label>
+                    <input type="number" step="any" name="commerce_form[product_1_percentage_off]" id="product_1_percentage_off"
+                           class="form-control" value="{{item_data.product_1_percentage_off}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.modal_product_2}}{{require "partials/modal_product_2" this}}{{/if}}
+            {{#if fieldKeys.product_2_percentage_off}}
+                <div class="form-group">
+                    <label class="control-label" for="product_2_percentage_off">{{i18n 'LABEL_PERCENTAGE_OFF_2'}}</label>
+                    <input type="number" step="any" name="commerce_form[product_2_percentage_off]" id="product_2_percentage_off"
+                           class="form-control" value="{{item_data.product_2_percentage_off}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.payment_service_fieldset}}{{require "partials/payment_service_fieldset" this}}{{/if}}
+
+            {{#if fieldKeys.modal_product_type}}
+                <div id="product_type_attrs_set" data-type='{{json_encode item_data.product_type}}'>
+                    {{#if item_data.product_type.product_attrs}}
+                        {{#each item_data.product_type.product_attrs}}
+                            <div class="attr_field">{{{require this.product_attr_field this}}}</div>
+                        {{/each}}
+                    {{/if}}
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.percentage_off}}
+                <div class="form-group">
+                    <label class="control-label" for="percentage_off">{{i18n 'LABEL_PERCENTAGE_OFF'}}</label>
+                    <input type="number" step="any" name="commerce_form[percentage_off]" id="percentage_off" class="form-control"
+                           value="{{item_data.percentage_off}}"/>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+    {{#if fieldKeys.is_discount}}<input type="hidden" name="commerce_form[offer_type]" value="discount"/>{{/if}}
+    {{#if fieldKeys.is_bundle}}<input type="hidden" name="commerce_form[offer_type]" value="bundle"/>{{/if}}
+    {{#if fieldKeys.is_crosssell}}<input type="hidden" name="commerce_form[offer_type]" value="crosssell"/>{{/if}}
+    {{#if fieldKeys.is_upsell}}<input type="hidden" name="commerce_form[offer_type]" value="upsell"/>{{/if}}
+    <input type="hidden" name="commerce_form[edit_id]" value="{{#if item_data.edit_id}}{{item_data.edit_id}}{{else}}{{item_data.id}}{{/if}}"/>
+    <input type="hidden" name="csrftoken" value="{{csrftoken}}"/>
+</form>
+<script>WC.observers.init();WC.formUtil.init();</script>

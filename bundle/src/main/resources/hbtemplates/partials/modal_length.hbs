@@ -1,0 +1,13 @@
+<div class="form-group">
+    <label class="control-label" for="length_name">{{i18n 'LABEL_MODAL_LENGTH'}}</label>
+    <div class="input-group mb-2">
+        <input type="text" class="form-control" id="length_name" disabled
+               value="{{item_data.length.name}}"
+               placeholder="{{i18n 'LABEL_MODAL_LENGTH'}}" />
+        <div class="input-group-append pointer" onclick="WC.lengthModal({title:'{{i18n 'LABEL_MODAL_LENGTH'}}'})">
+            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+        </div>
+        <input type="hidden" name="commerce_form[length_id]" id="length_id"
+               value="{{item_data.length.id}}" />
+    </div>
+</div>

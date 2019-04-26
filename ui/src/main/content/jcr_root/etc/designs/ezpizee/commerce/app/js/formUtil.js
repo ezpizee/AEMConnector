@@ -54,6 +54,15 @@ WC.formUtil = function() {
         WC.formUtil.productManager.productAttrsList();
         WC.callbacks.onModalOKButtonClick(WC.formUtil.paymentServiceFieldset, 'paymentServiceFieldset');
         WC.callbacks.onModalOKButtonClick(WC.formUtil.productManager.productTypeAttrsFieldset, 'productTypeAttrsFieldset');
+
+        WC.utilities.applyRichText('textarea');
+        WC.utilities.applyColorPicker('[data-trigger="colorpicker"]');
+        WC.utilities.applySortable('[data-trigger="sortable"]');
+        WC.utilities.applyLightBox('[data-trigger="lightbox"]');
+        WC.utilities.applyDatePicker('[data-trigger="datepicker"]');
+        WC.utilities.applyDateTimePicker('[data-trigger="datetimepicker"]');
+        WC.formUtil.bindValidator();
+        WC.bindCSRFTokenToAjaxCalls();
     };
 
     that.bindValidator = function(noAjaxSubmit) {
@@ -104,6 +113,9 @@ WC.formUtil = function() {
                                             xhr.setRequestHeader("csrftoken", csrfTokenField.val());
                                         }
                                     }
+                                }
+                                else {
+                                    xhr.setRequestHeader("csrftoken", csrftoken);
                                 }
                             },
                             success: function(resp) {
@@ -206,7 +218,8 @@ WC.formUtil.productManager = function(){
                 field_type_mandatory_fields.show();
                 var context = e.attr('data-config') ? phpjs.json_decode(e.attr('data-config')) : {};
                 context.field_type_title = field_type_title;
-                field_type_set.html(WC.compileHandlebars(WC.hbsTmpl(selectedFieldType.toLowerCase()+'-setup'), context));
+
+                field_type_set.html(WC.compileHandlebars(WC.hbsTmpl('field_types-setup-'+selectedFieldType.toLowerCase()), context));
                 WC.utilities.applySortable('.field-type-config-item-container');
             }
             else {

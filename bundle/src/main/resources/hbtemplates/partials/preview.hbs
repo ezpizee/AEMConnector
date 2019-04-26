@@ -1,0 +1,78 @@
+{{#if item_data}}
+    <div class="column preview">
+        <div class="preview-content">
+            <div class="preview-asset">
+                {{#eq item_data.type 'folder'}}
+                    <img src="/clientlibs/commerce/app/images/page.png.thumb.480.300.png" alt="preview asset thumbnail" />
+                {{/eq}}
+                {{#eq item_data.type 'doc'}}
+                    <img src="/clientlibs/commerce/app/images/page.png.thumb.480.300.png" alt="preview asset thumbnail" />
+                {{/eq}}
+                {{#eq item_data.type 'file'}}
+                    <img src="/clientlibs/commerce/app/images/page.png.thumb.480.300.png" alt="preview asset thumbnail" />
+                {{/eq}}
+                {{#eq item_data.type 'image'}}
+                    <a href="{{item_data.path}}" target="_blank" data-toggle="lightbox" data-trigger="lightbox">
+                        <img src="{{item_data.path}}" alt="preview {{item_data.path}}" />
+                    </a>
+                {{/eq}}
+                {{#eq item_data.type 'picture'}}
+                    <a href="{{item_data.path}}" target="_blank" data-toggle="lightbox" data-trigger="lightbox">
+                        <img src="{{item_data.path}}" alt="preview {{item_data.path}}" />
+                    </a>
+                {{/eq}}
+            </div>
+            <div class="preview-meta">
+                <table>
+                    <tbody>
+                    {{#if item_data.title}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'LABEL_NAME'}}</td>
+                            <td class="preview-value">{{item_data.title}}</td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if item_data.file.name}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'LABEL_FILE_NAME'}}</td>
+                            <td class="preview-value">
+                                <a href="{{item_data.path}}" target="_blank"{{#if item_data.file.is_image}} data-toggle="lightbox" data-trigger="lightbox"{{/if}}>
+                                    {{item_data.file.name}}
+                                </a>
+                            </td>
+                        </tr>
+                    {{/if}}
+                    {{#if item_data.file.mimetype}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'MIMETYPE'}}</td>
+                            <td class="preview-value">{{item_data.file.mimetype}}</td>
+                        </tr>
+                    {{/if}}
+                    {{#if item_data.file.size}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'SIZE'}}</td>
+                            <td class="preview-value">{{item_data.file.size}}</td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if item_data.created_on}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'CREATED_ON'}}</td>
+                            <td class="preview-value">{{date item_data.created_on}}</td>
+                        </tr>
+                    {{/if}}
+                    {{#if item_data.modified_on}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'MODIFIED_ON'}}</td>
+                            <td class="preview-value">{{date item_data.modified_on}}</td>
+                        </tr>
+                    {{/if}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {{#if item_data.file.is_image}}
+        {{addscriptdeclaration 'WC.utilities.applyLightBox()'}}
+    {{/if}}
+{{/if}}

@@ -1,0 +1,48 @@
+<div id="categories">
+    <h6>{{i18n 'LABEL_MODAL_CATEGORY'}}</h6>
+    {{#if item_data.categories}}
+        {{#each item_data.categories}}
+            <div class="row category">
+                <div class="col-11">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" data-field="category_name"
+                               value="{{this.name}}"
+                               placeholder="{{i18n 'LABEL_MODAL_CATEGORY'}}" disabled />
+                        <div class="input-group-append pointer" onclick="WC.categoryModal({title:'{{i18n 'LABEL_MODAL_CATEGORY'}}'}, this)">
+                            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                        </div>
+                        <input type="hidden" name="commerce_form[categories][]" data-field="category_id"
+                               value="{{this.id}}" />
+                    </div>
+                </div>
+                <div class="col-1">
+                    <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productCategories('add', this, '#categories', '#categories>.category')">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
+                    <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productCategories('remove', this, '#categories', '#categories>.category')">
+                        <i class="fas fa-times-circle"></i>
+                    </a>
+                </div>
+            </div>
+        {{/each}}
+    {{/if}}
+    <div class="row category">
+        <div class="col-11">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" data-field="category_name" value="" placeholder="{{i18n 'LABEL_MODAL_CATEGORY'}}" disabled />
+                <div class="input-group-append pointer" onclick="WC.categoryModal({title:'{{i18n 'LABEL_MODAL_CATEGORY'}}'}, this)">
+                    <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                </div>
+                <input type="hidden" name="commerce_form[categories][]" data-field="category_id" value="" />
+            </div>
+        </div>
+        <div class="col-1">
+            <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productCategories('add', this, '#categories', '#categories>.category')">
+                <i class="fa fa-plus-circle"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productCategories('remove', this, '#categories', '#categories>.category')">
+                <i class="fas fa-times-circle"></i>
+            </a>
+        </div>
+    </div>
+</div>

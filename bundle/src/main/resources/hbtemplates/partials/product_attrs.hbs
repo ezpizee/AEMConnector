@@ -1,0 +1,17 @@
+<ul class="product_attrs_list" data-trigger="sortable">
+    {{#each item_data.product_attrs_list}}
+    <li>
+        <label>
+            <i class="fas fa-arrows-alt"></i>
+            {{#if ../item_data.product_attr_ids}}
+                <input type="checkbox" name="commerce_form[product_attrs][]" id="product_attrs" value="{{id}}"
+                       {{#in_array id ../item_data.product_attr_ids}} checked{{/in_array}} />
+            {{else}}
+                <input type="checkbox" name="commerce_form[product_attrs][]" id="product_attrs" value="{{id}}"
+                       {{#in_array id ../item_data.product_attrs}} checked{{/in_array}} />
+            {{/if}}
+            {{name}}
+        </label>
+    </li>
+    {{/each}}
+</ul>

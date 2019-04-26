@@ -2,10 +2,23 @@ To build all the modules run in the project root directory the following command
 
 	mvn clean install
 
-If you have a running AEM instance you can build and package the whole project and deploy into AEM with
+Deploy AEM Application
 
-	mvn clean install -Pdeploy-aem
+	mvn clean install -Pdeploy-aem-app
 
-Or to deploy it to a publish instance, run
+Deploy only AEM Bundle
 
-	mvn clean install -Pdeploy-aem -DslingServer={protocol://host:port} -Daem.username={username} -Daem.password={password}
+	mvn clean install -Pdeploy-aem-bundle
+
+Deploy ACS Common
+
+	mvn clean install -Pdeploy-acs-commons
+
+
+Deploy AEM Workflows
+
+	mvn clean install -Pdeploy-aem-workflows
+
+To deploy it to a publish instance, run
+
+	mvn clean install -P{profile-name} -Daem.server={protocol://host:port} -Daem.user={username} -Daem.password={password}

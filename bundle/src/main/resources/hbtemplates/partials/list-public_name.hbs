@@ -1,0 +1,8 @@
+{{#ifnot this.is_protected 0}}
+    {{#if ../actions.edit}}
+        <a href="{{../form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">{{this.public_name}}</a>
+    {{/if}}
+    {{#unless ../actions.edit}}{{this.public_name}}{{/unless}}
+{{else}}
+    {{this.public_name}}
+{{/ifnot}}

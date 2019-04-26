@@ -1,0 +1,18 @@
+{{#ifnot this.is_protected 0}}
+    {{#if actions.edit}}
+        <span class="depth level-{{this.depth}}">
+            <a href="{{form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">
+            {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+            </a>
+        </span>
+    {{/if}}
+    {{#unless actions.edit}}
+        <span class="depth level-{{this.depth}}">
+            {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+        </span>
+    {{/unless}}
+{{else}}
+    <span class="depth">
+        <span class="level-{{this.depth}}">{{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}</span>
+    </span>
+{{/ifnot}}

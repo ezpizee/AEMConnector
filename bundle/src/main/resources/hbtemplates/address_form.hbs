@@ -1,0 +1,90 @@
+<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}?edit_id={{item_data.id}}{{/if}}{{/if}}"
+    method="post" class="commerce-form">
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                <div class="col-6">
+                    <div class="text-right">
+                        {{#if actions.cancel}}<a href="{{list_page}}" class="btn btn-primary btn-sm"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}</a>{{/if}}
+                        &nbsp;
+                        {{#if actions.save}}<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-floppy-o"></i>&nbsp;{{i18n 'LABEL_SAVE'}}</button>{{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            {{#if fieldKeys.name}}
+                <div class="form-group">
+                    <label class="control-label" for="name">{{i18n 'LABEL_NAME'}}</label>
+                    <input type="text" name="commerce_form[name]" id="name" class="form-control"
+                           data-validation="required"
+                           value="{{item_data.name}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.addr_street}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_street">{{i18n 'LABEL_ADDR_STREET'}}</label>
+                    <input type="text" name="commerce_form[addr_street]" id="addr_street" class="form-control" value="{{item_data.addr.street}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.addr_city}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_city">{{i18n 'LABEL_ADDR_CITY'}}</label>
+                    <input type="text" name="commerce_form[addr_city]" id="addr_city" class="form-control" value="{{item_data.addr.city}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.addr_province}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_province">{{i18n 'LABEL_ADDR_PROVINCE'}}</label>
+                    <input type="text" name="commerce_form[addr_province]" id="addr_province" class="form-control" value="{{item_data.addr.province}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.modal_country}}{{require "partials/modal_country" this}}{{/if}}
+            {{#if fieldKeys.addr_postalcode}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_postalcode">{{i18n 'LABEL_ADDR_POSTALCODE'}}</label>
+                    <input type="text" name="commerce_form[addr_postalcode]" id="addr_postalcode" class="form-control" value="{{item_data.addr.postalcode}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.email}}
+                <div class="form-group">
+                    <label class="control-label" for="email">{{i18n 'LABEL_EMAIL'}}</label>
+                    <input type="email" name="commerce_form[email]" id="email" class="form-control" value="{{item_data.email}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.url}}
+                <div class="form-group">
+                    <label class="control-label" for="url">{{i18n 'LABEL_URL'}}</label>
+                    <input type="url" name="commerce_form[url]" id="url" class="form-control" value="{{item_data.url}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.telephone}}
+                <div class="form-group">
+                    <label class="control-label" for="telephone">{{i18n 'LABEL_TELEPHONE'}}</label>
+                    <div class="form-inline">
+                        <input type="number" name="commerce_form[telephone_country]" id="telephone_country" class="form-control" value="{{item_data.telephone.country}}" placeholder="{{i18n 'LABEL_TELEPHONE_COUNTRY'}}"/>
+                        <input type="number" name="commerce_form[telephone_area]" id="telephone_area" class="form-control" value="{{item_data.telephone.area}}" placeholder="{{i18n 'LABEL_TELEPHONE_AREA'}}"/>
+                        <input type="number" name="commerce_form[telephone_number]" id="telephone_number" class="form-control" value="{{item_data.telephone.number}}" placeholder="{{i18n 'LABEL_TELEPHONE_NUMBER'}}"/>
+                        <input type="number" name="commerce_form[telephone_ext]" id="telephone_ext" class="form-control" value="{{item_data.telephone.ext}}" placeholder="{{i18n 'LABEL_TELEPHONE_EXT'}}"/>
+                    </div>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.telephone_type}}
+                <div class="form-group">
+                    <label class="control-label" for="telephone_type">{{i18n 'LABEL_TELEPHONE_TYPE'}}</label>
+                    <select name="commerce_form[telephone_type]" id="telephone_type" class="form-control">
+                        <option value="">{{i18n 'LABEL_SELECT_ONE'}}</option>
+                        <option value="work_mobile"{{#eq item_data.telephone.type 'work_mobile'}} selected{{/eq}}>{{i18n 'WORK_MOBILE'}}</option>
+                        <option value="work_landline"{{#eq item_data.telephone.type 'work_landline'}} selected{{/eq}}>{{i18n 'WORK_LANDLINE'}}</option>
+                        <option value="personal_mobile"{{#eq item_data.telephone.type 'personal_mobile'}} selected{{/eq}}>{{i18n 'PERSONAL_MOBILE'}}</option>
+                    </select>
+                </div>
+            {{/if}}
+            <input type="hidden" name="commerce_form[edit_id]" value="{{#if item_data.edit_id}}{{item_data.edit_id}}{{else}}{{item_data.id}}{{/if}}"/>
+            <input type="hidden" name="csrftoken" value="{{csrftoken}}"/>
+        </div>
+    </div>
+</form>
+<script>WC.observers.init();WC.formUtil.init();</script>

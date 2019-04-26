@@ -1,0 +1,21 @@
+{{#if showFilterFiled}}
+    <div class="mb-3">
+        <input type="text" class="form-control" onkeyup="WC.filterList(this)" placeholder="Type in to filter" autocomplete="off" />
+    </div>
+{{/if}}
+{{#if data}}
+    <ul class="list-unstyled">
+        {{#each data}}
+            <li>
+                <label>
+                    <input type="radio" name="{{../fieldName}}"
+                           data-object='{{json_encode this}}'
+                           value="{{#if edit_id}}{{edit_id}}{{else}}{{id}}{{/if}}" />&nbsp;
+                    <span>{{#if name}}{{name}}{{else}}{{#if title}}{{title}}{{else}}{{i18n 'NO_TITLE'}}{{/if}}{{/if}}</span>
+                </label>
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <div class="alert alert-info">{{i18n 'NO_RESULTS'}}</div>
+{{/if}}

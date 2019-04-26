@@ -1,0 +1,12 @@
+<div class="form-group">
+    <label class="control-label" for="country_name">{{i18n 'LABEL_MODAL_COUNTRY'}}</label>
+    <div class="input-group mb-2">
+        <input type="text" class="form-control" id="country_name" disabled
+               value="{{item_data.country.name}}" placeholder="{{i18n 'LABEL_MODAL_COUNTRY'}}" />
+        <div class="input-group-append pointer" onclick="WC.commonCountryModal({title:'{{i18n 'LABEL_MODAL_COUNTRY'}}'})">
+            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+        </div>
+        <input type="hidden" name="commerce_form[config_value]" id="country_id"
+               value="{{#if item_data.country.id}}{{item_data.country.id}}{{else}}{{item_data.config_value}}{{/if}}" />
+    </div>
+</div>

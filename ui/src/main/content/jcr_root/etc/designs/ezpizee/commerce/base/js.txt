@@ -1,4 +1,2 @@
 script/phpjs.js
 script/spin.js
-script/lightbox.js
-script/jquery-sortable.js

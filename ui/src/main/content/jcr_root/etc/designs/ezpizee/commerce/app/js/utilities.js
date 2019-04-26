@@ -403,10 +403,10 @@ WC.utilities = function () {
 
     that.applySortable = function (selector) {
         var e = jQuery(selector);
-        if (e.length) {
+        if (!isHooked(e, 'sortable')) {
             e.sortable({
-                group: 'no-drop',
-                handle: 'i.fa-arrows-alt',
+                group: phpjs.uniqid('no-drop-'),
+                handle: '.fa-arrows-alt',
                 onDragStart: function ($item, container, _super) {
                     if (!container.options.drop) {
                         $item.clone().insertAfter($item);
@@ -419,7 +419,7 @@ WC.utilities = function () {
 
     that.applyColorPicker = function (selector) {
         var e = jQuery(selector);
-        if (e.length) {
+        if (!isHooked(e, 'colorpicker')) {
             e.colorpicker({
                 inline: true,
                 container: true,
@@ -450,19 +450,48 @@ WC.utilities = function () {
 
     that.applyDatePicker = function (selector, settings) {
         var e = jQuery(selector);
-        if (e.length) {e.datepicker(settings || {defaultDate: new Date()});}
+        if (!isHooked(e, 'datepicker')) {
+            e.datepicker(settings || {
+                format: 'yyyy-mm-dd',
+                startDate: '-3d',
+                defaultDate: ''
+            });
+        }
     };
 
     that.applyDateTimePicker = function (selector, settings) {
         var e = jQuery(selector);
-        if (e.length) {e.datetimepicker(settings || {defaultDate: new Date()});}
+        if (!isHooked(e, 'datetimepicker')) {
+            e.each(function(){
+                var $t = jQuery(this);
+                var $id = phpjs.uniqid('dt-');
+                var $input = $t.find('>input[type="text"]');
+                $t.attr('id', $id);
+                $input.attr('data-target', '#'+$id);
+                $t.find('>div.input-group-append').attr('data-target', '#'+$id).attr('data-toggle', 'datetimepicker');
+                if ($input.val() === '0') {
+                    $input.attr('value', '0000-00-00 00:00:00');
+                }
+                $t.datetimepicker(settings || {
+                    format: 'YYYY-MM-DD hh:mm:ss',
+                    startDate: '-3d',
+                    useCurrent: false,
+                    icons: {
+                        time: "fas fa-clock",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down"
+                    }
+                });
+            });
+        }
     };
 
-    that.applyRichText = function (selector) {rteStandardConfig(selector);};
+    that.applyRichText = function (selector) {if (phpjs.is_callable('rteStandardConfig')) {rteStandardConfig(selector);}};
 
     that.applyMoreLess = function(selector) {
         var ele = jQuery(selector);
-        if (ele.length) {
+        if (!isHooked(ele, 'moreless')) {
             ele.each(function(){
                 var e = jQuery(this);
                 var id = null;
@@ -501,13 +530,12 @@ WC.utilities = function () {
         }
     };
 
-    that.applyLightBox = function() {
-        var elements = jQuery('[data-toggle="lightbox"]');
-        if (elements.length) {
-            elements.each(function(){
+    that.applyLightBox = function(selector) {
+        var e = jQuery(selector||'[data-toggle="lightbox"]');
+        if (e.length) {
+            e.each(function(){
                 var $t = jQuery(this);
-                if (!$t.attr('hook-lightbox')) {
-                    $t.attr('hook-lightbox', true);
+                if (!isHooked($t, 'lightbox')) {
                     $t.on('click', function(event){
                         event.preventDefault();
                         jQuery(this).ekkoLightbox();
@@ -517,6 +545,20 @@ WC.utilities = function () {
             });
         }
     };
+
+    function isHooked(e, s) {
+        if (e.length && !e.attr('data-hooked-'+s)) {
+            e.attr('data-hooked-'+s, true);
+            return false;
+        }
+        return true;
+    }
+
+    function unHook(e, s) {
+        if (e.length && e.attr('data-hooked-'+s)) {
+            e.removeAttr('data-hooked-'+s);
+        }
+    }
 
     return that;
 }();

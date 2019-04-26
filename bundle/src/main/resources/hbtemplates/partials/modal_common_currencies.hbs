@@ -1,0 +1,11 @@
+<div class="form-group">
+    <label class="control-label" for="country_name">{{i18n 'LABEL_MODAL_CURRENCY'}}</label>
+    <div class="input-group mb-2">
+        <input type="text" class="form-control" id="currency_name" disabled value="{{item_data.currency.name}}" placeholder="{{i18n 'LABEL_MODAL_CURRENCY'}}" />
+        <div class="input-group-append pointer" onclick="WC.commonCurrencyModal({title:'{{i18n 'LABEL_MODAL_CURRENCY'}}'})">
+            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+        </div>
+        <input type="hidden" name="commerce_form[config_value]" id="currency_id"
+               value="{{#if item_data.currency.id}}{{item_data.currency.id}}{{else}}{{item_data.config_value}}{{/if}}" />
+    </div>
+</div>

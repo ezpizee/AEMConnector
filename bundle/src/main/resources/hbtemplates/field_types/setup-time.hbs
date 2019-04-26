@@ -1,0 +1,18 @@
+<h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+<hr />
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MIN'}}</label>
+            <input type="time" name="commerce_form[params][config][min]" id="param_config_min" placeholder="hh:mm:ss"
+                   class="form-control" value="{{config.min}}"/>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class="control-label" for="param_config_max">{{i18n 'LABEL_RANGE_MAX'}}</label>
+            <input type="time" name="commerce_form[params][config][max]" id="param_config_max" placeholder="hh:mm:ss"
+                   class="form-control" value="{{config.max}}"/>
+        </div>
+    </div>
+</div>

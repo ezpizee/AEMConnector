@@ -15,13 +15,13 @@ var WC = function() {
         return '';
     };
     that.bindCSRFTokenToAjaxCalls = function() {
-        if (typeof csrftoken !== "undefined") {
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                if (csrftoken !== undefined) {
                     xhr.setRequestHeader("csrftoken", csrftoken);
                 }
-            });
-        }
+            }
+        });
     };
     return that;
 }();
@@ -51,7 +51,15 @@ WC.params = function() {
     return that;
 }();
 
-WC.compileHandlebars = function(source, context) {return Handlebars.compile(source)(phpjs.is_object(context)||phpjs.is_array(context)?context:{});};
+WC.compileHandlebars = function(source, context) {
+    try {
+        return Handlebars.compile(source)(phpjs.is_object(context) || phpjs.is_array(context) ? context : {});
+    }
+    catch (e) {
+        console.log(e);
+        return e.message;
+    }
+};
 
 WC.filterList = function(e){
     var $this = $(e), value = $this.val(), ul = $this.parent().next('ul');
@@ -155,38 +163,55 @@ WC.loadCurrentPageContentInto = function(containerId) {
     var url = uri.path+(uri.queryString?'?':'')+uri.queryString;/*WC.params.get('currentPath');*/
     if (url) {
         let parts = url.split('#!');
-        url = parts[parts.length-1] + (uri.queryString.length>0?'&':'?') + 'tmpl=content';
-        WC.httpClient({
-            url: url,
-            dataType: 'html',
-            success: function (html) {
-                var e = WC.getElementById(containerId);
-                if (e && e.length) {
-                    var ele = $('<div>'+html+'</div>');
-                    if (ele.find('#commerce-items-assets').length) {
-                        containerId = 'commerce-items-assets';
-                        e = WC.getElementById(containerId);
-                    }
-                    if (ele.find('#'+containerId)) {
-                        e.html(ele.find('#'+containerId).html());
-                    }
-                    else {
-                        e.html(html);
+        url = parts[parts.length-1];
+        if (phpjs.strpos(url, '.json')!==false) {
+            WC.loadPage(url);
+        }
+        else {
+            WC.httpClient({
+                url: url +  + (uri.queryString.length>0?'&':'?') + 'tmpl=content',
+                dataType: 'html',
+                success: function (html) {
+                    var e = WC.getElementById(containerId);
+                    if (e && e.length) {
+                        var ele = $('<div>'+html+'</div>');
+                        if (ele.find('#commerce-items-assets').length) {
+                            containerId = 'commerce-items-assets';
+                            e = WC.getElementById(containerId);
+                        }
+                        if (ele.find('#'+containerId)) {
+                            e.html(ele.find('#'+containerId).html());
+                        }
+                        else {
+                            e.html(html);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 };
 
 WC.loadPage = function(uri) {
     if (uri) {
+        var data = {}, dataType = 'json', isHtml = false;
+        if (phpjs.strpos(uri, '.html') !== false) {
+            data.tmpl = 'content';
+            dataType = 'html';
+            isHtml = true;
+        }
         WC.httpClient({
             url: uri,
-            data: {tmpl: 'content'},
-            dataType: 'html',
-            success: function(html) {
-                $('#commerce-spa').html(html);
+            data: data,
+            dataType: dataType,
+            success: function(resp) {
+                if (isHtml) {
+                    $('#commerce-spa').html(resp);
+                }
+                else if (resp.display_template) {
+                    resp.display_template = resp.display_template.replace('.hbs', '');
+                    $('#commerce-spa').html(WC.compileHandlebars(WC.hbsTmpl(resp.display_template), resp));
+                }
             }
         });
     }

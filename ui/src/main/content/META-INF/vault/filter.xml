@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/ezpizee"/>
+    <filter root="/apps/ezpizee">
+        <exclude pattern="/apps/ezpizee/install" />
+    </filter>
     <filter root="/apps/cq/core/content/nav/commerce/ezpizee"/>
     <filter root="/etc/designs/ezpizee"/>
 </workspaceFilter>

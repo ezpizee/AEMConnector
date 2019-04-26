@@ -1,0 +1,18 @@
+<div class="form-group">
+    <label class="control-label" for="product_type_name">{{i18n 'LABEL_MODAL_PRODUCT_TYPE'}}</label>
+    <div class="input-group mb-2">
+        {{#if item_data.product_type.name}}
+            {{item_data.product_type.name}}
+        {{else}}
+        <input type="text" class="form-control" id="product_type_name" disabled
+               value="{{item_data.product_type.name}}"
+               placeholder="{{i18n 'LABEL_MODAL_PRODUCT_TYPE'}}" />
+        <div class="input-group-append pointer" onclick="WC.productTypeModal({title:'{{i18n 'LABEL_MODAL_PRODUCT_TYPE'}}'})">
+            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+        </div>
+        {{/if}}
+        <input type="hidden" name="commerce_form[product_type_id]" id="product_type_id"
+               value="{{item_data.product_type.id}}" />
+    </div>
+    <div class="font-weight-lighter text-info">{{i18n 'PRODUCT_TYPE_ON_PRODUCT_FORM_NOTES'}}</div>
+</div>

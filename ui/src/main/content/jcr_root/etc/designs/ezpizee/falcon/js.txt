@@ -1,9 +1,3 @@
-js/Chart.min.js
-js/jquery.vmap.js
-js/jquery.vmap.usa.js
-js/jquery.vmap.world.js
-js/stickyfill.min.js
-js/sticky-kit.min.js
 js/theme.js
 js/signup-form.js
 js/custom.js

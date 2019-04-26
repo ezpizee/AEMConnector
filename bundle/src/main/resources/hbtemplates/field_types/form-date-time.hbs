@@ -1,0 +1,13 @@
+{{#if params}}
+    <div class="form-group">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <input type="datetime-local" class="form-control"
+               {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+               {{#if params.config.min}}min="{{params.config.min}}"{{/if}}
+               {{#if params.config.max}}max="{{params.config.max}}"{{/if}}
+               name="commerce_form[attrs][{{params.name}}][value]"
+               id="{{params.name}}" value="{{value}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}" />
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}" />
+    </div>
+{{/if}}

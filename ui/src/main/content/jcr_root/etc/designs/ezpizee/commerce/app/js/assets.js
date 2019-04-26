@@ -12,8 +12,8 @@ WC.assets = function() {
             url: WC.constants.ASSETS_BY_PARENT,
             data: {parent_id: itemId},
             success: function (data) {
-                if (phpjs.sizeof(data) && phpjs.sizeof(data.data)) {
-                    var html = WC.compileHandlebars(WC.hbsTmpl('column'), {list: data.data});
+                if (phpjs.sizeof(data) && phpjs.sizeof(data.list)) {
+                    var html = WC.compileHandlebars(WC.hbsTmpl('partials-column'), {list: data.list});
                     container = jQuery(container);
                     var nextColumn = container.parent().parent().next('.column');
                     if (!nextColumn.length) {
@@ -27,6 +27,7 @@ WC.assets = function() {
         });
     };
     that.loadContent = function(itemId, container) {
+        remember(itemId, container);
         container = jQuery(container).parent()[0];
         removeExtraColumns(container);
         highlightClickedColumn(container);
@@ -40,7 +41,7 @@ WC.assets = function() {
                     container.parent().parent().parent().append('<div class="column"></div>');
                     nextColumn = container.parent().parent().parent().find('.column:last-child');
                 }
-                var html = WC.compileHandlebars(WC.hbsTmpl('preview'), {item_data: data.data});
+                var html = WC.compileHandlebars(WC.hbsTmpl('partials-preview'), {item_data: data.data});
                 nextColumn.replaceWith(html);
                 autoScroll();
             }

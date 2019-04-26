@@ -85,10 +85,10 @@ WC.commonModal = function(o, url, fieldName, $ele) {
             var html, e, tmpId;
             if (phpjs.sizeof(data)) {
                 html = WC.compileHandlebars(WC.hbsTmpl(WC.constants.HBS_RADIO_BUTTON_LIST), {
-                    data: (data&&data.data?data.data:[]),
+                    data: (data?(data.data||data.list||data.item_data||{}):{}),
                     fieldName: fieldName,
                     showFilterFiled: true,
-                    csrftoken: WC.params.get('csrftoken')
+                    csrftoken: WC.params.get('csrftoken')||WC.params.get('CSRF-Token')
                 });
                 e = WC.renderModal(o.title||fieldName, html);
                 tmpId = phpjs.uniqid('modal-');
@@ -102,7 +102,6 @@ WC.commonModal = function(o, url, fieldName, $ele) {
                     var currentVal = fieldElement.val();
                     if (currentVal) {
                         var inputField = modalElement.find('input[value="'+currentVal+'"]');
-                        console.log(currentVal);
                         if (inputField.length) {
                             inputField.trigger('click');
                             $('.modal-body-content', modalElement).animate({

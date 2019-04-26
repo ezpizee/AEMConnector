@@ -1,0 +1,15 @@
+{{#if params.config.key}}
+<div class="form-group">
+    <label for="{{params.name}}"><strong>{{name}}</strong></label>
+    <select name="commerce_form[attrs][{{params.name}}][value]"
+            id="{{params.name}}" {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+            class="form-control">
+        <option value="">{{i18n 'SELECT_ONE'}}</option>
+        {{#each params.config.key}}
+            <option value="{{this}}"{{#eq this ../value}} selected{{/eq}}>{{findelementbykey ../params.config.value @index}}</option>
+        {{/each}}
+    </select>
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}" />
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}" />
+</div>
+{{/if}}

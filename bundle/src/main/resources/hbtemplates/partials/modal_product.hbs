@@ -1,0 +1,13 @@
+<div class="form-group">
+    <label class="control-label" for="product_name">{{i18n 'LABEL_MODAL_PRODUCT'}}</label>
+    <div class="input-group mb-2">
+        <input type="text" class="form-control" id="product_name" disabled
+               value="{{item_data.product.name}}"
+               placeholder="{{i18n 'LABEL_MODAL_PRODUCT'}}" />
+        <div class="input-group-append pointer" onclick="WC.productModal({title:'{{i18n 'LABEL_MODAL_PRODUCT'}}'})">
+            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+        </div>
+        <input type="hidden" name="commerce_form[product_id]" id="product_id"
+               value="{{item_data.product.id}}" />
+    </div>
+</div>

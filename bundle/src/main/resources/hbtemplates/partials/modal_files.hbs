@@ -1,0 +1,72 @@
+<h6>{{i18n 'LABEL_FILES'}}</h6>
+<div class="row" id="files">
+    {{#if item_data.assets}}
+        {{#each item_data.assets}}
+            <div class="col-4 file">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" data-field="file_name"
+                                   value="{{this.name}}{{this.title}}"
+                                   placeholder="{{i18n 'LABEL_FILE'}}" disabled />
+                            <div class="input-group-append pointer" onclick="WC.fileModal({title:'{{i18n 'LABEL_FILE'}}'}, this)">
+                                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                            </div>
+                            <input type="hidden" name="commerce_form[assets][]" data-field="file_id"
+                                   value="{{this.id}}" />
+                        </div>
+                        {{#if this.attrs.is_image}}
+                            {{#if this.path}}
+                                <div class="img_preview">
+                                    <a href="{{this.path}}" data-toggle="lightbox">
+                                        <img src="{{this.path}}" alt="{{this.name}}" class="rounded img-thumbnail" />
+                                    </a>
+                                </div>
+                            {{/if}}
+                        {{/if}}
+                        {{#if this.attrs.is_doc}}
+                            {{#if this.path}}
+                                <div class="doc_link">
+                                    <a href="{{this.path}}" title="{{this.name}}">{{this.name}}</a>
+                                </div>
+                            {{/if}}
+                        {{/if}}
+                    </div>
+                    <div class="col-1">
+                        <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('add', this, '#files', '#files>.file')">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('remove', this, '#files', '#files>.file')">
+                            <i class="fas fa-times-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    {{/if}}
+
+    <div class="col-4 file">
+        <div class="row">
+            <div class="col-11">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" data-field="file_name" value="" placeholder="{{i18n 'LABEL_FILE'}}" disabled />
+                    <div class="input-group-append pointer" onclick="WC.fileModal({title:'{{i18n 'LABEL_FILE'}}'}, this)">
+                        <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                    </div>
+                    <input type="hidden" name="commerce_form[assets][]" data-field="file_id" value="" />
+                </div>
+                <div class="img_preview"></div>
+                <div class="doc_link"></div>
+            </div>
+            <div class="col-1">
+                <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('add', this, '#files', '#files>.file')">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+                <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('remove', this, '#files', '#files>.file')">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{{addscriptdeclaration 'WC.utilities.applyLightBox()'}}

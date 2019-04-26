@@ -1,0 +1,30 @@
+<div class="column">
+    <div class="column-content">
+        {{#each list}}
+            <div class="column-item{{#gt num_children 0}} drilldown{{/gt}}">
+                <div class="column-item-thumbnail">
+                    <label class="check">
+                        <input type="radio" name="asset" class="check-radio"
+                               onclick="WC.assets.buildFormUri('{{id}}', this)"
+                               value='{{json_encode this}}' />
+                        <span class="fa fa-check-circle"></span>
+                        {{#if is_folder}}
+                            <i class="fa fa-folder"></i>
+                        {{else}}
+                            {{#if is_image}}
+                                <i class="fa fa-image"></i>
+                            {{else}}
+                                {{#if is_doc}}<i class="fa fa-file"></i>{{/if}}
+                                {{#if is_file}}<i class="fa fa-file"></i>{{/if}}
+                            {{/if}}
+                        {{/if}}
+                    </label>
+                </div>
+                <div class="column-item-content" data-folder="{{id}}"
+                     onclick="{{#gt num_children 0}}WC.assets.loadDrilldown('{{id}}', this){{else}}WC.assets.loadContent('{{id}}', this){{/gt}}">
+                    {{#if title}}{{title}}{{else}}{{#if name}}{{name}}{{/if}}{{/if}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

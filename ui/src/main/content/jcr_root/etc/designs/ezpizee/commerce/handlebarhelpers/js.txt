@@ -9,8 +9,8 @@ general/cookieRead.js
 general/crsftoken.js
 general/date.js
 general/displayText.js
-general/dynamictemplate.js
 general/elementnotempty.js
+general/fa_status.js
 general/findelementbykey.js
 general/foreach.js
 general/getItemById.js
@@ -27,6 +27,7 @@ general/logical_ifnot.js
 general/logical_is.js
 general/md5.js
 general/number_format.js
+general/numberformat.js
 general/object.js
 general/operator_eq.js
 general/operator_gt.js
@@ -38,6 +39,7 @@ general/phpjs.js
 general/plaintext.js
 general/print.js
 general/raw.js
+general/require.js
 general/status.js
 general/str_repeat.js
 general/strip_tags.js
