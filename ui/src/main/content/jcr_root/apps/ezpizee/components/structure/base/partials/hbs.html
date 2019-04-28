@@ -1,0 +1,2993 @@
+<!-- hbs: start -->
+<script type="text/x-handlebars-template" data-hbstmpl="address_form">
+<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}
+    ?edit_id={{item_data.id}}{{/if}}{{/if}}"
+    method="post" class="commerce-form">
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                <div class="col-6">
+                    <div class="text-right">
+                        {{#if actions.cancel}}
+                            <a href="/{{list_page}}" class="btn btn-primary btn-sm"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}
+                            </a>{{/if}}
+                        &nbsp;
+                        {{#if actions.save}}
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-floppy-o"></i>&nbsp;{{i18n 'LABEL_SAVE'}}
+                            </button>{{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            {{#if fieldKeys.name}}
+                <div class="form-group">
+                    <label class="control-label" for="name">{{i18n 'LABEL_NAME'}}</label>
+                    <input type="text" name="commerce_form[name]" id="name" class="form-control"
+                           data-validation="required"
+                           value="{{item_data.name}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.addr_street}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_street">{{i18n 'LABEL_ADDR_STREET'}}</label>
+                    <input type="text" name="commerce_form[addr_street]" id="addr_street" class="form-control" value="{{item_data.addr.street}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.addr_city}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_city">{{i18n 'LABEL_ADDR_CITY'}}</label>
+                    <input type="text" name="commerce_form[addr_city]" id="addr_city" class="form-control" value="{{item_data.addr.city}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.addr_province}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_province">{{i18n 'LABEL_ADDR_PROVINCE'}}</label>
+                    <input type="text" name="commerce_form[addr_province]" id="addr_province" class="form-control"
+                           value="{{item_data.addr.province}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.modal_country}}{{require "partials/modal_country" this}}{{/if}}
+            {{#if fieldKeys.addr_postalcode}}
+                <div class="form-group">
+                    <label class="control-label" for="addr_postalcode">{{i18n 'LABEL_ADDR_POSTALCODE'}}</label>
+                    <input type="text" name="commerce_form[addr_postalcode]" id="addr_postalcode" class="form-control"
+                           value="{{item_data.addr.postalcode}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.email}}
+                <div class="form-group">
+                    <label class="control-label" for="email">{{i18n 'LABEL_EMAIL'}}</label>
+                    <input type="email" name="commerce_form[email]" id="email" class="form-control" value="{{item_data.email}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.url}}
+                <div class="form-group">
+                    <label class="control-label" for="url">{{i18n 'LABEL_URL'}}</label>
+                    <input type="url" name="commerce_form[url]" id="url" class="form-control" value="{{item_data.url}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.telephone}}
+                <div class="form-group">
+                    <label class="control-label" for="telephone">{{i18n 'LABEL_TELEPHONE'}}</label>
+                    <div class="form-inline">
+                        <input type="number" name="commerce_form[telephone_country]" id="telephone_country" class="form-control"
+                               value="{{item_data.telephone.country}}" placeholder="{{i18n 'LABEL_TELEPHONE_COUNTRY'}}"/>
+                        <input type="number" name="commerce_form[telephone_area]" id="telephone_area" class="form-control"
+                               value="{{item_data.telephone.area}}" placeholder="{{i18n 'LABEL_TELEPHONE_AREA'}}"/>
+                        <input type="number" name="commerce_form[telephone_number]" id="telephone_number" class="form-control"
+                               value="{{item_data.telephone.number}}" placeholder="{{i18n 'LABEL_TELEPHONE_NUMBER'}}"/>
+                        <input type="number" name="commerce_form[telephone_ext]" id="telephone_ext" class="form-control"
+                               value="{{item_data.telephone.ext}}" placeholder="{{i18n 'LABEL_TELEPHONE_EXT'}}"/>
+                    </div>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.telephone_type}}
+                <div class="form-group">
+                    <label class="control-label" for="telephone_type">{{i18n 'LABEL_TELEPHONE_TYPE'}}</label>
+                    <select name="commerce_form[telephone_type]" id="telephone_type" class="form-control">
+                        <option value="">{{i18n 'LABEL_SELECT_ONE'}}</option>
+                        <option value="work_mobile"{{#eq item_data.telephone.type 'work_mobile'}} selected{{/eq}}>{{i18n 'WORK_MOBILE'}}</option>
+                        <option value="work_landline"{{#eq item_data.telephone.type 'work_landline'}} selected{{/eq}}>{{i18n 'WORK_LANDLINE'}}</option>
+                        <option value="personal_mobile"{{#eq item_data.telephone.type 'personal_mobile'}} selected{{/eq}}>{{i18n
+                                'PERSONAL_MOBILE'}}</option>
+                    </select>
+                </div>
+            {{/if}}
+            <input type="hidden" name="commerce_form[edit_id]" value="{{#if item_data.edit_id}}{{item_data.edit_id}}{{else}}{{item_data.id}}{{/if}}"/>
+            <input type="hidden" name="csrftoken" value="{{csrftoken}}"/>
+        </div>
+    </div>
+    </form>
+    <script>WC.observers.init();WC.formUtil.init();</script>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="alert-message">
+    <div class="mt-3">
+        <div class="alert alert-{{#if type}}{{type}}{{else}}info{{/if}}">
+            {{#if message}}
+                {{{message}}}
+            {{else}}
+                Alert Error. Message is required, but missing.
+            {{/if}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="assets-form">
+<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}
+    ?edit_id={{item_data.id}}{{/if}}{{/if}}"
+    method="post" class="commerce-form assets"{{#if fieldKeys.file}} enctype="multipart/form-data"{{/if}}>
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                <div class="col-6">
+                    <div class="text-right">
+                        {{#if actions.cancel}}
+                            <a href="/{{list_page}}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}</a>{{/if}}
+                        &nbsp;
+                        {{#if actions.save}}
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;{{i18n 'LABEL_SAVE'}}</button>{{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            {{#if fieldKeys.name}}
+                <div class="form-group">
+                    <label class="control-label" for="title">{{i18n 'LABEL_NAME'}}</label>
+                    <input type="text" name="commerce_form[title]" id="title" class="form-control"
+                           data-validation="required"
+                           value="{{#if item_data.name}}{{item_data.name}}{{else}}{{item_data.title}}{{/if}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.description}}
+                <div class="form-group">
+                    <label class="control-label" for="description">{{i18n 'LABEL_DESCRIPTION'}}</label>
+                    <textarea name="commerce_form[description]" id="description" class="form-control basic">{{item_data.description}}</textarea>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.modal_folder}}{{require "partials/modal_folder" this}}{{/if}}
+            {{#if fieldKeys.file}}{{require "partials/file" this}}{{/if}}
+            {{#if additional_params}}
+                {{#each additional_params}}<input type="hidden" name="commerce_form[type]" value="{{this.type}}"/>{{/each}}
+            {{/if}}
+            <input type="hidden" name="commerce_form[edit_id]" value="{{#if item_data.edit_id}}{{item_data.edit_id}}{{else}}{{item_data.id}}{{/if}}"/>
+            <input type="hidden" name="csrftoken" value="{{csrftoken}}"/>
+        </div>
+    </div>
+    </form>
+    <script>WC.observers.init();WC.formUtil.init();</script>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="assets-list">
+    <div id="commerce-alert-container"></div>
+    <div id="commerce-items-assets">
+        <div class="card mb-3">
+            <div class="card-header bg-light">
+                <div class="row">
+                    <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                    <div class="col-6">
+                        <div class="text-right">
+                            <a href="javascript:void(0)" onclick="WC.delete('{{delete_api_endpoint}}', $(this).attr('data-id'))"
+                               data-id="0" data-btn="delete" class="btn btn-danger hide">
+                                <i class="fa fa-times-circle"></i>&nbsp;{{i18n 'LABEL_DELETE'}}
+                            </a>
+                            <a href="#" data-btn="edit" data-folder-url="/{{folder_form_page}}" data-file-url="/{{file_form_page}}"
+                               class="btn btn-primary hide">
+                                <i class="fa fa-edit"></i>&nbsp;{{i18n 'LABEL_EDIT'}}
+                            </a>
+                            <a href="/{{folder_form_page}}" data-btn="create" class="btn btn-primary"><i class="fa fa-folder"></i>&nbsp;{{i18n
+                                    'LABEL_ADD_FOLDER'}}</a>
+                            <a href="/{{file_form_page}}" data-btn="create" class="btn btn-primary"><i class="fa fa-image"></i>&nbsp;{{i18n
+                                    'LABEL_ADD_FILE'}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body text-justify">
+                <div class="commerce-items assets" id="commerce-items-list">
+                    <div class="panel-body-wrapper">
+                        <div class="panel-body">
+                            <div class="panel-body-content">
+                                <div class="panel-body-content-columns">
+                                    {{#unless list}}
+                                        <div class="alert alert-info">{{i18n 'NO_RESULTS'}}</div>{{/unless}}
+                                    {{#if list}}{{require "partials/column" this}}{{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>WC.assets.init();</script>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="dashboard">
+    <div class="card mb-3">
+        <div class="card-body rounded-soft bg-gradient">
+            <div class="row text-white align-items-center no-gutters">
+                <div class="col">
+                    <h4 class="text-white mb-0">Today $764.39</h4>
+                    <p class="fs--1 font-weight-semi-bold">Yesterday <span class="text-300">$684.87</span></p>
+                </div>
+                <div class="col-auto d-none d-sm-block"><select class="custom-select custom-select-sm mb-3 shadow" id="dashboard-chart-select">
+                    <option value="all">All Payments</option>
+                    <option value="successful" selected="selected">Successful Payments</option>
+                    <option value="failed">Failed Payments</option>
+                </select></div>
+            </div>
+            <canvas class="rounded" id="chart-line" width="1618" height="375" aria-label="Line chart" role="img"></canvas>
+        </div>
+    </div>
+    <div class="card bg-light mb-3">
+        <div class="card-body p-3">
+            <p class="fs--1 mb-0"><a href="#!"><span class="fas fa-exchange-alt mr-2" data-fa-transform="rotate-90"></span>A payout for <strong>$921.42 </strong>was
+                deposited 13 days ago</a>. Your next deposit is expected on <strong>Tuesday, March 13.</strong></p>
+        </div>
+    </div>
+    <div class="card-deck">
+        <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+            <div class="bg-holder bg-card" style="background-image:url(/images/ezpizee/falcon/illustrations/corner-1.png);"></div>
+            <!--/.bg-holder-->
+            <div class="card-body position-relative">
+                <h6>Customers<span class="badge badge-soft-warning rounded-capsule ml-2">-0.23%</span></h6>
+                <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning"
+                     data-countupp='{"count":58386,"format":"alphanumeric"}'>58.39k
+                </div>
+                <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">See all<span class="fas fa-angle-right ml-1"
+                                                                                          data-fa-transform="down-1"></span></a>
+            </div>
+        </div>
+        <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+            <div class="bg-holder bg-card" style="background-image:url(/images/ezpizee/falcon/illustrations/corner-2.png);"></div>
+            <!--/.bg-holder-->
+            <div class="card-body position-relative">
+                <h6>Orders<span class="badge badge-soft-info rounded-capsule ml-2">0.0%</span></h6>
+                <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info" data-countupp='{"count":23434,"format":"alphanumeric"}'>
+                    73.46k
+                </div>
+                <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">All orders<span class="fas fa-angle-right ml-1"
+                                                                                             data-fa-transform="down-1"></span></a>
+            </div>
+        </div>
+        <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+            <div class="bg-holder bg-card" style="background-image:url(/images/ezpizee/falcon/illustrations/corner-3.png);"></div>
+            <!--/.bg-holder-->
+            <div class="card-body position-relative">
+                <h6>Revenue<span class="badge badge-soft-success rounded-capsule ml-2">9.54%</span></h6>
+                <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0
+                </div>
+                <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1"
+                                                                                             data-fa-transform="down-1"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h5 class="fs-0 mb-0">Recent Purchases</h5>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus mr-1"
+                                                                                      data-fa-transform="shrink-3"></span><span>New</span></button>
+                    <button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter mr-1"
+                                                                                           data-fa-transform="shrink-3"></span><span>Filter</span>
+                    </button>
+                    <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt mr-1"
+                                                                                      data-fa-transform="shrink-3"></span><span>Export</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-sm mb-0 table-dashboard fs--1">
+                    <thead class="bg-200 text-900">
+                    <tr>
+                        <th><input class="ml-3" type="checkbox" aria-label="Checkbox for this table"/></th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Product</th>
+                        <th class="text-center">Payment</th>
+                        <th class="text-right">Amount</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">Sylvia Plath</a></th>
+                        <td class="align-middle">john@gmail.com</td>
+                        <td class="align-middle">Slick - Drag & Drop Bootstrap Generator</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-success">Success<span
+                                class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$99</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown1"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown1">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">Homer</a></th>
+                        <td class="align-middle">sylvia@mail.ru</td>
+                        <td class="align-middle">Bose SoundSport Wireless Headphones</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-success">Success<span
+                                class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$634</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown2"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown2">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">Edgar Allan Poe</a></th>
+                        <td class="align-middle">edgar@yahoo.com</td>
+                        <td class="align-middle">All-New Fire HD 8 Kids Edition Tablet</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-secondary">Blocked<span
+                                class="ml-1 fas fa-ban" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$199</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown3"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown3">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">William Butler Yeats</a></th>
+                        <td class="align-middle">william@gmail.com</td>
+                        <td class="align-middle">Apple iPhone XR (64GB)</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-success">Success<span
+                                class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$798</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown4"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown4">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">Rabindranath Tagore</a></th>
+                        <td class="align-middle">tagore@twitter.com</td>
+                        <td class="align-middle">ASUS Chromebook C202SA-YS02 11.6"</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-secondary">Blocked<span
+                                class="ml-1 fas fa-ban" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$318</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown5"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown5">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">Emily Dickinson</a></th>
+                        <td class="align-middle">emily@gmail.com</td>
+                        <td class="align-middle">Mirari OK to Wake! Alarm Clock & Night-Light</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-warning">Pending<span
+                                class="ml-1 fas fa-stream" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$11</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown6"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown6">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">Giovanni Boccaccio</a></th>
+                        <td class="align-middle">giovanni@outlook.com</td>
+                        <td class="align-middle">Summer Infant Contoured Changing Pad</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-success">Success<span
+                                class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$31</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown7"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown7">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="btn-reveal-trigger">
+                        <td class="align-middle"><input class="ml-3" type="checkbox" aria-label="Checkbox for this row"/></td>
+                        <th class="align-middle"><a href="/pages/customer-details.html">Oscar Wilde</a></th>
+                        <td class="align-middle">oscar@hotmail.com</td>
+                        <td class="align-middle">Munchkin 6 Piece Fork and Spoon Set</td>
+                        <td class="align-middle text-center fs-0"><span class="badge badge rounded-capsule badge-soft-success">Success<span
+                                class="ml-1 fas fa-check" data-fa-transform="shrink-2"></span></span></td>
+                        <td class="align-middle text-right">$43</td>
+                        <td class="align-middle">
+                            <div class="dropdown text-sans-serif">
+                                <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal mr-3" type="button" id="dropdown8"
+                                        data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span
+                                        class="fas fa-ellipsis-h fs--1"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown8">
+                                    <div class="bg-white py-2"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item"
+                                                                                                             href="#!">Edit</a><a
+                                            class="dropdown-item" href="#!">Refund</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer border-top">
+            <div class="row">
+                <div class="col">
+                    <p class="mb-0 fs--1">11 Items &mdash; <a class="font-weight-semi-bold" href="#">view all<span class="fas fa-angle-right ml-1"
+                                                                                                                   data-fa-transform="down-1"></span></a>
+                    </p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-light btn-sm" type="button" disabled="disabled"><span>Previous</span></button>
+                    <button class="btn btn-primary btn-sm px-4 ml-2" type="button"><span>Next</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col-xl-4 pr-xl-2">
+            <div class="card h-100 bg-gradient">
+                <div class="card-header bg-transparent">
+                    <h5 class="text-white">Active users right now</h5>
+                    <div class="real-time-user display-1 font-weight-normal text-white" data-countup='{"count":119}'>0</div>
+                </div>
+                <div class="card-body text-white fs--1">
+                    <p class="border-bottom pb-2" style="border-color: rgba(255, 255, 255, 0.15) !important">Page views per second</p>
+                    <canvas id="real-time-user" width="10" height="4"></canvas>
+                    <div class="list-group-flush mt-4">
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-1 font-weight-semi-bold border-top-0"
+                             style="border-color: rgba(255, 255, 255, 0.15)">
+                            <p class="mb-0">Top Active Pages</p>
+                            <p class="mb-0">Active Users</p>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-1"
+                             style="border-color: rgba(255, 255, 255, 0.05)">
+                            <p class="mb-0">/bootstrap-themes/</p>
+                            <p class="mb-0">3</p>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-1"
+                             style="border-color: rgba(255, 255, 255, 0.05)">
+                            <p class="mb-0">/tags/html5/</p>
+                            <p class="mb-0">3</p>
+                        </div>
+                        <div class="list-group-item bg-transparent d-xxl-flex justify-content-between px-0 py-1 d-none"
+                             style="border-color: rgba(255, 255, 255, 0.05)">
+                            <p class="mb-0">/</p>
+                            <p class="mb-0">2</p>
+                        </div>
+                        <div class="list-group-item bg-transparent d-xxl-flex justify-content-between px-0 py-1 d-none"
+                             style="border-color: rgba(255, 255, 255, 0.05)">
+                            <p class="mb-0">/preview/falcon/dashboard/</p>
+                            <p class="mb-0">2</p>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-1"
+                             style="border-color: rgba(255, 255, 255, 0.05)">
+                            <p class="mb-0">/100-best-themes...all-time/</p>
+                            <p class="mb-0">1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right bg-transparent border-top" style="border-color: rgba(255, 255, 255, 0.15) !important"><a
+                        class="text-white" href="#!">Real-time report<span class="fa fa-chevron-right ml-1 fs--1"></span></a></div>
+            </div>
+        </div>
+        <div class="col-xl-8 pl-xl-2">
+            <div class="card h-100 mt-3 mt-xl-0">
+                <div class="card-header bg-light d-flex justify-content-between">
+                    <h5 class="mb-0">Active users</h5>
+                    <div class="dropdown text-sans-serif">
+                        <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none" type="button" data-toggle="dropdown"
+                                data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right border py-0">
+                            <div class="bg-white py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item" href="#!">Move</a><a
+                                    class="dropdown-item" href="#!">Resize</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body map-parent">
+                    <div class="vmap" style="height: 1px;" data-options="{&quot;map&quot;:&quot;world_en&quot;}"></div>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="row justify-content-between">
+                        <div class="col-auto"><select class="custom-select custom-select-sm">
+                            <option value="week" selected="selected">Last 7 days</option>
+                            <option value="month">Last month</option>
+                            <option value="year">Last year</option>
+                        </select></div>
+                        <div class="col-auto"><a class="btn btn-falcon-default btn-sm" href="#!"><span
+                                class="d-none d-sm-inline-block mr-1">Location</span>overview<span class="fa fa-chevron-right ml-1 fs--1"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{addscriptdeclaration 'dashboard();'}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-checkbox">{{#if params.config.key}}
+    <h4>{{name}}</h4>
+    {{#each params.config.key}}
+        <div class="form-check">
+            <input type="checkbox" name="commerce_form[attrs][{{../params.name}}][value][]"
+                   id="{{../params.name}}-{{@index}}" class="form-check-input" value="{{this}}"
+                {{#if ../value}}{{#eq this ../value}} checked{{else}}{{#in_array this ../value}} checked{{/in_array}}{{/eq}}{{/if}} />
+            <label class="form-check-label" for="{{../params.name}}-{{@index}}">
+                {{findelementbykey ../params.config.value @index}}
+            </label>
+        </div>
+    {{/each}}
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-color">{{#if params}}
+    <div data-trigger="colorpicker" data-color="{{value}}">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <input type="text" class="form-control"
+               {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+               name="commerce_form[attrs][{{params.name}}][value]"
+               id="{{params.name}}" value="{{value}}"/>
+    </div>
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-date-time">
+    {{#if params}}
+        <div class="form-group">
+            <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+            <input type="datetime-local" class="form-control"
+                   {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+                {{#if params.config.min}}min="{{params.config.min}}"{{/if}}
+                {{#if params.config.max}}max="{{params.config.max}}"{{/if}}
+                   name="commerce_form[attrs][{{params.name}}][value]"
+                   id="{{params.name}}" value="{{value}}"/>
+            <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+            <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+        </div>
+    {{/if}}
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-date">
+    {{#if params}}
+        <div class="form-group">
+            <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+            <input type="date" class="form-control"
+                   {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+                {{#if params.config.min}}min="{{params.config.min}}"{{/if}}
+                {{#if params.config.max}}max="{{params.config.max}}"{{/if}}
+                   name="commerce_form[attrs][{{params.name}}][value]"
+                   id="{{params.name}}" value="{{value}}"/>
+            <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+            <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+        </div>
+    {{/if}}
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-number">{{#if params}}
+    <div class="form-group">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <input type="number"
+               step="any"
+               {{#if params.config.start}}min="{{params.config.start}}"{{/if}}
+            {{#if params.config.end}}max="{{params.config.end}}"{{/if}}
+            {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+               class="form-control"
+               name="commerce_form[attrs][{{params.name}}][value]"
+               id="{{params.name}}" value="{{value}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+    </div>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-plaintext">{{#if params}}
+    <div class="form-group">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <textarea class="form-control"
+                  {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+                  name="commerce_form[attrs][{{params.name}}][value]"
+                  id="{{params.name}}">{{value}}</textarea>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+    </div>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-radio">{{#if params.config.key}}
+    <h4>{{name}}</h4>
+    {{#each params.config.key}}
+        <div class="form-check">
+            <input type="radio" name="commerce_form[attrs][{{../params.name}}][value]"
+                   id="{{../params.name}}-{{@index}}" class="form-check-input" value="{{this}}"
+                {{#if ../value}}{{#eq this ../value}} checked{{/eq}}{{/if}} />
+            <label class="form-check-label" for="{{../params.name}}-{{@index}}">
+                {{findelementbykey ../params.config.value @index}}
+            </label>
+        </div>
+    {{/each}}
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-richtext">{{#if params}}
+    <div class="form-group">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <textarea class="form-control description-rte"
+                  {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+                  name="commerce_form[attrs][{{params.name}}][value]"
+                  id="{{params.name}}"
+                  cols="{{params.config.width}}"
+                  rows="{{params.config.height}}">{{value}}</textarea>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+    </div>
+    {{addscriptdeclaration "WC.utilities.applyRichText('textarea')"}}
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-select-option">{{#if params.config.key}}
+    <div class="form-group">
+        <label for="{{params.name}}"><strong>{{name}}</strong></label>
+        <select name="commerce_form[attrs][{{params.name}}][value]"
+                id="{{params.name}}" {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+                class="form-control">
+            <option value="">{{i18n 'SELECT_ONE'}}</option>
+            {{#each params.config.key}}
+                <option value="{{this}}"{{#eq this ../value}} selected{{/eq}}>{{findelementbykey ../params.config.value @index}}</option>
+            {{/each}}
+        </select>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+    </div>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-time">{{#if params}}
+    <div class="form-group">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <input type="time"
+               {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+            {{#if params.min}}min="{{params.min}}"{{/if}}
+            {{#if params.max}}max="{{params.max}}"{{/if}}
+               class="form-control"
+               name="commerce_form[attrs][{{params.name}}][value]"
+               id="{{params.name}}" value="{{value}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+        <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+    </div>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-form-url">{{#if params}}
+    <div class="form-group">
+        <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
+        <input type="url"
+               {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+               class="form-control"
+               name="commerce_form[attrs][{{params.name}}][value]"
+               id="{{params.name}}" value="{{value}}"/>
+    </div>
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
+    <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-checkbox">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-6"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3></div>
+            <div class="col-6">
+                <div class="text-right">
+                    <a href="javascript:void(0)" title="{{i18n 'ADD'}}" onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()"><i
+                            class="fa fa-plus-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-1">&nbsp;</div>
+            <div class="col-4">Value</div>
+            <div class="col-5">Text (display to end user)</div>
+            <div class="col-2">&nbsp;</div>
+        </div>
+        <ol class="field-type-config-item-container">
+            {{#if config.key}}
+                {{#foreach config.key}}
+                    {{#elementnotempty ../config.value @index}}
+                        <li class="field-type-config-item">
+                            <div class="row">
+                                <div class="col-1"><i class="fas fa-arrows-alt"></i></div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="commerce_form[params][config][key][]" value="{{this}}"/>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" name="commerce_form[params][config][value][]"
+                                           value="{{findelementbykey ../config.value @index}}"/>
+                                </div>
+                                <div class="col-2">
+                                    <div class="text-right">
+                                        <a href="javascript:void(0)" title="{{i18n 'ADD'}}"
+                                           onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" title="{{i18n 'REMOVE'}}"
+                                           onclick="WC.formUtil.productManager.fieldTypeRemoveConfigItem(this)">
+                                            <i class="fas fa-times-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {{/elementnotempty}}
+                {{/foreach}}
+            {{/if}}
+            <li class="field-type-config-item">
+                <div class="row">
+                    <div class="col-1"><i class="fas fa-arrows-alt"></i></div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" class="form-control" name="commerce_form[params][config][key][]" value=""/>
+                    </div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" class="form-control" name="commerce_form[params][config][value][]" value=""/>
+                    </div>
+                    <div class="col-2">
+                        <div class="text-right">
+                            <a href="javascript:void(0)" title="{{i18n 'ADD'}}" onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()">
+                                <i class="fa fa-plus-circle"></i>
+                            </a>
+                            <a href="javascript:void(0)" title="{{i18n 'REMOVE'}}"
+                               onclick="WC.formUtil.productManager.fieldTypeRemoveConfigItem(this)">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-color"></script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-date-time"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr/>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MIN'}}</label>
+                <input type="datetime-local" name="commerce_form[params][config][min]" id="param_config_min" placeholder="YYYY-MM-DD hh:mm:ss"
+                       class="form-control" value="{{config.min}}"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_max">{{i18n 'LABEL_RANGE_MAX'}}</label>
+                <input type="datetime-local" name="commerce_form[params][config][max]" id="param_config_max" placeholder="YYYY-MM-DD hh:mm:ss"
+                       class="form-control" value="{{config.max}}"/>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-date"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr/>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MIN'}}</label>
+                <input type="date" name="commerce_form[params][config][min]" id="param_config_min" placeholder="YYYY-MM-DD"
+                       class="form-control" value="{{config.min}}"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_max">{{i18n 'LABEL_RANGE_MAX'}}</label>
+                <input type="date" name="commerce_form[params][config][max]" id="param_config_max" placeholder="YYYY-MM-DD"
+                       class="form-control" value="{{config.max}}"/>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-number"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr/>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_range_start">{{i18n 'LABEL_RANGE_MIN'}} ({{i18n 'OPTIONAL'}})</label>
+                <input type="number" step="any" name="commerce_form[params][config][range][start]" id="param_config_range_start" class="form-control"
+                       value="{{config.range.start}}"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_range_end">{{i18n 'LABEL_RANGE_MAX'}} ({{i18n 'OPTIONAL'}})</label>
+                <input type="number" step="any" name="commerce_form[params][config][range][end]" id="param_config_range_end" class="form-control"
+                       value="{{config.range.end}}"/>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-plaintext"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr/>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_height">
+                    {{i18n 'LABEL_HEIGHT'}} / {{i18n 'LABEL_ROW'}} ({{i18n 'OPTIONAL'}})
+                </label>
+                <input type="text" name="commerce_form[params][config][height]" id="param_config_height"
+                       class="form-control" value="{{config.height}}"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_width">
+                    {{i18n 'LABEL_WIDTH'}} / {{i18n 'LABEL_COLUMN'}} ({{i18n 'OPTIONAL'}})
+                </label>
+                <input type="text" name="commerce_form[params][config][width]" id="param_config_width"
+                       class="form-control" value="{{config.width}}"/>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-radio">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-6"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3></div>
+            <div class="col-6">
+                <div class="text-right">
+                    <a href="javascript:void(0)" title="{{i18n 'ADD'}}" onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()"><i
+                            class="fa fa-plus-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-1">&nbsp;</div>
+            <div class="col-4">Value</div>
+            <div class="col-5">Text (display to end user)</div>
+            <div class="col-2">&nbsp;</div>
+        </div>
+        <ol class="field-type-config-item-container">
+            {{#if config.key}}
+                {{#foreach config.key}}
+                    {{#elementnotempty ../config.value @index}}
+                        <li class="field-type-config-item">
+                            <div class="row">
+                                <div class="col-1"><i class="fas fa-arrows-alt"></i></div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="commerce_form[params][config][key][]" value="{{this}}"/>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" name="commerce_form[params][config][value][]"
+                                           value="{{findelementbykey ../config.value @index}}"/>
+                                </div>
+                                <div class="col-2">
+                                    <div class="text-right">
+                                        <a href="javascript:void(0)" title="{{i18n 'ADD'}}"
+                                           onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" title="{{i18n 'REMOVE'}}"
+                                           onclick="WC.formUtil.productManager.fieldTypeRemoveConfigItem(this)">
+                                            <i class="fas fa-times-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {{/elementnotempty}}
+                {{/foreach}}
+            {{/if}}
+            <li class="field-type-config-item">
+                <div class="row">
+                    <div class="col-1"><i class="fas fa-arrows-alt"></i></div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" name="commerce_form[params][config][key][]" value=""/>
+                    </div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="commerce_form[params][config][value][]" value=""/>
+                    </div>
+                    <div class="col-2">
+                        <div class="text-right">
+                            <a href="javascript:void(0)" title="{{i18n 'ADD'}}" onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()">
+                                <i class="fa fa-plus-circle"></i>
+                            </a>
+                            <a href="javascript:void(0)" title="{{i18n 'REMOVE'}}"
+                               onclick="WC.formUtil.productManager.fieldTypeRemoveConfigItem(this)">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-richtext"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr/>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_height">
+                    {{i18n 'LABEL_HEIGHT'}} / {{i18n 'LABEL_ROW'}} ({{i18n 'OPTIONAL'}})
+                </label>
+                <input type="text" name="commerce_form[params][config][height]" id="param_config_height"
+                       class="form-control" value="{{config.height}}"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_width">
+                    {{i18n 'LABEL_WIDTH'}} / {{i18n 'LABEL_COLUMN'}} ({{i18n 'OPTIONAL'}})
+                </label>
+                <input type="text" name="commerce_form[params][config][width]" id="param_config_width"
+                       class="form-control" value="{{config.width}}"/>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-select-option">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-6"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3></div>
+            <div class="col-6">
+                <div class="text-right">
+                    <a href="javascript:void(0)" title="{{i18n 'ADD'}}" onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()"><i
+                            class="fa fa-plus-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-1">&nbsp;</div>
+            <div class="col-4">Value</div>
+            <div class="col-5">Text (display to end user)</div>
+            <div class="col-2">&nbsp;</div>
+        </div>
+        <ol class="field-type-config-item-container">
+            {{#if config.key}}
+                {{#foreach config.key}}
+                    {{#elementnotempty ../config.value @index}}
+                        <li class="field-type-config-item">
+                            <div class="row">
+                                <div class="col-1"><i class="fas fa-arrows-alt"></i></div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="commerce_form[params][config][key][]" value="{{this}}"/>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" name="commerce_form[params][config][value][]"
+                                           value="{{findelementbykey ../config.value @index}}"/>
+                                </div>
+                                <div class="col-2">
+                                    <div class="text-right">
+                                        <a href="javascript:void(0)" title="{{i18n 'ADD'}}"
+                                           onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" title="{{i18n 'REMOVE'}}"
+                                           onclick="WC.formUtil.productManager.fieldTypeRemoveConfigItem(this)">
+                                            <i class="fas fa-times-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {{/elementnotempty}}
+                {{/foreach}}
+            {{/if}}
+            <li class="field-type-config-item">
+                <div class="row">
+                    <div class="col-1"><i class="fas fa-arrows-alt"></i></div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" name="commerce_form[params][config][key][]" value=""/>
+                    </div>
+                    <div class="col-5">
+                        <input type="text" class="form-control" name="commerce_form[params][config][value][]" value=""/>
+                    </div>
+                    <div class="col-2">
+                        <div class="text-right">
+                            <a href="javascript:void(0)" title="{{i18n 'ADD'}}" onclick="WC.formUtil.productManager.fieldTypeAddConfigItem()">
+                                <i class="fa fa-plus-circle"></i>
+                            </a>
+                            <a href="javascript:void(0)" title="{{i18n 'REMOVE'}}"
+                               onclick="WC.formUtil.productManager.fieldTypeRemoveConfigItem(this)">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-time"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr/>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MIN'}}</label>
+                <input type="time" name="commerce_form[params][config][min]" id="param_config_min" placeholder="hh:mm:ss"
+                       class="form-control" value="{{config.min}}"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="control-label" for="param_config_max">{{i18n 'LABEL_RANGE_MAX'}}</label>
+                <input type="time" name="commerce_form[params][config][max]" id="param_config_max" placeholder="hh:mm:ss"
+                       class="form-control" value="{{config.max}}"/>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-url"></script>
+<script type="text/x-handlebars-template" data-hbstmpl="form">
+<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}
+    ?edit_id={{item_data.id}}{{/if}}{{/if}}"
+    method="post" class="commerce-form">
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                <div class="col-6">
+                    <div class="text-right">
+                        {{#if actions.cancel}}
+                            <a href="/{{list_page}}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}</a>{{/if}}
+                        &nbsp;
+                        {{#if actions.save}}
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;{{i18n 'LABEL_SAVE'}}</button>{{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            {{#if fieldKeys.name}}
+                <div class="form-group">
+                    <label class="control-label" for="name">{{i18n 'LABEL_NAME'}}</label>
+                    <input type="text" name="commerce_form[name]" id="name" class="form-control"
+                           data-validation="required"
+                           value="{{item_data.name}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.internal_name}}
+                <div class="form-group">
+                    <label class="control-label" for="internal_name">{{i18n 'LABEL_INTERNAL_NAME'}}</label>
+                    <input type="text" name="commerce_form[internal_name]" id="internal_name" class="form-control"
+                           value="{{item_data.internal_name}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.public_name}}
+                <div class="form-group">
+                    <label class="control-label" for="public_name">{{i18n 'LABEL_PUBLIC_NAME'}}</label>
+                    <input type="text" name="commerce_form[public_name]" id="public_name" class="form-control" value="{{item_data.public_name}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.config_value}}
+                <div class="form-group">
+                    <label class="control-label" for="config_value">{{i18n 'LABEL_CONFIG_VALUE'}}</label>
+                    <input type="text" name="commerce_form[config_value]" id="config_value" class="form-control" value="{{item_data.config_value}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.description}}
+                <div class="form-group">
+                    <label class="control-label" for="description">{{i18n 'LABEL_DESCRIPTION'}}</label>
+                    <textarea name="commerce_form[description]" id="description" class="form-control basic">{{item_data.description}}</textarea>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_amount}}
+                <div class="form-group">
+                    <label class="control-label" for="min_amount">{{i18n 'LABEL_MIN_AMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_amount]" id="min_amount" class="form-control"
+                           value="{{item_data.min_amount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_amount}}
+                <div class="form-group">
+                    <label class="control-label" for="max_amount">{{i18n 'LABEL_MAX_AMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_amount]" id="max_amount" class="form-control"
+                           value="{{item_data.max_amount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.fee_per_transaction}}
+                <div class="form-group">
+                    <label class="control-label" for="fee_per_transaction">{{i18n 'LABEL_FEE_PER_TRANSACTION'}} (%)</label>
+                    <input type="number" step="any" name="commerce_form[fee_per_transaction]" id="fee_per_transaction" class="form-control"
+                           value="{{item_data.fee_per_transaction}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.tax_code}}
+                <div class="form-group">
+                    <label class="control-label" for="tax_code">{{i18n 'LABEL_TAX_CODE'}}</label>
+                    <input type="text" name="commerce_form[tax_code]" id="tax_code" class="form-control" value="{{item_data.tax_code}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.duration}}
+                <div class="form-group">
+                    <label class="control-label" for="duration">{{i18n 'LABEL_DURATION'}} ({{i18n 'BUSINESS_DAY'}})</label>
+                    <input type="text" name="commerce_form[duration]" id="duration" class="form-control" value="{{item_data.duration}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.shipping_cost}}
+                <div class="form-group">
+                    <label class="control-label" for="shipping_cost">{{i18n 'LABEL_SHIPPING_COST'}}</label>
+                    <input type="number" step="any" name="commerce_form[shipping_cost]" id="shipping_cost" class="form-control"
+                           value="{{item_data.shipping_cost}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.package_fee}}
+                <div class="form-group">
+                    <label class="control-label" for="package_fee">{{i18n 'LABEL_PACKAGE_FEE'}}</label>
+                    <input type="number" step="any" name="commerce_form[package_fee]" id="package_fee" class="form-control"
+                           value="{{item_data.package_fee}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_weight}}
+                <div class="form-group">
+                    <label class="control-label" for="min_weight">{{i18n 'LABEL_MIN_WEIGHT'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_weight]" id="min_weight" class="form-control"
+                           value="{{item_data.min_weight}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_weight}}
+                <div class="form-group">
+                    <label class="control-label" for="max_weight">{{i18n 'LABEL_MAX_WEIGHT'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_weight]" id="max_weight" class="form-control"
+                           value="{{item_data.max_weight}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_numprods}}
+                <div class="form-group">
+                    <label class="control-label" for="min_numprods">{{i18n 'LABEL_MIN_NUMPRODS'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_numprods]" id="min_numprods" class="form-control"
+                           value="{{item_data.min_numprods}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_numprods}}
+                <div class="form-group">
+                    <label class="control-label" for="max_numprods">{{i18n 'LABEL_MAX_NUMPRODS'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_numprods]" id="max_numprods" class="form-control"
+                           value="{{item_data.max_numprods}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_orderamount}}
+                <div class="form-group">
+                    <label class="control-label" for="min_orderamount">{{i18n 'LABEL_MIN_ORDERAMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_orderamount]" id="min_orderamount" class="form-control"
+                           value="{{item_data.min_orderamount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.max_orderamount}}
+                <div class="form-group">
+                    <label class="control-label" for="max_orderamount">{{i18n 'LABEL_MAX_ORDERAMOUNT'}}</label>
+                    <input type="number" step="any" name="commerce_form[max_orderamount]" id="max_orderamount" class="form-control"
+                           value="{{item_data.max_orderamount}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.min_amount_get_free}}
+                <div class="form-group">
+                    <label class="control-label" for="min_amount_get_free">{{i18n 'LABEL_MIN_AMOUNT_GET_FREE'}}</label>
+                    <input type="number" step="any" name="commerce_form[min_amount_get_free]" id="min_amount_get_free" class="form-control"
+                           value="{{item_data.min_amount_get_free}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.tax_rate}}
+                <div class="form-group">
+                    <label class="control-label" for="tax_rate">{{i18n 'LABEL_TAX_RATE'}} (%)</label>
+                    <input type="number" step="any" name="commerce_form[tax_rate]" id="tax_rate" class="form-control" value="{{item_data.tax_rate}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.product_attrs}}
+                <div class="form-group">
+                    <label class="control-label">{{i18n 'LABEL_PRODUCT_ATTRS'}}</label>
+                    {{#if item_data.product_attrs_list}}{{require "partials/product_attrs" this}}{{/if}}
+                    {{#unless item_data.product_attrs_list}}
+                        <div id="product_attrs_set"></div>{{/unless}}
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.sku}}
+                <div class="form-group">
+                    <label class="control-label" for="sku">{{i18n 'LABEL_SKU'}}</label>
+                    <input type="text" name="commerce_form[sku]" id="sku" class="form-control" value="{{item_data.sku}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.barcode}}
+                <div class="form-group">
+                    <label class="control-label" for="barcode">{{i18n 'LABEL_BARCODE'}}</label>
+                    <input type="text" name="commerce_form[barcode]" id="barcode" class="form-control" value="{{item_data.barcode}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.in_stock}}
+                <div class="form-group">
+                    <label class="control-label" for="in_stock">{{i18n 'LABEL_IN_STOCK'}}</label>
+                    <input type="text" name="commerce_form[in_stock]" id="in_stock" class="form-control" value="{{item_data.in_stock}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.price}}
+                <div class="form-group">
+                    <label class="control-label" for="price">{{i18n 'LABEL_PRICE'}}</label>
+                    <input type="number" step="any" name="commerce_form[price]" id="price" class="form-control" value="{{item_data.price}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.start_date}}
+                <div class="form-group">
+                    <label class="control-label" for="start_date">{{i18n 'LABEL_START_DATE'}}</label>
+                    <input type="text" name="commerce_form[start_date]" id="start_date" data-trigger="datepicker" class="form-control"
+                           value="{{item_data.start_date}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.end_date}}
+                <div class="form-group">
+                    <label class="control-label" for="end_date">{{i18n 'LABEL_END_DATE'}}</label>
+                    <input type="text" name="commerce_form[end_date]" id="end_date" data-trigger="datepicker" class="form-control"
+                           value="{{item_data.end_date}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.published_start}}
+                <div class="form-group">
+                    <label class="control-label" for="published_start">{{i18n 'LABEL_PUBLISH_START_DATE'}}</label>
+                    <input type="datetime-local" name="commerce_form[published_start]" id="published_start" class="form-control"
+                           value="{{item_data.published_start}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.published_end}}
+                <div class="form-group">
+                    <label class="control-label" for="published_end">{{i18n 'LABEL_PUBLISH_END_DATE'}}</label>
+                    <input type="datetime-local" name="commerce_form[published_end]" id="published_end" class="form-control"
+                           value="{{item_data.published_end}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.modal_file}}{{require "partials/modal_file" this}}{{/if}}
+            {{#if fieldKeys.field_type}}{{require "partials/field_type" this}}{{/if}}
+            {{#if fieldKeys.modal_common_countries}}{{require "partials/modal_common_countries" this}}{{/if}}
+            {{#if fieldKeys.modal_common_currencies}}{{require "partials/modal_common_currencies" this}}{{/if}}
+            {{#if fieldKeys.modal_currency}}{{require "partials/modal_currency" this}}{{/if}}
+            {{#if fieldKeys.modal_country}}{{require "partials/modal_country" this}}{{/if}}
+            {{#if fieldKeys.modal_temperature}}{{require "partials/modal_temperature" this}}{{/if}}
+            {{#if fieldKeys.modal_length}}{{require "partials/modal_length" this}}{{/if}}
+            {{#if fieldKeys.modal_weight}}{{require "partials/modal_weight" this}}{{/if}}
+            {{#if fieldKeys.modal_store}}{{require "partials/modal_store" this}}{{/if}}
+            {{#if fieldKeys.modal_payment_service}}{{require "partials/modal_payment_service" this}}{{/if}}
+            {{#if fieldKeys.modal_address}}{{require "partials/modal_address" this}}{{/if}}
+            {{#if fieldKeys.modal_category}}{{require "partials/modal_category" this}}{{/if}}
+            {{#if fieldKeys.modal_category_parent}}{{require "partials/modal_category_parent" this}}{{/if}}
+            {{#if fieldKeys.category_ordering}}{{require "partials/category_ordering" this}}{{/if}}
+            {{#if fieldKeys.modal_product_type}}{{require "partials/modal_product_type" this}}{{/if}}
+            {{#if fieldKeys.modal_product}}{{require "partials/modal_product" this}}{{/if}}
+
+            {{#if fieldKeys.modal_product_1}}{{require "partials/modal_product_1" this}}{{/if}}
+            {{#if fieldKeys.product_1_percentage_off}}
+                <div class="form-group">
+                    <label class="control-label" for="product_1_percentage_off">{{i18n 'LABEL_PERCENTAGE_OFF_1'}}</label>
+                    <input type="number" step="any" name="commerce_form[product_1_percentage_off]" id="product_1_percentage_off"
+                           class="form-control" value="{{item_data.product_1_percentage_off}}"/>
+                </div>
+            {{/if}}
+            {{#if fieldKeys.modal_product_2}}{{require "partials/modal_product_2" this}}{{/if}}
+            {{#if fieldKeys.product_2_percentage_off}}
+                <div class="form-group">
+                    <label class="control-label" for="product_2_percentage_off">{{i18n 'LABEL_PERCENTAGE_OFF_2'}}</label>
+                    <input type="number" step="any" name="commerce_form[product_2_percentage_off]" id="product_2_percentage_off"
+                           class="form-control" value="{{item_data.product_2_percentage_off}}"/>
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.payment_service_fieldset}}{{require "partials/payment_service_fieldset" this}}{{/if}}
+
+            {{#if fieldKeys.modal_product_type}}
+                <div id="product_type_attrs_set" data-type='{{json_encode item_data.product_type}}'>
+                    {{#if item_data.product_type.product_attrs}}
+                        {{#each item_data.product_type.product_attrs}}
+                            <div class="attr_field">{{{require this.product_attr_field this}}}</div>
+                        {{/each}}
+                    {{/if}}
+                </div>
+            {{/if}}
+
+            {{#if fieldKeys.percentage_off}}
+                <div class="form-group">
+                    <label class="control-label" for="percentage_off">{{i18n 'LABEL_PERCENTAGE_OFF'}}</label>
+                    <input type="number" step="any" name="commerce_form[percentage_off]" id="percentage_off" class="form-control"
+                           value="{{item_data.percentage_off}}"/>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+    {{#if fieldKeys.is_discount}}<input type="hidden" name="commerce_form[offer_type]" value="discount"/>{{/if}}
+    {{#if fieldKeys.is_bundle}}<input type="hidden" name="commerce_form[offer_type]" value="bundle"/>{{/if}}
+    {{#if fieldKeys.is_crosssell}}<input type="hidden" name="commerce_form[offer_type]" value="crosssell"/>{{/if}}
+    {{#if fieldKeys.is_upsell}}<input type="hidden" name="commerce_form[offer_type]" value="upsell"/>{{/if}}
+    <input type="hidden" name="commerce_form[edit_id]" value="{{#if item_data.edit_id}}{{item_data.edit_id}}{{else}}{{item_data.id}}{{/if}}"/>
+    <input type="hidden" name="csrftoken" value="{{csrftoken}}"/>
+    </form>
+    <script>WC.observers.init();WC.formUtil.init();</script>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="list">
+    <div id="commerce-alert-container"></div>
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                {{#if actions.add}}
+                    <div class="col-6">
+                        <div class="text-right">
+                            <a href="/{{form_page}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>&nbsp;{{i18n 'LABEL_ADD'}}</a>
+                        </div>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            <div id="commerce-items-list">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        {{#if fieldKeys.id}}
+                            <th class="small-col">{{fieldLabels.id}}</th>{{/if}}
+                        {{#if fieldKeys.name}}
+                            <th class="name">{{fieldLabels.name}}</th>{{/if}}
+                        {{#if fieldKeys.name_with_depth}}
+                            <th class="name">{{fieldLabels.name_with_depth}}</th>{{/if}}
+                        {{#if fieldKeys.internal_name}}
+                            <th class="name">{{fieldLabels.internal_name}}</th>{{/if}}
+                        {{#if fieldKeys.public_name}}
+                            <th class="name">{{fieldLabels.public_name}}</th>{{/if}}
+                        {{#if fieldKeys.description}}
+                            <th class="description">{{fieldLabels.description}}</th>{{/if}}
+                        {{#if fieldKeys.parent}}
+                            <th>{{fieldLabels.parent}}</th>{{/if}}
+                        {{#if fieldKeys.addr_street}}
+                            <th>{{fieldLabels.addr_street}}</th>{{/if}}
+                        {{#if fieldKeys.addr_city}}
+                            <th>{{fieldLabels.addr_city}}</th>{{/if}}
+                        {{#if fieldKeys.addr_province}}
+                            <th>{{fieldLabels.addr_province}}</th>{{/if}}
+                        {{#if fieldKeys.addr_country}}
+                            <th>{{fieldLabels.addr_country}}</th>{{/if}}
+                        {{#if fieldKeys.addr_postalcode}}
+                            <th>{{fieldLabels.addr_postalcode}}</th>{{/if}}
+                        {{#if fieldKeys.email}}
+                            <th>{{fieldLabels.email}}</th>{{/if}}
+                        {{#if fieldKeys.url}}
+                            <th>{{fieldLabels.url}}</th>{{/if}}
+                        {{#if fieldKeys.telephone}}
+                            <th>{{fieldLabels.telephone}}</th>{{/if}}
+                        {{#if fieldKeys.telephone_type}}
+                            <th>{{fieldLabels.telephone_type}}</th>{{/if}}
+                        {{#if fieldKeys.parent_name}}
+                            <th>{{fieldLabels.parent_name}}</th>{{/if}}
+                        {{#if fieldKeys.tax_code}}
+                            <th>{{fieldLabels.tax_code}}</th>{{/if}}
+                        {{#if fieldKeys.tax_rate}}
+                            <th>{{fieldLabels.tax_rate}}</th>{{/if}}
+                        {{#if fieldKeys.start_date}}
+                            <th>{{fieldLabels.start_date}}</th>{{/if}}
+                        {{#if fieldKeys.end_date}}
+                            <th>{{fieldLabels.end_date}}</th>{{/if}}
+                        {{#if fieldKeys.offer_type}}
+                            <th>{{fieldLabels.offer_type}}</th>{{/if}}
+                        {{#if fieldKeys.percentage_off}}
+                            <th>{{fieldLabels.percentage_off}}</th>{{/if}}
+                        {{#if fieldKeys.published}}
+                            <th class="small-col">{{fieldLabels.published}}</th>{{/if}}
+                        {{#if fieldKeys.action}}
+                            <th>{{i18n 'LABEL_ACTION'}}</th>{{/if}}
+                    </thead>
+                    <tbody>
+                    {{#if list}}
+                        {{#each list}}
+                            <tr>
+                                {{#if ../fieldKeys.id}}
+                                    <td>{{this.id}}</td>{{/if}}
+                                {{#if ../fieldKeys.name}}
+                                    <td>{{require "partials/list-name" this}}</td>{{/if}}
+                                {{#if ../fieldKeys.name_with_depth}}
+                                    <td>{{require "partials/list-name_with_depth" this}}</td>{{/if}}
+                                {{#if ../fieldKeys.internal_name}}
+                                    <td>{{require "partials/list-internal_name" this}}</td>{{/if}}
+                                {{#if ../fieldKeys.public_name}}
+                                    <td>{{require "partials/list-public_name" this}}</td>{{/if}}
+                                {{#if ../fieldKeys.description}}
+                                    <td class="desc-more-less">{{{plaintext this.description}}}</td>{{/if}}
+                                {{#if ../fieldKeys.parent}}
+                                    <td>{{this.parent}}</td>{{/if}}
+                                {{#if ../fieldKeys.addr_street}}
+                                    <td>{{this.addr_street}}</td>{{/if}}
+                                {{#if ../fieldKeys.addr_city}}
+                                    <td>{{this.addr_city}}</td>{{/if}}
+                                {{#if ../fieldKeys.addr_province}}
+                                    <td>{{this.addr_province}}</td>{{/if}}
+                                {{#if ../fieldKeys.addr_country}}
+                                    <td>{{this.addr_country}}</td>{{/if}}
+                                {{#if ../fieldKeys.addr_postalcode}}
+                                    <td>{{this.addr_postalcode}}</td>{{/if}}
+                                {{#if ../fieldKeys.email}}
+                                    <td>{{this.email}}</td>{{/if}}
+                                {{#if ../fieldKeys.url}}
+                                    <td>{{this.url}}</td>{{/if}}
+                                {{#if ../fieldKeys.telephone}}
+                                    <td>{{this.telephone}}</td>{{/if}}
+                                {{#if ../fieldKeys.telephone_type}}
+                                    <td>{{this.telephone_type}}</td>{{/if}}
+                                {{#if ../fieldKeys.parent_name}}
+                                    <td>{{fa_status this.parent.name}}</td>{{/if}}
+                                {{#if ../fieldKeys.tax_code}}
+                                    <td>{{this.tax_code}}</td>{{/if}}
+                                {{#if ../fieldKeys.tax_rate}}
+                                    <td>{{this.tax_rate}}%</td>{{/if}}
+                                {{#if ../fieldKeys.start_date}}
+                                    <td align="center">{{{date this.start_date 'Y-m-d'}}}</td>{{/if}}
+                                {{#if ../fieldKeys.end_date}}
+                                    <td align="center">{{{date this.end_date 'Y-m-d'}}}</td>{{/if}}
+                                {{#if ../fieldKeys.percentage_off}}
+                                    <td>{{this.percentage_off}}</td>{{/if}}
+                                {{#if ../fieldKeys.offer_type}}
+                                    <td align="center">{{{i18n this.offer_type}}}</td>{{/if}}
+                                {{#if ../fieldKeys.published}}
+                                    <td align="center">{{{fa_status this.published}}}</td>{{/if}}
+                                {{#if ../fieldKeys.action}}
+                                    <td class="{{#if actions.delete}}small-col-2{{else}}small-col-1{{/if}}" align="center">
+                                        {{require 'partials/list-actions' this}}
+                                    </td>
+                                {{/if}}
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <tr>
+                            <td colspan="{{phpjs 'sizeof' fieldLabels}}">{{i18n 'NO_RESULTS'}}</td>
+                        </tr>
+                    {{/if}}
+                    </tbody>
+                </table>
+                {{require 'partials/pagination' this}}
+            </div>
+        </div>
+    </div>
+    {{addscriptdeclaration "WC.utilities.applyMoreLess('.desc-more-less')"}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="modal">
+    <div class="modal fade" id="commerce-modal" tabindex="-1" role="dialog" aria-labelledby="commerce-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-2" id="commerce-modal-label">{{title}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body-content p-3">
+                        {{{content}}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-btn="ok">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-alert">{{#if queueMessage}}
+    <div class="mb-3">
+        <div class="alert alert-info">
+            {{queueMessage}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-category_ordering">
+    <div class="form-group">
+        <label class="control-label" for="category_name">{{i18n 'LABEL_ORDERING_POSITION'}}</label>
+        <div class="form-inline">
+            <select class="form-control col-3" name="commerce_form[ordering_position]" id="ordering_position"
+                    onchange="WC.formUtil.toggleCategoryOrderingItem(this.value)">
+                <option value=""></option>
+                <option value="first"{{#eq item_data.ordering_position 'first'}} selected{{/eq}}>{{i18n 'FIRST'}}</option>
+                <option value="last"{{#eq item_data.ordering_position 'last'}} selected{{/eq}}>{{i18n 'LAST'}}</option>
+                <option value="before"{{#eq item_data.ordering_position 'before'}} selected{{/eq}}>{{i18n 'BEFORE'}}</option>
+                <option value="after"{{#eq item_data.ordering_position 'after'}} selected{{/eq}}>{{i18n 'AFTER'}}</option>
+            </select>
+            <div class="input-group ml-2 mb-2" id="ordering_item_set" style="display: none;">
+                <input type="text" class="form-control" id="category_name" disabled value="{{item_data.ordering_item.name}}"
+                       placeholder="{{i18n 'LABEL_MODAL_CATEGORY'}}"/>
+                <div class="input-group-append pointer" onclick="WC.categoryModal({title:'{{i18n 'LABEL_MODAL_CATEGORY'}}'})">
+                    <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                </div>
+                <input type="hidden" name="commerce_form[ordering_item]" id="category_id" value="{{item_data.ordering_item.id}}"/>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-column">
+    <div class="column">
+        <div class="column-content">
+            {{#each list}}
+                <div class="column-item{{#gt num_children 0}} drilldown{{/gt}}">
+                    <div class="column-item-thumbnail">
+                        <label class="check">
+                            <input type="radio" name="asset" class="check-radio"
+                                   onclick="WC.assets.buildFormUri('{{id}}', this)"
+                                   value='{{json_encode this}}'/>
+                            <span class="fa fa-check-circle"></span>
+                            {{#if is_folder}}
+                                <i class="fa fa-folder"></i>
+                            {{else}}
+                                {{#if is_image}}
+                                    <i class="fa fa-image"></i>
+                                {{else}}
+                                    {{#if is_doc}}<i class="fa fa-file"></i>{{/if}}
+                                    {{#if is_file}}<i class="fa fa-file"></i>{{/if}}
+                                {{/if}}
+                            {{/if}}
+                        </label>
+                    </div>
+                    <div class="column-item-content" data-folder="{{id}}"
+                         onclick="{{#gt num_children 0}}WC.assets.loadDrilldown('{{id}}', this){{else}}WC.assets.loadContent('{{id}}', this){{/gt}}">
+                        {{#if title}}{{title}}{{else}}{{#if name}}{{name}}{{/if}}{{/if}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-countries-select-field"><select
+        name="{{#if countrySelectFieldName}}{{countrySelectFieldName}}{{else}}wc_content_form[country]{{/if}}"
+        id="{{#if countrySelectFieldId}}{{countrySelectFieldId}}{{else}}country{{/if}}"
+        data-validation="required" class="form-control">
+    <option value="Afghanistan">Afghanistan</option>
+    <option selected>Albania</option>
+    <option value="Algeria">Algeria</option>
+    <option value="American Samoa">American Samoa</option>
+    <option value="Andorra">Andorra</option>
+    <option value="Angola">Angola</option>
+    <option value="Anguilla">Anguilla</option>
+    <option value="Antarctica">Antarctica</option>
+    <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+    <option value="Argentina">Argentina</option>
+    <option value="Armenia">Armenia</option>
+    <option value="Aruba">Aruba</option>
+    <option value="Australia">Australia</option>
+    <option value="Austria">Austria</option>
+    <option value="Azerbaijan">Azerbaijan</option>
+    <option value="Bahamas">Bahamas</option>
+    <option value="Bahrain">Bahrain</option>
+    <option value="Bangladesh">Bangladesh</option>
+    <option value="Barbados">Barbados</option>
+    <option value="Belarus">Belarus</option>
+    <option value="Belgium">Belgium</option>
+    <option value="Belize">Belize</option>
+    <option value="Benin">Benin</option>
+    <option value="Bermuda">Bermuda</option>
+    <option value="Bhutan">Bhutan</option>
+    <option value="Bolivia">Bolivia</option>
+    <option value="Bosnia and Herzegowina">Bosnia and Herzegowina</option>
+    <option value="Botswana">Botswana</option>
+    <option value="Bouvet Island">Bouvet Island</option>
+    <option value="Brazil">Brazil</option>
+    <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+    <option value="Brunei Darussalam">Brunei Darussalam</option>
+    <option value="Bulgaria">Bulgaria</option>
+    <option value="Burkina Faso">Burkina Faso</option>
+    <option value="Burundi">Burundi</option>
+    <option value="Cambodia">Cambodia</option>
+    <option value="Cameroon">Cameroon</option>
+    <option value="Canada"{{#eq ../formInput.country 'Canada'}}selected{{/eq}}>Canada</option>
+    <option value="Cape Verde">Cape Verde</option>
+    <option value="Cayman Islands">Cayman Islands</option>
+    <option value="Central African Republic">Central African Republic</option>
+    <option value="Chad">Chad</option>
+    <option value="Chile">Chile</option>
+    <option value="China">China</option>
+    <option value="Christmas Island">Christmas Island</option>
+    <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+    <option value="Colombia">Colombia</option>
+    <option value="Comoros">Comoros</option>
+    <option value="Congo">Congo</option>
+    <option value="Congo, the Democratic Republic of the">Congo, the Democratic Republic of the</option>
+    <option value="Cook Islands">Cook Islands</option>
+    <option value="Costa Rica">Costa Rica</option>
+    <option value="Cote d'Ivoire">Cote d'Ivoire</option>
+    <option value="Croatia (Hrvatska)">Croatia (Hrvatska)</option>
+    <option value="Cuba">Cuba</option>
+    <option value="Cyprus">Cyprus</option>
+    <option value="Czech Republic">Czech Republic</option>
+    <option value="Denmark">Denmark</option>
+    <option value="Djibouti">Djibouti</option>
+    <option value="Dominica">Dominica</option>
+    <option value="Dominican Republic">Dominican Republic</option>
+    <option value="East Timor">East Timor</option>
+    <option value="Ecuador">Ecuador</option>
+    <option value="Egypt">Egypt</option>
+    <option value="El Salvador">El Salvador</option>
+    <option value="Equatorial Guinea">Equatorial Guinea</option>
+    <option value="Eritrea">Eritrea</option>
+    <option value="Estonia">Estonia</option>
+    <option value="Ethiopia">Ethiopia</option>
+    <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
+    <option value="Faroe Islands">Faroe Islands</option>
+    <option value="Fiji">Fiji</option>
+    <option value="Finland">Finland</option>
+    <option value="France">France</option>
+    <option value="France Metropolitan">France Metropolitan</option>
+    <option value="French Guiana">French Guiana</option>
+    <option value="French Polynesia">French Polynesia</option>
+    <option value="French Southern Territories">French Southern Territories</option>
+    <option value="Gabon">Gabon</option>
+    <option value="Gambia">Gambia</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Germany">Germany</option>
+    <option value="Ghana">Ghana</option>
+    <option value="Gibraltar">Gibraltar</option>
+    <option value="Greece">Greece</option>
+    <option value="Greenland">Greenland</option>
+    <option value="Grenada">Grenada</option>
+    <option value="Guadeloupe">Guadeloupe</option>
+    <option value="Guam">Guam</option>
+    <option value="Guatemala">Guatemala</option>
+    <option value="Guinea">Guinea</option>
+    <option value="Guinea-Bissau">Guinea-Bissau</option>
+    <option value="Guyana">Guyana</option>
+    <option value="Haiti">Haiti</option>
+    <option value="Heard and Mc Donald Islands">Heard and Mc Donald Islands</option>
+    <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
+    <option value="Honduras">Honduras</option>
+    <option value="Hong Kong">Hong Kong</option>
+    <option value="Hungary">Hungary</option>
+    <option value="Iceland">Iceland</option>
+    <option value="India">India</option>
+    <option value="Indonesia">Indonesia</option>
+    <option value="Iran (Islamic Republic of)">Iran (Islamic Republic of)</option>
+    <option value="Iraq">Iraq</option>
+    <option value="Ireland">Ireland</option>
+    <option value="Israel">Israel</option>
+    <option value="Italy">Italy</option>
+    <option value="Jamaica">Jamaica</option>
+    <option value="Japan">Japan</option>
+    <option value="Jordan">Jordan</option>
+    <option value="Kazakhstan">Kazakhstan</option>
+    <option value="Kenya">Kenya</option>
+    <option value="Kiribati">Kiribati</option>
+    <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
+    <option value="Korea, Republic of">Korea, Republic of</option>
+    <option value="Kuwait">Kuwait</option>
+    <option value="Kyrgyzstan">Kyrgyzstan</option>
+    <option value="Lao, People's Democratic Republic">Lao, People's Democratic Republic</option>
+    <option value="Latvia">Latvia</option>
+    <option value="Lebanon">Lebanon</option>
+    <option value="Lesotho">Lesotho</option>
+    <option value="Liberia">Liberia</option>
+    <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
+    <option value="Liechtenstein">Liechtenstein</option>
+    <option value="Lithuania">Lithuania</option>
+    <option value="Luxembourg">Luxembourg</option>
+    <option value="Macau">Macau</option>
+    <option value="Macedonia, The Former Yugoslav Republic of">Macedonia, The Former Yugoslav Republic of</option>
+    <option value="Madagascar">Madagascar</option>
+    <option value="Malawi">Malawi</option>
+    <option value="Malaysia">Malaysia</option>
+    <option value="Maldives">Maldives</option>
+    <option value="Mali">Mali</option>
+    <option value="Malta">Malta</option>
+    <option value="Marshall Islands">Marshall Islands</option>
+    <option value="Martinique">Martinique</option>
+    <option value="Mauritania">Mauritania</option>
+    <option value="Mauritius">Mauritius</option>
+    <option value="Mayotte">Mayotte</option>
+    <option value="Mexico">Mexico</option>
+    <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
+    <option value="Moldova, Republic of">Moldova, Republic of</option>
+    <option value="Monaco">Monaco</option>
+    <option value="Mongolia">Mongolia</option>
+    <option value="Montserrat">Montserrat</option>
+    <option value="Morocco">Morocco</option>
+    <option value="Mozambique">Mozambique</option>
+    <option value="Myanmar">Myanmar</option>
+    <option value="Namibia">Namibia</option>
+    <option value="Nauru">Nauru</option>
+    <option value="Nepal">Nepal</option>
+    <option value="Netherlands">Netherlands</option>
+    <option value="Netherlands Antilles">Netherlands Antilles</option>
+    <option value="New Caledonia">New Caledonia</option>
+    <option value="New Zealand">New Zealand</option>
+    <option value="Nicaragua">Nicaragua</option>
+    <option value="Niger">Niger</option>
+    <option value="Nigeria">Nigeria</option>
+    <option value="Niue">Niue</option>
+    <option value="Norfolk Island">Norfolk Island</option>
+    <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+    <option value="Norway">Norway</option>
+    <option value="Oman">Oman</option>
+    <option value="Pakistan">Pakistan</option>
+    <option value="Palau">Palau</option>
+    <option value="Panama">Panama</option>
+    <option value="Papua New Guinea">Papua New Guinea</option>
+    <option value="Paraguay">Paraguay</option>
+    <option value="Peru">Peru</option>
+    <option value="Philippines">Philippines</option>
+    <option value="Pitcairn">Pitcairn</option>
+    <option value="Poland">Poland</option>
+    <option value="Portugal">Portugal</option>
+    <option value="Puerto Rico">Puerto Rico</option>
+    <option value="Qatar">Qatar</option>
+    <option value="Reunion">Reunion</option>
+    <option value="Romania">Romania</option>
+    <option value="Russian Federation">Russian Federation</option>
+    <option value="Rwanda">Rwanda</option>
+    <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+    <option value="Saint Lucia">Saint Lucia</option>
+    <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+    <option value="Samoa">Samoa</option>
+    <option value="San Marino">San Marino</option>
+    <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+    <option value="Saudi Arabia">Saudi Arabia</option>
+    <option value="Senegal">Senegal</option>
+    <option value="Seychelles">Seychelles</option>
+    <option value="Sierra Leone">Sierra Leone</option>
+    <option value="Singapore">Singapore</option>
+    <option value="Slovakia (Slovak Republic)">Slovakia (Slovak Republic)</option>
+    <option value="Slovenia">Slovenia</option>
+    <option value="Solomon Islands">Solomon Islands</option>
+    <option value="Somalia">Somalia</option>
+    <option value="South Africa">South Africa</option>
+    <option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option>
+    <option value="Spain">Spain</option>
+    <option value="Sri Lanka">Sri Lanka</option>
+    <option value="St. Helena">St. Helena</option>
+    <option value="St. Pierre and Miquelon">St. Pierre and Miquelon</option>
+    <option value="Sudan">Sudan</option>
+    <option value="Suriname">Suriname</option>
+    <option value="Svalbard and Jan Mayen Islands">Svalbard and Jan Mayen Islands</option>
+    <option value="Swaziland">Swaziland</option>
+    <option value="Sweden">Sweden</option>
+    <option value="Switzerland">Switzerland</option>
+    <option value="Syrian Arab Republic">Syrian Arab Republic</option>
+    <option value="Taiwan, Province of China">Taiwan, Province of China</option>
+    <option value="Tajikistan">Tajikistan</option>
+    <option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
+    <option value="Thailand">Thailand</option>
+    <option value="Togo">Togo</option>
+    <option value="Tokelau">Tokelau</option>
+    <option value="Tonga">Tonga</option>
+    <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+    <option value="Tunisia">Tunisia</option>
+    <option value="Turkey">Turkey</option>
+    <option value="Turkmenistan">Turkmenistan</option>
+    <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+    <option value="Tuvalu">Tuvalu</option>
+    <option value="Uganda">Uganda</option>
+    <option value="Ukraine">Ukraine</option>
+    <option value="United Arab Emirates">United Arab Emirates</option>
+    <option value="United Kingdom">United Kingdom</option>
+    <option value="United States"{{#eq ../formInput.country 'United States'}}selected{{/eq}}>United States</option>
+    <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
+    <option value="Uruguay">Uruguay</option>
+    <option value="Uzbekistan">Uzbekistan</option>
+    <option value="Vanuatu">Vanuatu</option>
+    <option value="Venezuela">Venezuela</option>
+    <option value="Vietnam">Vietnam</option>
+    <option value="Virgin Islands (British)">Virgin Islands (British)</option>
+    <option value="Virgin Islands (U.S.)">Virgin Islands (U.S.)</option>
+    <option value="Wallis and Futuna Islands">Wallis and Futuna Islands</option>
+    <option value="Western Sahara">Western Sahara</option>
+    <option value="Yemen">Yemen</option>
+    <option value="Yugoslavia">Yugoslavia</option>
+    <option value="Zambia">Zambia</option>
+    <option value="Zimbabwe">Zimbabwe</option>
+</select></script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-field_type">
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label class="control-label" for="field_type">{{i18n 'LABEL_FIELD_TYPE'}}</label>
+                <select name="commerce_form[field_type]" id="field_type" class="form-control"
+                    {{#if item_data.params}} data-config='{{json_encode item_data.params}}'{{/if}}
+                        onchange="WC.formUtil.productManager.loadFieldType(this.value, this)">
+                    <option value="">{{i18n 'LABEL_SELECT_ONE'}}</option>
+                    {{#if fieldTypes}}
+                        {{#each fieldTypes}}
+                            <option value="{{this.value}}"{{#eq ../item_data.field_type this.value}} selected{{/eq}}>{{i18n this.text}}</option>
+                        {{/each}}
+                    {{/if}}
+                </select>
+            </div>
+            <div id="field_type_mandatory_fields"{{#unless item_data.params.name}} style="display:none;"{{/unless}}>
+                <div class="form-group">
+                    <label class="control-label" for="param_name">{{i18n 'LABEL_NAME'}}</label>
+                    <input type="text" name="commerce_form[params][name]" id="param_name" class="form-control" value="{{item_data.params.name}}"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">{{i18n 'REQUIRED'}}</label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="param_required_yes" name="commerce_form[params][required]" class="custom-control-input" value="yes"
+                            {{#eq item_data.params.required 'yes'}} checked{{/eq}}/>
+                        <label class="custom-control-label" for="param_required_yes">{{i18n 'answer_yes'}}</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="param_required_no" name="commerce_form[params][required]" class="custom-control-input" value="no"
+                            {{#eq item_data.params.required 'no'}} checked{{/eq}}/>
+                        <label class="custom-control-label" for="param_required_no">{{i18n 'answer_no'}}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="param_default_value">{{i18n 'LABEL_DEFAULT_VALUE'}}</label>
+                    <input type="text" name="commerce_form[params][default_value]" id="param_default_value" class="form-control"
+                           value="{{item_data.params.default_value}}"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-8" id="field_type_set"></div>
+    </div>
+    {{addscriptdeclaration 'WC.formUtil.productManager.loadFieldType();'}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-file">
+    <div class="form-group">
+        <label class="control-label" for="file_name">{{i18n 'LABEL_FILE'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="file_name" disabled value="{{item_data.file.name}}" placeholder="{{i18n 'LABEL_FILE'}}"
+                   tabindex="-1"/>
+            <div class="input-group-append pointer" onclick="WC.assets.fileUpload(this);">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[file_id]" id="file_id" value="{{item_data.file.id}}"/>
+            <input type="file" name="commerce_form[file][]" class="hide" id="fileupload" tabindex="-1"/>
+        </div>
+        {{#if item_data.file.is_image}}
+            {{#if item_data.path}}
+                <div class="img_preview">
+                    <a href="/{{item_data.path}}" data-toggle="lightbox">
+                        <img src="/{{item_data.path}}" alt="{{item_data.file.name}}" class="rounded img-thumbnail"/>
+                    </a>
+                </div>
+            {{/if}}
+        {{/if}}
+        {{#if item_data.file.is_doc}}
+            {{#if item_data.path}}
+                <div class="doc_link">
+                    <a href="/{{item_data.path}}" title="{{item_data.file.name}}">{{item_data.file.name}}</a>
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+    {{addscriptdeclaration 'WC.utilities.applyLightBox()'}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-list-actions">{{#ifnot this.is_protected}}
+    {{#if actions.edit}}
+        {{#if this.edit_id}}
+            <a href="/{{form_page}}?edit_id={{this.edit_id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>&nbsp;{{i18n 'LABEL_EDIT'}}</a>
+        {{else}}
+            <a href="/{{form_page}}?edit_id={{this.id}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>&nbsp;{{i18n 'LABEL_EDIT'}}</a>
+        {{/if}}
+    {{/if}}
+    {{#if actions.delete}}
+        &nbsp;
+        <a href="javascript:void(0)"
+           onclick="WC.delete('{{delete_api_endpoint}}', '{{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}')"
+           class="btn btn-primary btn-sm"><i class="fas fa-times-circle"></i>&nbsp;{{i18n 'LABEL_DELETE'}}</a>
+    {{/if}}
+{{/ifnot}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-list-internal_name">{{#ifnot this.is_protected}}
+    {{#if actions.edit}}
+        <a href="/{{form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">{{this.internal_name}}</a>
+    {{/if}}
+    {{#unless actions.edit}}{{this.internal_name}}{{/unless}}
+{{else}}
+    {{this.internal_name}}
+{{/ifnot}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-list-name">{{#ifnot this.is_protected}}
+    {{#if actions.edit}}
+        <a href="/{{form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">
+        {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+        </a>
+    {{/if}}
+    {{#unless actions.edit}}
+        {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+    {{/unless}}
+{{else}}
+    {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+{{/ifnot}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-list-name_with_depth">{{#ifnot this.is_protected 0}}
+    {{#if actions.edit}}
+        <span class="depth level-{{this.depth}}">
+            <a href="/{{form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">
+            {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+            </a>
+        </span>
+    {{/if}}
+    {{#unless actions.edit}}
+        <span class="depth level-{{this.depth}}">
+            {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+        </span>
+    {{/unless}}
+{{else}}
+    <span class="depth">
+        <span class="level-{{this.depth}}">{{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}</span>
+    </span>
+{{/ifnot}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-list-public_name">{{#ifnot this.is_protected 0}}
+    {{#if ../actions.edit}}
+        <a href="/{{../form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">{{this.public_name}}</a>
+    {{/if}}
+    {{#unless ../actions.edit}}{{this.public_name}}{{/unless}}
+{{else}}
+    {{this.public_name}}
+{{/ifnot}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-logout">
+    <div class="row flex-center text-center min-vh-100 py-6">
+        <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+            <a class="d-block text-center mb-4 sitename" href="/">
+                <div class="d-inline-flex flex-center">
+                    <img class="mr-2" src="/images/ezpizee/ezpizee.png" alt="Ezpizee" width="58"/>
+                    <span class="text-sans-serif font-weight-extra-bold fs-5 d-inline-block sitename">Ezpizee</span></div>
+            </a>
+            <div class="card">
+                <div class="card-body p-5">
+                    <img class="d-block mx-auto mb-4" src="/images/ezpizee/falcon/icons/shield.svg" alt="shield" width="100"/>
+                    <h4>Thanks for using Ezpizee!</h4>
+                    <p>Click the Sign-out button below to logout.</p>
+                    <a class="btn btn-primary btn-sm mt-3" href="/{{logout_page}}.html"><span class="fas fa-sign-out-alt mr-2"></span>Sign-out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_address">
+    <div class="form-group">
+        <label class="control-label" for="address_name">{{i18n 'LABEL_MODAL_ADDRESS'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="address_name" disabled value="{{item_data.address.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_ADDRESS'}}"/>
+            <div class="input-group-append pointer" onclick="WC.addressModal({title:'{{i18n 'LABEL_MODAL_ADDRESS'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[address_id]" id="address_id" value="{{item_data.address.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_categories">
+    <div id="categories">
+        <h6>{{i18n 'LABEL_MODAL_CATEGORY'}}</h6>
+        {{#if item_data.categories}}
+            {{#each item_data.categories}}
+                <div class="row category">
+                    <div class="col-11">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" data-field="category_name"
+                                   value="{{this.name}}"
+                                   placeholder="{{i18n 'LABEL_MODAL_CATEGORY'}}" disabled/>
+                            <div class="input-group-append pointer" onclick="WC.categoryModal({title:'{{i18n 'LABEL_MODAL_CATEGORY'}}'}, this)">
+                                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                            </div>
+                            <input type="hidden" name="commerce_form[categories][]" data-field="category_id"
+                                   value="{{this.id}}"/>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <a href="javascript:void(0)"
+                           onclick="WC.formUtil.productManager.productCategories('add', this, '#categories', '#categories>.category')">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                        <a href="javascript:void(0)"
+                           onclick="WC.formUtil.productManager.productCategories('remove', this, '#categories', '#categories>.category')">
+                            <i class="fas fa-times-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+        <div class="row category">
+            <div class="col-11">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" data-field="category_name" value="" placeholder="{{i18n 'LABEL_MODAL_CATEGORY'}}"
+                           disabled/>
+                    <div class="input-group-append pointer" onclick="WC.categoryModal({title:'{{i18n 'LABEL_MODAL_CATEGORY'}}'}, this)">
+                        <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                    </div>
+                    <input type="hidden" name="commerce_form[categories][]" data-field="category_id" value=""/>
+                </div>
+            </div>
+            <div class="col-1">
+                <a href="javascript:void(0)"
+                   onclick="WC.formUtil.productManager.productCategories('add', this, '#categories', '#categories>.category')">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+                <a href="javascript:void(0)"
+                   onclick="WC.formUtil.productManager.productCategories('remove', this, '#categories', '#categories>.category')">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_category">
+    <div class="form-group">
+        <label class="control-label" for="category_name">{{i18n 'LABEL_MODAL_CATEGORY'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="category_name" disabled
+                   value="{{item_data.category.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_CATEGORY'}}"/>
+            <div class="input-group-append pointer" onclick="WC.categoryModal({title:'{{i18n 'LABEL_MODAL_CATEGORY'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[category_id]" id="category_id"
+                   value="{{item_data.category.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_category_parent">
+    <div class="form-group">
+        <label class="control-label" for="category_parent_name">{{i18n 'LABEL_MODAL_CATEGORY_PARENT'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="category_parent_name" disabled
+                   value="{{item_data.parent.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_CATEGORY_PARENT'}}"/>
+            <div class="input-group-append pointer" onclick="WC.categoryParentModal({title:'{{i18n 'LABEL_MODAL_CATEGORY_PARENT'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[parent_id]" id="category_parent_id" value="{{item_data.parent.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_common_countries">
+    <div class="form-group">
+        <label class="control-label" for="country_name">{{i18n 'LABEL_MODAL_COUNTRY'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="country_name" disabled
+                   value="{{item_data.country.name}}" placeholder="{{i18n 'LABEL_MODAL_COUNTRY'}}"/>
+            <div class="input-group-append pointer" onclick="WC.commonCountryModal({title:'{{i18n 'LABEL_MODAL_COUNTRY'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[config_value]" id="country_id"
+                   value="{{#if item_data.country.id}}{{item_data.country.id}}{{else}}{{item_data.config_value}}{{/if}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_common_currencies">
+    <div class="form-group">
+        <label class="control-label" for="country_name">{{i18n 'LABEL_MODAL_CURRENCY'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="currency_name" disabled value="{{item_data.currency.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_CURRENCY'}}"/>
+            <div class="input-group-append pointer" onclick="WC.commonCurrencyModal({title:'{{i18n 'LABEL_MODAL_CURRENCY'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[config_value]" id="currency_id"
+                   value="{{#if item_data.currency.id}}{{item_data.currency.id}}{{else}}{{item_data.config_value}}{{/if}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_country">
+    <div class="form-group">
+        <label class="control-label" for="country_name">{{i18n 'LABEL_MODAL_COUNTRY'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="country_name" disabled
+                   value="{{item_data.country.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_COUNTRY'}}"/>
+            <div class="input-group-append pointer" onclick="WC.countryModal({title:'{{i18n 'LABEL_MODAL_COUNTRY'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[country_id]" id="country_id"
+                   value="{{item_data.country.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_currency">
+    <div class="form-group">
+        <label class="control-label" for="currency_name">{{i18n 'LABEL_MODAL_CURRENCY'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="currency_name" disabled
+                   value="{{item_data.currency.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_CURRENCY'}}"/>
+            <div class="input-group-append pointer" onclick="WC.currencyModal({title:'{{i18n 'LABEL_MODAL_CURRENCY'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[currency_id]" id="currency_id"
+                   value="{{item_data.currency.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_file">
+    <div class="form-group">
+        <label class="control-label" for="file_name">{{i18n 'LABEL_FILE'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="file_name" disabled value="{{item_data.asset.name}}{{item_data.asset.title}}"
+                   placeholder="{{i18n 'LABEL_FILE'}}"/>
+            <div class="input-group-append pointer" onclick="WC.fileModal({title:'{{i18n 'LABEL_FILE'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[file_id]" id="file_id" value="{{item_data.asset.id}}"/>
+        </div>
+        {{#if item_data.asset.file.attrs.is_image}}
+            {{#if item_data.asset.file.path}}
+                <div class="img_preview">
+                    <a href="/{{item_data.asset.file.path}}" data-toggle="lightbox">
+                        <img src="/{{item_data.asset.file.path}}" alt="{{item_data.asset.name}}" class="rounded img-thumbnail"/>
+                    </a>
+                </div>
+            {{/if}}
+        {{else}}
+            {{#if item_data.asset.attrs.is_image}}
+                {{#if item_data.asset.path}}
+                    <div class="img_preview">
+                        <a href="/{{item_data.asset.path}}" data-toggle="lightbox">
+                            <img src="/{{item_data.asset.path}}" alt="{{item_data.asset.title}}" class="rounded img-thumbnail"/>
+                        </a>
+                    </div>
+                {{/if}}
+            {{else}}
+                {{#if item_data.file.attrs.is_image}}
+                    {{#if item_data.file.path}}
+                        <div class="img_preview">
+                            <a href="/{{item_data.file.path}}" data-toggle="lightbox">
+                                <img src="/{{item_data.file.path}}" alt="{{item_data.file.title}}" class="rounded img-thumbnail"/>
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+        {{#if item_data.asset.file.attrs.is_doc}}
+            {{#if item_data.asset.file.path}}
+                <div class="doc_link">
+                    <a href="/{{item_data.asset.file.path}}" title="{{item_data.asset.name}}">{{item_data.asset.name}}</a>
+                </div>
+            {{/if}}
+        {{/if}}
+        {{#if item_data.asset.attrs.is_doc}}
+            {{#if item_data.asset.path}}
+                <div class="doc_link">
+                    <a href="/{{item_data.asset.path}}" title="{{item_data.asset.title}}">{{item_data.asset.name}}</a>
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+    {{addscriptdeclaration 'WC.utilities.applyLightBox()'}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_files"><h6>{{i18n 'LABEL_FILES'}}</h6>
+    <div class="row" id="files">
+        {{#if item_data.assets}}
+            {{#each item_data.assets}}
+                <div class="col-4 file">
+                    <div class="row">
+                        <div class="col-11">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" data-field="file_name"
+                                       value="{{this.name}}{{this.title}}"
+                                       placeholder="{{i18n 'LABEL_FILE'}}" disabled/>
+                                <div class="input-group-append pointer" onclick="WC.fileModal({title:'{{i18n 'LABEL_FILE'}}'}, this)">
+                                    <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                                </div>
+                                <input type="hidden" name="commerce_form[assets][]" data-field="file_id"
+                                       value="{{this.id}}"/>
+                            </div>
+                            {{#if this.attrs.is_image}}
+                                {{#if this.path}}
+                                    <div class="img_preview">
+                                        <a href="/{{this.path}}" data-toggle="lightbox">
+                                            <img src="/{{this.path}}" alt="{{this.name}}" class="rounded img-thumbnail"/>
+                                        </a>
+                                    </div>
+                                {{/if}}
+                            {{/if}}
+                            {{#if this.attrs.is_doc}}
+                                {{#if this.path}}
+                                    <div class="doc_link">
+                                        <a href="/{{this.path}}" title="{{this.name}}">{{this.name}}</a>
+                                    </div>
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                        <div class="col-1">
+                            <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('add', this, '#files', '#files>.file')">
+                                <i class="fa fa-plus-circle"></i>
+                            </a>
+                            <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('remove', this, '#files', '#files>.file')">
+                                <i class="fas fa-times-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+
+        <div class="col-4 file">
+            <div class="row">
+                <div class="col-11">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" data-field="file_name" value="" placeholder="{{i18n 'LABEL_FILE'}}" disabled/>
+                        <div class="input-group-append pointer" onclick="WC.fileModal({title:'{{i18n 'LABEL_FILE'}}'}, this)">
+                            <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                        </div>
+                        <input type="hidden" name="commerce_form[assets][]" data-field="file_id" value=""/>
+                    </div>
+                    <div class="img_preview"></div>
+                    <div class="doc_link"></div>
+                </div>
+                <div class="col-1">
+                    <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('add', this, '#files', '#files>.file')">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
+                    <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productFiles('remove', this, '#files', '#files>.file')">
+                        <i class="fas fa-times-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{addscriptdeclaration 'WC.utilities.applyLightBox()'}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_folder">
+    <div class="form-group">
+        <label class="control-label" for="folder_name">{{i18n 'LABEL_FOLDER'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="folder_name" disabled
+                   value="{{item_data.folder.name}}"
+                   placeholder="{{i18n 'LABEL_FOLDER'}}"/>
+            <div class="input-group-append pointer" onclick="WC.folderModal({title:'{{i18n 'LABEL_FOLDER'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[folder_id]" id="folder_id"
+                   value="{{item_data.folder.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_length">
+    <div class="form-group">
+        <label class="control-label" for="length_name">{{i18n 'LABEL_MODAL_LENGTH'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="length_name" disabled
+                   value="{{item_data.length.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_LENGTH'}}"/>
+            <div class="input-group-append pointer" onclick="WC.lengthModal({title:'{{i18n 'LABEL_MODAL_LENGTH'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[length_id]" id="length_id"
+                   value="{{item_data.length.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_payment_method">
+    <div class="form-group">
+        <label class="control-label" for="payment_method_name">{{i18n 'LABEL_MODAL_PAYMENT_METHOD'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="payment_method_name" disabled
+                   value="{{item_data.payment_method.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_PAYMENT_METHOD'}}"/>
+            <div class="input-group-append pointer" onclick="WC.paymentMethodModal({title:'{{i18n 'LABEL_MODAL_PAYMENT_METHOD'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[payment_method_id]" id="payment_method_id"
+                   value="{{item_data.payment_method.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_payment_service">
+    <div class="form-group">
+        <label class="control-label" for="payment_service_name">{{i18n 'LABEL_MODAL_PAYMENT_SERVICE'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="payment_service_name" disabled
+                   value="{{item_data.payment_service.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_PAYMENT_SERVICE'}}"/>
+            <div class="input-group-append pointer" onclick="WC.paymentServiceModal({title:'{{i18n 'LABEL_MODAL_PAYMENT_SERVICE'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[payment_service_id]" id="payment_service_id"
+                   value="{{item_data.payment_service.id}}"/>
+        </div>
+    </div>
+    <div id="payment_service_fieldset">
+        {{#if item_data.payment_service.id}}
+            {{#eq item_data.payment_service.id 'paypal'}}
+                {{require "payment-service-paypal" this}}
+            {{/eq}}
+            {{#eq item_data.payment_service.id 'stripe'}}
+                {{require "payment-service-stripe" this}}
+            {{/eq}}
+        {{/if}}
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_product">
+    <div class="form-group">
+        <label class="control-label" for="product_name">{{i18n 'LABEL_MODAL_PRODUCT'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="product_name" disabled
+                   value="{{item_data.product.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_PRODUCT'}}"/>
+            <div class="input-group-append pointer" onclick="WC.productModal({title:'{{i18n 'LABEL_MODAL_PRODUCT'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[product_id]" id="product_id"
+                   value="{{item_data.product.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_product_1">
+    <div class="form-group">
+        <label class="control-label" for="product_1_name">{{i18n 'LABEL_MODAL_PRODUCT_1'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="product_1_name" disabled
+                   value="{{item_data.product_1.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_PRODUCT_1'}}"/>
+            <div class="input-group-append pointer" onclick="WC.productOneModal({title:'{{i18n 'LABEL_MODAL_PRODUCT_1'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[product_1_id]" id="product_1_id"
+                   value="{{item_data.product_1.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_product_2">
+    <div class="form-group">
+        <label class="control-label" for="product_2_name">{{i18n 'LABEL_MODAL_PRODUCT_2'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="product_2_name" disabled
+                   value="{{item_data.product_2.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_PRODUCT_2'}}"/>
+            <div class="input-group-append pointer" onclick="WC.productTwoModal({title:'{{i18n 'LABEL_MODAL_PRODUCT_2'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[product_2_id]" id="product_2_id"
+                   value="{{item_data.product_2.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_product_type">
+    <div class="form-group">
+        <label class="control-label" for="product_type_name">{{i18n 'LABEL_MODAL_PRODUCT_TYPE'}}</label>
+        <div class="input-group mb-2">
+            {{#if item_data.product_type.name}}
+                {{item_data.product_type.name}}
+            {{else}}
+                <input type="text" class="form-control" id="product_type_name" disabled
+                       value="{{item_data.product_type.name}}"
+                       placeholder="{{i18n 'LABEL_MODAL_PRODUCT_TYPE'}}"/>
+                <div class="input-group-append pointer" onclick="WC.productTypeModal({title:'{{i18n 'LABEL_MODAL_PRODUCT_TYPE'}}'})">
+                    <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                </div>
+            {{/if}}
+            <input type="hidden" name="commerce_form[product_type_id]" id="product_type_id"
+                   value="{{item_data.product_type.id}}"/>
+        </div>
+        <div class="font-weight-lighter text-info">{{i18n 'PRODUCT_TYPE_ON_PRODUCT_FORM_NOTES'}}</div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_store">
+    <div class="form-group">
+        <label class="control-label" for="store_name">{{i18n 'LABEL_MODAL_STORE'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="store_name" disabled
+                   value="{{#if item_data.store.name}}{{item_data.store.name}}{{else}}{{/if}}"
+                   placeholder="{{i18n 'LABEL_MODAL_STORE'}}"/>
+            <div class="input-group-append pointer" onclick="WC.storeModal({title:'{{i18n 'LABEL_MODAL_STORE'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[store_id]" id="store_id"
+                   value="{{item_data.store.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_stores">
+    <div id="stores">
+        <h6>{{i18n 'LABEL_MODAL_STORES'}}</h6>
+        {{#if item_data.stores}}
+            {{#each item_data.stores}}
+                <div class="row store">
+                    <div class="col-11">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" data-field="store_name"
+                                   value="{{this.name}}"
+                                   placeholder="{{i18n 'LABEL_MODAL_STORE'}}" disabled/>
+                            <div class="input-group-append pointer" onclick="WC.storeModal({title:'{{i18n 'LABEL_MODAL_STORE'}}'}, this)">
+                                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                            </div>
+                            <input type="hidden" name="commerce_form[stores][]" data-field="store_id"
+                                   value="{{this.id}}"/>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productStores('add', this, '#stores', '#stores>.store')">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                        <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productStores('remove', this, '#stores', '#stores>.store')">
+                            <i class="fas fa-times-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+        <div class="row store">
+            <div class="col-11">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" data-field="store_name" value=""
+                           placeholder="{{i18n 'LABEL_MODAL_STORE'}}" disabled/>
+                    <div class="input-group-append pointer" onclick="WC.storeModal({title:'{{i18n 'LABEL_MODAL_STORE'}}'}, this)">
+                        <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                    </div>
+                    <input type="hidden" name="commerce_form[stores][]" data-field="store_id" value=""/>
+                </div>
+            </div>
+            <div class="col-1">
+                <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productStores('add', this, '#stores', '#stores>.store')">
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+                <a href="javascript:void(0)" onclick="WC.formUtil.productManager.productStores('remove', this, '#stores', '#stores>.store')">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_temperature">
+    <div class="form-group">
+        <label class="control-label" for="temperature_name">{{i18n 'LABEL_MODAL_TEMPERATURE'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="temperature_name" disabled
+                   value="{{item_data.temperature.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_TEMPERATURE'}}"/>
+            <div class="input-group-append pointer" onclick="WC.temperatureModal({title:'{{i18n 'LABEL_MODAL_TEMPERATURE'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[temperature_id]" id="temperature_id"
+                   value="{{item_data.temperature.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-modal_weight">
+    <div class="form-group">
+        <label class="control-label" for="weight_name">{{i18n 'LABEL_MODAL_WEIGHT'}}</label>
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" id="weight_name" disabled
+                   value="{{item_data.weight.name}}"
+                   placeholder="{{i18n 'LABEL_MODAL_WEIGHT'}}"/>
+            <div class="input-group-append pointer" onclick="WC.weightModal({title:'{{i18n 'LABEL_MODAL_WEIGHT'}}'})">
+                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+            </div>
+            <input type="hidden" name="commerce_form[weight_id]" id="weight_id"
+                   value="{{item_data.weight.id}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-pagination">{{#if pagination}}
+    {{#noteq pagination.numPerPage 'all'}}
+        <nav aria-label="Pagination">
+            <ul class="pagination">
+                {{#lt pagination.prev 1}}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-disabled="true">{{i18n 'PREVIOUS'}}</a>
+                    </li>
+                {{else}}
+                    <li class="page-item">
+                        <a class="page-link" href="/{{pathPfx}}{{pathInfo.uri}}?page={{pagination.prev}}">{{i18n 'PREVIOUS'}}</a>
+                    </li>
+                {{/lt}}
+                {{#gt pagination.next 0}}
+                    <li class="page-item">
+                        <a class="page-link" href="/{{pathPfx}}{{pathInfo.uri}}?page={{pagination.next}}">{{i18n 'NEXT'}}</a>
+                    </li>
+                {{else}}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-disabled="true">{{i18n 'NEXT'}}</a>
+                    </li>
+                {{/gt}}
+            </ul>
+        </nav>
+    {{/noteq}}
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-preview">{{#if item_data}}
+    <div class="column preview">
+        <div class="preview-content">
+            <div class="preview-asset">
+                {{#eq item_data.type 'folder'}}
+                    <img src="/clientlibs/commerce/app/images/page.png.thumb.480.300.png" alt="preview asset thumbnail"/>
+                {{/eq}}
+                {{#eq item_data.type 'doc'}}
+                    <img src="/clientlibs/commerce/app/images/page.png.thumb.480.300.png" alt="preview asset thumbnail"/>
+                {{/eq}}
+                {{#eq item_data.type 'file'}}
+                    <img src="/clientlibs/commerce/app/images/page.png.thumb.480.300.png" alt="preview asset thumbnail"/>
+                {{/eq}}
+                {{#eq item_data.type 'image'}}
+                    <a href="/{{item_data.path}}" target="_blank" data-toggle="lightbox" data-trigger="lightbox">
+                        <img src="/{{item_data.path}}" alt="preview {{item_data.path}}"/>
+                    </a>
+                {{/eq}}
+                {{#eq item_data.type 'picture'}}
+                    <a href="/{{item_data.path}}" target="_blank" data-toggle="lightbox" data-trigger="lightbox">
+                        <img src="/{{item_data.path}}" alt="preview {{item_data.path}}"/>
+                    </a>
+                {{/eq}}
+            </div>
+            <div class="preview-meta">
+                <table>
+                    <tbody>
+                    {{#if item_data.title}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'LABEL_NAME'}}</td>
+                            <td class="preview-value">{{item_data.title}}</td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if item_data.file.name}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'LABEL_FILE_NAME'}}</td>
+                            <td class="preview-value">
+                                <a href="/{{item_data.path}}" target="_blank"{{#if item_data.file.is_image}}
+                                   data-toggle="lightbox" data-trigger="lightbox"{{/if}}>
+                                    {{item_data.file.name}}
+                                </a>
+                            </td>
+                        </tr>
+                    {{/if}}
+                    {{#if item_data.file.mimetype}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'MIMETYPE'}}</td>
+                            <td class="preview-value">{{item_data.file.mimetype}}</td>
+                        </tr>
+                    {{/if}}
+                    {{#if item_data.file.size}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'SIZE'}}</td>
+                            <td class="preview-value">{{item_data.file.size}}</td>
+                        </tr>
+                    {{/if}}
+
+                    {{#if item_data.created_on}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'CREATED_ON'}}</td>
+                            <td class="preview-value">{{date item_data.created_on}}</td>
+                        </tr>
+                    {{/if}}
+                    {{#if item_data.modified_on}}
+                        <tr>
+                            <td class="preview-label">{{i18n 'MODIFIED_ON'}}</td>
+                            <td class="preview-value">{{date item_data.modified_on}}</td>
+                        </tr>
+                    {{/if}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {{#if item_data.file.is_image}}
+        {{addscriptdeclaration 'WC.utilities.applyLightBox()'}}
+    {{/if}}
+{{/if}}</script>
+<script type="text/x-handlebars-template" data-hbstmpl="partials-product_attrs">
+    <ul class="product_attrs_list" data-trigger="sortable">
+        {{#each item_data.product_attrs_list}}
+            <li>
+                <label>
+                    <i class="fas fa-arrows-alt"></i>
+                    {{#if ../item_data.product_attr_ids}}
+                        <input type="checkbox" name="commerce_form[product_attrs][]" id="product_attrs" value="{{id}}"
+                            {{#in_array id ../item_data.product_attr_ids}} checked{{/in_array}} />
+                    {{else}}
+                        <input type="checkbox" name="commerce_form[product_attrs][]" id="product_attrs" value="{{id}}"
+                            {{#in_array id ../item_data.product_attrs}} checked{{/in_array}} />
+                    {{/if}}
+                    {{name}}
+                </label>
+            </li>
+        {{/each}}
+    </ul>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="payment-service-paypal">
+    <div class="PaymentServiceFieldSet">
+        <div class="form-group label-floating">
+            <label for="client_id">{{i18n 'client_id'}}</label>
+            <input type="text" class="form-control" id="client_id" name="commerce_form[payment_api][client_id]"
+                   value="{{item_data.payment_service.client_id}}"/>
+        </div>
+        <div class="form-group label-floating">
+            <label for="client_secret">{{i18n 'client_secret'}}</label>
+            <input type="text" class="form-control" id="client_secret" name="commerce_form[payment_api][client_secret]"
+                   value="{{item_data.payment_service.client_secret}}"/>
+        </div>
+        <div class="form-group label-floating">
+            <label for="paytype">{{i18n 'paytype'}}</label>
+            <select id="paytype" name="commerce_form[payment_api][paytype]" class="form-control selectpicker">
+                <option value="">{{i18n 'SELECT_ONE'}}</option>
+                <option value="credit_card"{{#eq 'credit_card' item_data.payment_service.paytype}} selected{{/eq}}>{{i18n 'CREDIT_CARD'}}</option>
+                <option value="paypalhere"{{#eq 'paypalhere' item_data.payment_service.paytype}} selected{{/eq}}>{{i18n 'PAYPALHERE'}}</option>
+            </select>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="payment-service-stripe">
+    <div class="PaymentServiceFieldSet">
+        <div class="form-group label-floating">
+            <label for="api_key">{{i18n 'api_key'}}</label>
+            <input type="text" class="form-control" id="api_key" name="commerce_form[payment_api][api_key]"
+                   value="{{item_data.payment_service.api_key}}"/>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="product-form">
+<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}
+    ?edit_id={{item_data.id}}{{/if}}{{/if}}"
+    method="post" class="commerce-form">
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                <div class="col-6">
+                    <div class="text-right">
+                        {{#if actions.cancel}}
+                            <a href="/{{list_page}}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}</a>{{/if}}
+                        &nbsp;
+                        {{#if actions.save}}
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;{{i18n 'LABEL_SAVE'}}</button>{{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            <ul class="nav nav-tabs" id="prod-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="basic-tab" data-toggle="tab" href="#basic" role="tab" aria-controls="basic" aria-selected="true">
+                        {{i18n 'TAB_BASIC'}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities" role="tab" aria-controls="entities"
+                       aria-selected="false">
+                        {{i18n 'TAB_STORES_AND_CATEGORIES'}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="attrs-tab" data-toggle="tab" href="#attrs" role="tab" aria-controls="attrs" aria-selected="false">
+                        {{i18n 'TAB_PRODUCT_TYPE_AND_ATTRS'}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="assets-tab" data-toggle="tab" href="#assets" role="tab" aria-controls="assets" aria-selected="false">
+                        {{i18n 'TAB_ASSETS_OR_FILES'}}
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content" id="prod-tab-content">
+                <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                    {{#if fieldKeys.name}}
+                        <div class="form-group">
+                            <label class="control-label" for="name">{{i18n 'LABEL_NAME'}}</label>
+                            <input type="text" name="commerce_form[name]" id="name" class="form-control" value="{{item_data.name}}"/>
+                        </div>
+                    {{/if}}
+                    <div class="row">
+                        <div class="col-6">
+                            {{#if fieldKeys.published_start}}
+                            {{!--
+                            <div class="form-group">
+                                <label class="control-label" for="published_start">{{i18n 'LABEL_PUBLISH_START_DATE'}}</label>
+                                <input type="text" name="commerce_form[published_start]" id="published_start" class="form-control"
+                                       data-trigger="datetimepicker" data-date-format="yyyy-mm-dd"
+                                       value="{{item_data.published_start}}" />
+                            </div>
+                            --}}
+                                <div class="form-group">
+                                    <label class="control-label" for="published_start">{{i18n 'LABEL_PUBLISH_START_DATE'}}</label>
+                                    <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
+                                        <input type="text" name="commerce_form[published_start]" class="form-control datetimepicker-input"
+                                               value="{{item_data.published_start}}"/>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/if}}
+                            {{#if fieldKeys.sku}}
+                                <div class="form-group">
+                                    <label class="control-label" for="sku">{{i18n 'LABEL_SKU'}}</label>
+                                    <input type="text" name="commerce_form[sku]" id="sku" class="form-control" value="{{item_data.sku}}"/>
+                                </div>
+                            {{/if}}
+                            {{#if fieldKeys.barcode}}
+                                <div class="form-group">
+                                    <label class="control-label" for="barcode">{{i18n 'LABEL_BARCODE'}}</label>
+                                    <input type="text" name="commerce_form[barcode]" id="barcode" class="form-control" value="{{item_data.barcode}}"/>
+                                </div>
+                            {{/if}}
+                            {{#if fieldKeys.product_mode}}
+                                <div class="form-group">
+                                    <label class="control-label" for="product_mode">{{i18n 'LABEL_PRODUCT_MODE'}}</label>
+                                    <select name="commerce_form[product_mode]" id="product_mode" class="form-control">
+                                        <option value="">{{i18n 'SELECT_ONE'}}</option>
+                                        <option value="physical"{{#eq item_data.product_mode 'physical'}} selected{{/eq}}>{{i18n
+                                                'PRODUCT_MODE_PHYSICAL'}}</option>
+                                        <option value="download"{{#eq item_data.product_mode 'download'}} selected{{/eq}}>{{i18n
+                                                'PRODUCT_MODE_DOWNLOAD'}}</option>
+                                        <option value="subscription"{{#eq item_data.product_mode 'subscription'}} selected{{/eq}}>{{i18n
+                                                'PRODUCT_MODE_SUBSCRIPTION'}}</option>
+                                    </select>
+                                </div>
+                            {{/if}}
+                        </div>
+                        <div class="col-6">
+                            {{#if fieldKeys.published_end}}
+                            {{!--
+                            <div class="form-group">
+                                <label class="control-label" for="published_end">{{i18n 'LABEL_PUBLISH_END_DATE'}}</label>
+                                <input type="text" name="commerce_form[published_end]" id="published_end" class="form-control"
+                                       data-trigger="datepicker" data-date-format="yyyy-mm-dd"
+                                       value="{{item_data.published_end}}" />
+                            </div>
+                            --}}
+                                <div class="form-group">
+                                    <label class="control-label" for="published_end">{{i18n 'LABEL_PUBLISH_END_DATE'}}</label>
+                                    <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
+                                        <input type="text" name="commerce_form[published_end]" class="form-control datetimepicker-input"
+                                               value="{{item_data.published_end}}"/>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/if}}
+                            {{#if fieldKeys.in_stock}}
+                                <div class="form-group">
+                                    <label class="control-label" for="in_stock">{{i18n 'LABEL_IN_STOCK'}} (-1 if not applicable)</label>
+                                    <input type="text" name="commerce_form[in_stock]" id="in_stock" class="form-control"
+                                           value="{{item_data.in_stock}}"/>
+                                </div>
+                            {{/if}}
+                            {{#if fieldKeys.price}}
+                                <div class="form-group">
+                                    <label class="control-label" for="price">{{i18n 'LABEL_PRICE'}}</label>
+                                    <input type="number" step="any" name="commerce_form[price]" id="price" class="form-control"
+                                           value="{{item_data.price}}"/>
+                                </div>
+                            {{/if}}
+                            {{#if fieldKeys.modal_currency}}{{require "partials/modal_currency" this}}{{/if}}
+                        </div>
+                    </div>
+                    {{#if fieldKeys.description}}
+                        <div class="form-group">
+                            <label class="control-label" for="description">{{i18n 'LABEL_DESCRIPTION'}}</label>
+                            <textarea name="commerce_form[description]" id="description"
+                                      class="form-control basic">{{item_data.description}}</textarea>
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="tab-pane fade" id="entities" role="tabpanel" aria-labelledby="entities-tab">
+                    {{#if fieldKeys.modal_store}}{{require "partials/modal_stores" this}}{{/if}}
+                    {{#if fieldKeys.modal_category}}{{require "partials/modal_categories" this}}{{/if}}
+                </div>
+                <div class="tab-pane fade" id="attrs" role="tabpanel" aria-labelledby="attrs-tab">
+                    {{#if fieldKeys.modal_product_type}}{{require "partials/modal_product_type" this}}{{/if}}
+                    {{#if fieldKeys.modal_product_type}}
+                        <div id="product_type_attrs_set"
+                             data-type='{{json_encode item_data.product_type}}'>
+                            {{#if item_data.product_type.product_attrs}}
+                                {{#each item_data.product_type.product_attrs}}
+                                    <div class="attr_field">{{{require this.product_attr_field this}}}</div>
+                                {{/each}}
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="tab-pane fade" id="assets" role="tabpanel" aria-labelledby="assets-tab">
+                    {{#if fieldKeys.modal_file}}{{require "partials/modal_files" this}}{{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="commerce_form[edit_id]" value="{{#if item_data.edit_id}}{{item_data.edit_id}}{{else}}{{item_data.id}}{{/if}}"/>
+    <input type="hidden" name="csrftoken" value="{{csrftoken}}"/>
+    </form>
+    <script>WC.observers.init();WC.formUtil.init();</script>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="product">
+    <div id="commerce-alert-container"></div>
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row">
+                <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
+                {{#if actions.add}}
+                    <div class="col-6">
+                        <div class="text-right">
+                            <a href="/{{form_page}}" class="btn btn-primary"><i class="fas fa-plus-circle"></i>&nbsp;{{i18n 'LABEL_ADD'}}</a>
+                        </div>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="card-body text-justify">
+            <div id="commerce-items-list">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        {{#if fieldKeys.id}}
+                            <th class="small-col">{{fieldLabels.id}}</th>{{/if}}
+                        {{#if fieldKeys.name}}
+                            <th>{{fieldLabels.name}}</th>{{/if}}
+                        {{#if fieldKeys.name}}
+                            <th>{{fieldLabels.price}}</th>{{/if}}
+                        {{#if fieldKeys.description}}
+                            <th>{{fieldLabels.description}}</th>{{/if}}
+                        {{#if fieldKeys.sku}}
+                            <th>{{fieldLabels.sku}}</th>{{/if}}
+                        {{#if fieldKeys.file}}
+                            <th>{{fieldLabels.file}}</th>{{/if}}
+                        {{#if fieldKeys.product_type}}
+                            <th>{{fieldLabels.product_type}}</th>{{/if}}
+                        {{#if fieldKeys.in_stock}}
+                            <th class="small-col">{{fieldLabels.in_stock}}</th>{{/if}}
+                        {{#if fieldKeys.published_start}}
+                            <th>{{fieldLabels.published_start}}</th>{{/if}}
+                        {{#if fieldKeys.published_end}}
+                            <th>{{fieldLabels.published_end}}</th>{{/if}}
+                        {{#if fieldKeys.action}}
+                            <th>{{i18n 'LABEL_ACTION'}}</th>{{/if}}
+                    </thead>
+                    <tbody>
+                    {{#if list}}
+                        {{#each list}}
+                            <tr>
+                                {{#if ../fieldKeys.id}}
+                                    <td>{{this.id}}</td>{{/if}}
+                                {{#if ../fieldKeys.name}}
+                                    <td>
+                                        {{#if ../actions.edit}}
+                                            <a href="/{{../form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}
+                                            ">{{this.name}}</a>
+                                        {{/if}}
+                                        {{#unless ../actions.edit}}
+                                            {{this.name}}
+                                        {{/unless}}
+                                    </td>
+                                {{/if}}
+                                {{#if ../fieldKeys.price}}
+                                    <td>{{this.currency.params.symbol}}{{numberformat this.price}} {{this.currency.params.code_3}}</td>{{/if}}
+                                {{#if ../fieldKeys.description}}
+                                    <td class="desc-more-less">{{{plaintext this.description}}}</td>{{/if}}
+                                {{#if ../fieldKeys.sku}}
+                                    <td>{{this.sku}}</td>{{/if}}
+                                {{#if ../fieldKeys.file}}
+                                    <td>{{this.file}}</td>{{/if}}
+                                {{#if ../fieldKeys.product_type}}
+                                    <td>{{this.product_type.name}}</td>{{/if}}
+                                {{#if ../fieldKeys.in_stock}}
+                                    <td>{{#eq this.in_stock -1}}N/A{{else}}{{this.in_stock}}{{/eq}}</td>{{/if}}
+                                {{#if ../fieldKeys.published_start}}
+                                    <td>{{this.published_start}}</td>{{/if}}
+                                {{#if ../fieldKeys.published_end}}
+                                    <td>{{this.published_end}}</td>{{/if}}
+                                {{#if ../fieldKeys.action}}
+                                    <td class="{{#if ../actions.delete}}small-col-2{{else}}small-col-1{{/if}}" align="center">
+                                        {{#if ../actions.edit}}
+                                            {{#if this.edit_id}}
+                                                <a href="/{{../form_page}}?edit_id={{this.edit_id}}" class="btn btn-primary btn-sm"><i
+                                                    class="fa fa-edit"></i>&nbsp;{{i18n 'LABEL_EDIT'}}</a>
+                                            {{else}}
+                                                <a href="/{{../form_page}}?edit_id={{this.id}}" class="btn btn-primary btn-sm"><i
+                                                    class="fa fa-edit"></i>&nbsp;{{i18n 'LABEL_EDIT'}}</a>
+                                            {{/if}}
+                                        {{/if}}
+                                        &nbsp;
+                                        {{#if ../actions.delete}}
+                                            <a href="javascript:void(0)"
+                                               onclick="WC.delete('{{../delete_api_endpoint}}', '{{#if
+                                                       this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}')"
+                                               class="btn btn-primary btn-sm"><i class="fas fa-times-circle"></i>&nbsp;{{i18n 'LABEL_DELETE'}}</a>
+                                        {{/if}}
+                                    </td>
+                                {{/if}}
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <tr>
+                            <td colspan="{{fieldLabels.length}}">{{i18n 'NO_RESULTS'}}</td>
+                        </tr>
+                    {{/if}}
+                    </tbody>
+                </table>
+                {{require "partials/pagination" this}}
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="product_attrs">
+    <ul class="product_attrs_list" data-trigger="sortable">
+        {{#each product_attrs_list}}
+            <li>
+                <label>
+                    <i class="fas fa-arrows-alt"></i>
+                    <input type="checkbox" name="commerce_form[product_attrs][]" id="product_attrs" value="{{id}}"
+                        {{#in_array id ../item_data.product_attrs}} checked{{/in_array}} />
+                    {{name}}
+                </label>
+            </li>
+        {{/each}}
+    </ul>
+</script>
+<script type="text/x-handlebars-template" data-hbstmpl="radio-button-list">
+    {{#if showFilterFiled}}
+        <div class="mb-3">
+            <input type="text" class="form-control" onkeyup="WC.filterList(this)" placeholder="Type in to filter" autocomplete="off"/>
+        </div>
+    {{/if}}
+    {{#if data}}
+        <ul class="list-unstyled">
+            {{#each data}}
+                <li>
+                    <label>
+                        <input type="radio" name="{{../fieldName}}"
+                               data-object='{{json_encode this}}'
+                               value="{{#if edit_id}}{{edit_id}}{{else}}{{id}}{{/if}}"/>&nbsp;
+                        <span>{{#if name}}{{name}}{{else}}{{#if title}}{{title}}{{else}}{{i18n 'NO_TITLE'}}{{/if}}{{/if}}</span>
+                    </label>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <div class="alert alert-info">{{i18n 'NO_RESULTS'}}</div>
+    {{/if}}
+</script>
+<!-- hbs: end -->

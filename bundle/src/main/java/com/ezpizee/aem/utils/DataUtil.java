@@ -4,6 +4,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import org.apache.sling.api.resource.ValueMap;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,6 +19,14 @@ import java.util.Map;
 public class DataUtil {
 
     private DataUtil() {}
+
+    public static Map<String, Object> valueMap2Map(final ValueMap valueMap) {
+        final Map<String, Object> map = new HashMap<>();
+        for (String key : valueMap.keySet()) {
+            map.put(key, valueMap.get(key));
+        }
+        return map;
+    }
 
     public static boolean isJSONObjectString(String str) {
         boolean flag;

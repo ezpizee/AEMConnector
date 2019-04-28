@@ -1,7 +1,6 @@
 package com.ezpizee.aem.models;
 
 import com.ezpizee.aem.Constants;
-import com.ezpizee.aem.utils.ConfigUtil;
 import com.ezpizee.aem.utils.DateFormatUtil;
 import com.ezpizee.aem.utils.EnvironmentEnum;
 import net.minidev.json.JSONObject;
@@ -27,9 +26,5 @@ public class PageProperties extends BaseProperties {
             environments.put(env.name().toLowerCase(), env.name().toLowerCase());
         }
         data.put("environments", environments);
-
-        final StringBuilder hbs = new StringBuilder();
-        ConfigUtil.loadResourceByDir("hbstemplates", hbs);
-        data.put("hbstemplates", hbs.toString());
     }
 }

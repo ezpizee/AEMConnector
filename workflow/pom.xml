@@ -8,14 +8,14 @@
     <!-- ====================================================================== -->
     <parent>
         <groupId>com.ezpizee.aem</groupId>
-        <artifactId>ezpizee-app-connector</artifactId>
+        <artifactId>ezpizee-app</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>ezpizee-app-connector-workflow</artifactId>
+    <artifactId>ezpizee-app-workflow</artifactId>
     <packaging>content-package</packaging>
     <name>AEM App - Workflows</name>
     <description>AEM App workflow package</description>
@@ -95,13 +95,6 @@
                     <verbose>true</verbose>
                     <failOnError>true</failOnError>
                     <group>ezpizee</group>
-                    <embeddeds>
-                        <embedded>
-                            <groupId>com.ezpizee.aem</groupId>
-                            <artifactId>ezpizee-app-connector-core</artifactId>
-                            <target>/apps/ezpizee/install</target>
-                        </embedded>
-                    </embeddeds>
                 </configuration>
             </plugin>
         </plugins>
@@ -170,19 +163,4 @@
             </build>
         </profile>
     </profiles>
-    <!-- ====================================================================== -->
-    <!-- D E P E N D E N C I E S                                                -->
-    <!-- ====================================================================== -->
-    <dependencies>
-        <dependency>
-            <groupId>com.ezpizee.aem</groupId>
-            <artifactId>ezpizee-app-connector-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.aem</groupId>
-            <artifactId>uber-jar</artifactId>
-            <classifier>apis</classifier>
-        </dependency>
-    </dependencies>
 </project>

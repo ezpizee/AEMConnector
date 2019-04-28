@@ -17,16 +17,25 @@
 <meta property="og:type" content="website" />
 <meta property="og:description" content="${description}" />
 <meta property="og:image:url" content="/etc/designs/ezpizee/project_common/images/ezpizee.png" />
-<meta property="og:site_name" content="HealthVoyager" />
+<meta property="og:site_name" content="Ezpizee Commerce Admin" />
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="HealthVoyager" />
+<meta property="twitter:title" content="Ezpizee Commerce Admin" />
 <meta property="twitter:description" content="${description}" />
 <meta property="twitter:image" content="/etc/designs/ezpizee/project_common/images/ezpizee.png" />
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='ezpizee.common'}"></sly>
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='ezpizee.components'}"></sly>
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='ezpizee.commerce.base'}"></sly>
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='ezpizee.commerce.app'}"></sly>
+<sly data-sly-test="${properties.offline == 'yes'}">
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='gf'}"></sly>
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='fa'}"></sly>
+</sly>
+<sly data-sly-test="${properties.offline != 'yes'}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</sly>
 <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='falcon'}"></sly>
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='commerce.base'}"></sly>
+<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories='commerce.app'}"></sly>
 <title>${head.title}</title>
+<sly data-sly-test="${properties.gtm}">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',"${properties.gtm @ context='unsafe'}");</script>
+    <!-- End Google Tag Manager -->
+</sly>

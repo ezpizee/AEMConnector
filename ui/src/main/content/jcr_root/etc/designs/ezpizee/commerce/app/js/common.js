@@ -87,7 +87,7 @@ WC.deleteApp = function(element, endpoint, hashedAppName) {
         function onOk(modalId) {
             WC.httpClient({
                 type: 'DELETE',
-                url: '/commerce/api/delete',
+                url: WC.params.get('delete_endpoint'),
                 data: {hashedAppName: hashedAppName, endpoint: endpoint},
                 success: function (data) {
                     console.log(data);
@@ -118,7 +118,7 @@ WC.delete = function(endpoint, id) {
         function onOk(modalId) {
             WC.httpClient({
                 type: 'DELETE',
-                url: '/commerce/api/delete',
+                url: WC.params.get('delete_endpoint'),
                 data: {endpoint: endpoint, id: id},
                 success: function (data) {
                     if (phpjs.sizeof(data) && data.message) {
@@ -164,31 +164,7 @@ WC.loadCurrentPageContentInto = function(containerId) {
     if (url) {
         let parts = url.split('#!');
         url = parts[parts.length-1];
-        if (phpjs.strpos(url, '.json')!==false) {
-            WC.loadPage(url);
-        }
-        else {
-            WC.httpClient({
-                url: url +  + (uri.queryString.length>0?'&':'?') + 'tmpl=content',
-                dataType: 'html',
-                success: function (html) {
-                    var e = WC.getElementById(containerId);
-                    if (e && e.length) {
-                        var ele = $('<div>'+html+'</div>');
-                        if (ele.find('#commerce-items-assets').length) {
-                            containerId = 'commerce-items-assets';
-                            e = WC.getElementById(containerId);
-                        }
-                        if (ele.find('#'+containerId)) {
-                            e.html(ele.find('#'+containerId).html());
-                        }
-                        else {
-                            e.html(html);
-                        }
-                    }
-                }
-            });
-        }
+        WC.loadPage(url);
     }
 };
 
@@ -196,7 +172,6 @@ WC.loadPage = function(uri) {
     if (uri) {
         var data = {}, dataType = 'json', isHtml = false;
         if (phpjs.strpos(uri, '.html') !== false) {
-            data.tmpl = 'content';
             dataType = 'html';
             isHtml = true;
         }
@@ -211,6 +186,9 @@ WC.loadPage = function(uri) {
                 else if (resp.display_template) {
                     resp.display_template = resp.display_template.replace('.hbs', '');
                     $('#commerce-spa').html(WC.compileHandlebars(WC.hbsTmpl(resp.display_template), resp));
+                }
+                else {
+                    $('#commerce-spa').html(uri);
                 }
             }
         });

@@ -57,5 +57,5 @@ public class Nav extends BaseProperties {
         return item;
     }
 
-    private String path(String path) { return String.format(Constants.CONTENT_PATH_FORMAT, path + ".html"); }
+    private String path(String path) { return String.format(Constants.CONTENT_PATH_FORMAT, path + ".ezpz.json"); }
 }

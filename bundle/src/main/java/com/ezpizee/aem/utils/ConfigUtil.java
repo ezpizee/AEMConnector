@@ -1,11 +1,19 @@
 package com.ezpizee.aem.utils;
 
-import java.io.*;
-import java.net.URL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.charset.StandardCharsets;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 public class ConfigUtil
 {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigUtil.class);
+
     public static String getResource(String filename) {
         StringBuilder sb = new StringBuilder();
         try {
@@ -20,18 +28,5 @@ public class ConfigUtil
             sb.append(e.getMessage());
         }
         return sb.toString();
-    }
-
-    public static void loadResourceByDir(String dir, StringBuilder sb) {
-        URL url = ConfigUtil.class.getClassLoader().getResource(dir);
-        File file = new File(url.getFile());
-        if (file.exists()) {
-            if (file.isDirectory()) {
-                loadResourceByDir(file.getAbsolutePath(), sb);
-            }
-            else if (file.isFile()) {
-                sb.append(FileSystem.getFileContentAsString(file.getAbsolutePath()));
-            }
-        }
     }
 }

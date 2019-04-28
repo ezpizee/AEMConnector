@@ -8,14 +8,14 @@
     <!-- ====================================================================== -->
     <parent>
         <groupId>com.ezpizee.aem</groupId>
-        <artifactId>ezpizee-app-connector</artifactId>
+        <artifactId>ezpizee-app</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>ezpizee-app-connector-core</artifactId>
+    <artifactId>ezpizee-app-core</artifactId>
     <packaging>bundle</packaging>
     <name>AEM App - OSGi Bundle</name>
     <description>AEM App OSGi Bundle</description>

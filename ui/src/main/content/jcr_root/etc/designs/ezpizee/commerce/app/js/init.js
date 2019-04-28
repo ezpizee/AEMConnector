@@ -12,4 +12,12 @@ $(document).ready(function(){
             }
         });
     }
+    else {
+        $(window).on('hashchange', function(){
+            uri = new WC.uri();
+            if (uri.fragment && uri.fragment.startsWith(pfx)) {
+                WC.loadPage(uri.fragment);
+            }
+        });
+    }
 });

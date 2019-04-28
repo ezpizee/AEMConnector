@@ -1,11 +1,14 @@
 package com.ezpizee.aem.utils;
 
+import com.day.cq.commons.jcr.JcrUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import java.util.Map;
@@ -18,15 +21,48 @@ public class NodeUtil {
 
     private NodeUtil() {}
 
+    public static void copy(Session session, Node src, Node dst, String nodeName) {
+        try {
+            JcrUtil.copy(src, dst, nodeName);
+            session.save();
+            if (src.hasNodes()) {
+                NodeIterator ni = src.getNodes();
+                while(ni.hasNext()) {
+                    Node child = ni.nextNode();
+                    copy(session, child, dst.getNode(nodeName), child.getName());
+                }
+            }
+        }
+        catch (RepositoryException e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    public static void delete(ResourceResolver resolver, String path) {
+        if (resolver != null && StringUtils.isNotEmpty(path)) {
+            try {
+                Session session = resolver.adaptTo(Session.class);
+                if (session != null) {
+                    Node node = getNode(resolver, path);
+                    if (node != null) {
+                        node.remove();
+                        session.save();
+                    }
+                }
+            }
+            catch (RepositoryException e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }
+    }
+
     public static void save(ResourceResolver resolver, String path, Map<String, String> props) {
         if (resolver != null && StringUtils.isNotEmpty(path) && props != null && !props.isEmpty()) {
             try {
                 Session session = resolver.adaptTo(Session.class);
                 if (session != null) {
                     Node node = addIfNotAlreadyExist(resolver, path);
-                    LOG.error("SOTHEA session: 1");
                     if (node != null) {
-                        LOG.error("SOTHEA node: 1");
                         for (String prop : props.keySet()) {
                             node.setProperty(prop, props.get(prop));
                         }
@@ -101,6 +137,7 @@ public class NodeUtil {
     }
 
     private static Node getNode(ResourceResolver resolver, String path) {
-        return resolver.getResource(path).adaptTo(Node.class);
+        Resource resource = resolver.getResource(path);
+        return resource != null ? resource.adaptTo(Node.class) : null;
     }
 }

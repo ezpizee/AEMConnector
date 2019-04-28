@@ -77,6 +77,7 @@ public class Response
     public boolean isDebug() { return this.isDebug; }
     public boolean isDataJSONObject() {return this.dataIsJSONObject;}
     public boolean isDataJSONArray() {return this.dataIsJSONArray;}
+    public Object getData(String key) {return this.getDataAsJSONObject().get(key);}
 
     public JSONObject getDataAsJSONObject() { return this.jsonObjectData; }
     public JSONArray getDataAsJSONArray() { return this.jsonArrayData; }

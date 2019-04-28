@@ -8,14 +8,14 @@
     <!-- ====================================================================== -->
     <parent>
         <groupId>com.ezpizee.aem</groupId>
-        <artifactId>ezpizee-app-connector</artifactId>
+        <artifactId>ezpizee-app</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>ezpizee-app-connector-ui</artifactId>
+    <artifactId>ezpizee-app-ui</artifactId>
     <packaging>content-package</packaging>
     <name>AEM App - Front-end Application</name>
     <description>AEM App Front-end Application</description>
@@ -98,7 +98,7 @@
                     <embeddeds>
                         <embedded>
                             <groupId>com.ezpizee.aem</groupId>
-                            <artifactId>ezpizee-app-connector-core</artifactId>
+                            <artifactId>ezpizee-app-core</artifactId>
                             <target>/apps/ezpizee/install</target>
                         </embedded>
                     </embeddeds>
@@ -193,7 +193,7 @@
 
         <dependency>
             <groupId>com.ezpizee.aem</groupId>
-            <artifactId>ezpizee-app-connector-core</artifactId>
+            <artifactId>ezpizee-app-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

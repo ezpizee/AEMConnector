@@ -44,6 +44,7 @@ public class Constants {
     public static final String HEADER_VALUE_USER_AGENT = "Ezpizee/1.0";
 
     // Properties
+    public static final String NODE_JCR_CONTENT = "jcr:content";
     public static final String PROP_JCR_PRIMARYTYPE = "jcr:primaryType";
     public static final String PROP_SLING_FOLDER = "sling:Folder";
     public static final String PROP_SLING_ORDER_FOLDER = "sling:OrderedFolder";
