@@ -19,6 +19,7 @@ public class Constants {
     public static final String ENDPOINT_GET_TOKEN = "/"+API_VERSION+"/auth/token";
     public static final String ENDPOINT_ENDPOINTS = "/"+API_VERSION+"/endpoints/list";
     public static final String SERVLET_INSTALL = "/bin/ezpizee/install";
+    public static final String SERVLET_DELETE = "/bin/ezpizee/delete";
 
     public static final String FORM_NAME = "wc_content_form";
 
@@ -42,6 +43,32 @@ public class Constants {
     public static final String HEADER_VALUE_JSON = "application/json";
     public static final String HEADER_VALUE_FORM = "application/x-www-form-urlencoded";
     public static final String HEADER_VALUE_USER_AGENT = "Ezpizee/1.0";
+    public static final String HEADER_PARAM_DELETE_ID = "Delete-Id";
+    public static final String HEADER_PARAM_CLIENT_ID = "Client-Id";
+    public static final String HEADER_PARAM_HASHED_APP_NAME = "Hashed-App-Name";
+
+    public static final String KEY_REST_API_URI_PARAMS = "rest_api_uri_params";
+    public static final String KEY_LIST = "list";
+    public static final String KEY_PAGINATION = "pagination";
+    public static final String KEY_ITEM_DATA = "item_data";
+    public static final String KEY_ENDPOINT = "endpoint";
+    public static final String KEY_EDIT_ID = "edit_id";
+    public static final String KEY_ID = "id";
+    public static final String KEY_PAGE_TITLE = "page_title";
+    public static final String KEY_METHOD = "method";
+    public static final String KEY_DELETE_API_ENDPOINT = "delete_api_endpoint";
+    public static final String KEY_DISPLAY_TEMPLATE = "display_template";
+    public static final String KEY_ACTIONS = "actions";
+    public static final String KEY_FIELDS = "fields";
+    public static final String KEY_FOLDER_FORM_AGE = "folder_form_page";
+    public static final String KEY_FILE_FORM_PAGE = "file_form_page";
+    public static final String KEY_LIST_PAGE = "list_page";
+    public static final String KEY_FORM_PAGE = "form_page";
+    public static final String KEY_FORM_ACTION = "formAction";
+    public static final String KEY_FIELD_KEYS = "fieldKeys";
+    public static final String KEY_FIELD_LABELS = "fieldLabels";
+    public static final String KEY_PARENT_ID = "parent_id";
+    public static final String KEY_HASHED_APP_NAME = "hashedAppName";
 
     // Properties
     public static final String NODE_JCR_CONTENT = "jcr:content";

@@ -46,8 +46,8 @@ public class AppConfigLoader {
             Client client = new Client(appConfig);
             client.setRequiredAccessToken(false);
             client.setAuth(appConfig.getClientId(), appConfig.getClientSecret());
-            client.setHeader(Constants.HEADER_PARAM_CTYPE, Constants.HEADER_VALUE_FORM);
-            client.setHeader(Constants.HEADER_PARAM_JWT, Jwt.clientTokenForAccessTokenRequest(
+            client.addHeader(Constants.HEADER_PARAM_CTYPE, Constants.HEADER_VALUE_FORM);
+            client.addHeader(Constants.HEADER_PARAM_JWT, Jwt.clientTokenForAccessTokenRequest(
                 appConfig.getEnv(), appConfig.getPublicKey(), appConfig.getClientId(), appConfig.getPhrase(), appConfig.getAppName()
             ));
             Map<String, Object> formParams = new HashMap<>();

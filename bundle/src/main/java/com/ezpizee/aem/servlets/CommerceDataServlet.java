@@ -6,7 +6,6 @@ import com.ezpizee.aem.utils.AppConfigLoader;
 import com.ezpizee.aem.utils.CommerceDataUtil;
 import com.ezpizee.aem.utils.DataUtil;
 import net.minidev.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -52,27 +51,39 @@ public final class CommerceDataServlet extends SlingSafeMethodsServlet {
         final Resource jcrRes = request.getResourceResolver().getResource(jcrPath);
         if (jcrRes != null) {
             final Map<String, Object> props = DataUtil.valueMap2Map(jcrRes.getValueMap());
-            if (request.getRequestParameterMap().containsKey("edit_id")) {
-                props.put("edit_id", request.getParameter("edit_id"));
+            if (request.getRequestParameterMap().containsKey(Constants.KEY_EDIT_ID)) {
+                props.put(Constants.KEY_EDIT_ID, request.getParameter(Constants.KEY_EDIT_ID));
+            }
+            if (request.getRequestParameterMap().containsKey(Constants.KEY_PARENT_ID)) {
+                JSONObject uriParams = new JSONObject();
+                uriParams.put(Constants.KEY_PARENT_ID, request.getParameter(Constants.KEY_PARENT_ID));
+                props.put(Constants.KEY_REST_API_URI_PARAMS, uriParams);
+            }
+            if (request.getRequestParameterMap().containsKey(Constants.KEY_ID)) {
+                JSONObject uriParams = new JSONObject();
+                uriParams.put(Constants.KEY_ID, request.getParameter(Constants.KEY_ID));
+                props.put(Constants.KEY_REST_API_URI_PARAMS, uriParams);
             }
             final CommerceDataUtil commerceDataUtil = new CommerceDataUtil();
             data = commerceDataUtil.fetch(appConfigLoader.getAppConfig(), props);
-            if (data.containsKey("fieldLabels")) {
+            if (data.containsKey(Constants.KEY_FIELD_LABELS)) {
                 I18n i18n = new I18n(request);
-                JSONObject fieldLabels = (JSONObject)data.get("fieldLabels");
+                JSONObject fieldLabels = (JSONObject)data.get(Constants.KEY_FIELD_LABELS);
                 for (String key : fieldLabels.keySet()) {
                     fieldLabels.put(key, i18n.get(fieldLabels.getAsString(key)));
                 }
-                data.put("fieldLabels", fieldLabels);
+                data.put(Constants.KEY_FIELD_LABELS, fieldLabels);
             }
             for (String key : props.keySet()) {
-                if (!data.containsKey(key)) {
-                    Object val = props.get(key);
-                    if (val instanceof String) {
-                        data.put(key, val);
-                    }
-                    else if (val instanceof String[]) {
-                        data.put(key, DataUtil.toJSONArray((String[])val));
+                if (!key.startsWith("jcr:") && !key.startsWith("cq:") && !key.startsWith("sling:")) {
+                    if (!data.containsKey(key)) {
+                        Object val = props.get(key);
+                        if (val instanceof String) {
+                            data.put(key, val);
+                        }
+                        else if (val instanceof String[]) {
+                            data.put(key, DataUtil.toJSONArray((String[])val));
+                        }
                     }
                 }
             }

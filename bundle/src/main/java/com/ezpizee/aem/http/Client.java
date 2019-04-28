@@ -44,9 +44,9 @@ public class Client
 
     public void setByPassAppConfigValidation(boolean b) { this.bypassAppConfigValidation = b; }
     public void setRequiredAccessToken(boolean b) { requiredAccessToken = b; }
-    public void setAuth(String username, String password) { this.setHeader(KEY_AUTH, "Basic "+HashUtil.base64Encode(username+":"+password)); }
+    public void setAuth(String username, String password) { this.addHeader(KEY_AUTH, "Basic "+HashUtil.base64Encode(username+":"+password)); }
     public void setHeaders(Map<String, String> headers) { this.headers = headers; }
-    public void setHeader(String key, String value) { this.headers.put(key, value); }
+    public void addHeader(String key, String value) { this.headers.put(key, value); }
     public void setFormParams(Map<String, Object> params) { formParams = params; }
     public void setQueries(Map<String, String> params) { queries = params; }
     public void setBody(String body) { this.body = body; }
@@ -163,11 +163,11 @@ public class Client
     }
 
     private void defaultHeaders() {
-        this.setHeader(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
-        this.setHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
-        this.setHeader(Constants.HEADER_PARAM_USER_NAME, this.appConfig.getUserName());
+        this.addHeader(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
+        this.addHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
+        this.addHeader(Constants.HEADER_PARAM_USER_NAME, this.appConfig.getUserName());
         if (this.requiredAccessToken) {
-            this.setHeader(Constants.HEADER_PARAM_ACCESS_TOKEN, Jwt.clientRequestToken(
+            this.addHeader(Constants.HEADER_PARAM_ACCESS_TOKEN, Jwt.clientRequestToken(
                 appConfig.getEnv(), appConfig.getAccessToken(), appConfig.getAppName()
             ));
         }

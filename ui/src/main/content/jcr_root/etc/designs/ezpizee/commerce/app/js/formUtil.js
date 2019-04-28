@@ -288,7 +288,7 @@ WC.formUtil.productManager = function(){
             var selectedValue = WC.formUtil.getVal(modalId, 'product_type');
             if (phpjs.sizeof(selectedValue) && selectedValue.id && (!dataType || dataType.id!==selectedValue.id)) {
                 WC.httpClient({
-                    url: WC.constants.COMMON_PRODUCT_TYPE_ATTRS_LIST.replace('{parent_id}', selectedValue.id),
+                    url: WC.constants.COMMON_PRODUCT_TYPE_ATTRS_LIST.replace('{parent_id}', selectedValue.id).replace('{id}', selectedValue.id),
                     success: function(data){
                         var html = [];
                         if (data.data && phpjs.is_array(data.data)) {

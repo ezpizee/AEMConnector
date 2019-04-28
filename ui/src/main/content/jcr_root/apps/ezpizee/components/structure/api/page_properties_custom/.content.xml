@@ -120,28 +120,22 @@
                         </actions>
                     </items>
                 </dataActions>
-                <list_page
+                <form_page
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                        fieldLabel="List Page"
-                        name="./list_page"
+                        fieldLabel="Form Page"
+                        name="./form_page"
                         rootPath="/content/ezpizee"/>
-                <formAction
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                        fieldLabel="Form Handler Page"
-                        name="./formAction"
-                        rootPath="/content/ezpizee"/>
-                <formApiEndpoint
+                <deleteApiEndpoint
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                        fieldDescription="For data submission request"
-                        fieldLabel="Form API Endpoint"
-                        name="./form_api_endpoint">
+                        fieldDescription="For data deletion request"
+                        fieldLabel="Delete API Endpoint"
+                        name="./delete_api_endpoint">
                     <datasource
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="/apps/ezpizee/components/datasource/endpoints"/>
-                </formApiEndpoint>
+                </deleteApiEndpoint>
                 <displayTemplate
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/select"
@@ -152,6 +146,11 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="/apps/ezpizee/components/datasource/displaytemplates"/>
                 </displayTemplate>
+                <uriParams
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                        fieldLabel="RESTful API URI Params (JSON String)"
+                        name="./rest_api_uri_params"/>
             </items>
         </column>
     </items>

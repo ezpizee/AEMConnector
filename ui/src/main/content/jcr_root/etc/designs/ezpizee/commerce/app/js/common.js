@@ -87,7 +87,7 @@ WC.deleteApp = function(element, endpoint, hashedAppName) {
         function onOk(modalId) {
             WC.httpClient({
                 type: 'DELETE',
-                url: WC.params.get('delete_endpoint'),
+                url: WC.constants.DELETE,
                 data: {hashedAppName: hashedAppName, endpoint: endpoint},
                 success: function (data) {
                     console.log(data);
@@ -118,7 +118,7 @@ WC.delete = function(endpoint, id) {
         function onOk(modalId) {
             WC.httpClient({
                 type: 'DELETE',
-                url: WC.params.get('delete_endpoint'),
+                url: WC.constants.DELETE,
                 data: {endpoint: endpoint, id: id},
                 success: function (data) {
                     if (phpjs.sizeof(data) && data.message) {
