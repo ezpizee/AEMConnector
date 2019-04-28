@@ -27,17 +27,15 @@ public class Endpoints extends BaseProperties {
         vm.put("text", "None");
         fakeResourceList.add(new ValueMapResource(getResourceResolver(), new ResourceMetadata(), Constants.PROP_NT_UNSTRUCTURE, vm));
 
-        if (getAppConfig().isValid()) {
-            JSONObject data = DataUtil.toJSONObject(ConfigUtil.getResource("data/endpoints.json"));
-            for (String service : data.keySet()) {
-                JSONObject actions = (JSONObject)data.get(service);
-                for (String action : actions.keySet()) {
-                    vm = new ValueMapDecorator(new HashMap<>());
-                    String endpoint = (String)(((JSONObject)actions.get(action)).get("uri"));
-                    vm.put("value", endpoint);
-                    vm.put("text", endpoint);
-                    fakeResourceList.add(new ValueMapResource(getResourceResolver(), new ResourceMetadata(), Constants.PROP_NT_UNSTRUCTURE, vm));
-                }
+        JSONObject data = DataUtil.toJSONObject(ConfigUtil.getResource("data/endpoints.json"));
+        for (String service : data.keySet()) {
+            JSONObject actions = (JSONObject)data.get(service);
+            for (String action : actions.keySet()) {
+                vm = new ValueMapDecorator(new HashMap<>());
+                String endpoint = (String)(((JSONObject)actions.get(action)).get("uri"));
+                vm.put("value", endpoint);
+                vm.put("text", endpoint);
+                fakeResourceList.add(new ValueMapResource(getResourceResolver(), new ResourceMetadata(), Constants.PROP_NT_UNSTRUCTURE, vm));
             }
         }
 

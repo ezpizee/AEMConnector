@@ -171,7 +171,7 @@ WC.assets = function() {
         return false;
     }
 
-    function href(url, q) {return url + ((url?url.split("?"):[]).length > 1 ? '&' : '?') + q;}
+    function href(url, q) {return url.replace('//', '') + ((url?url.split("?"):[]).length > 1 ? '&' : '?') + q;}
 
     function removeExtraColumns(container) {
         container = jQuery(container).parent().parent();

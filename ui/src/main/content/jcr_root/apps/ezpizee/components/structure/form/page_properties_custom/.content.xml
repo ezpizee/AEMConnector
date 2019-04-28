@@ -120,11 +120,11 @@
                         </actions>
                     </items>
                 </dataActions>
-                <targetPage
+                <list_page
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                        fieldLabel="Target Page"
-                        name="./targetPage"
+                        fieldLabel="List Page"
+                        name="./list_page"
                         rootPath="/content/ezpizee"/>
                 <formApiEndpoint
                         jcr:primaryType="nt:unstructured"

@@ -3,7 +3,6 @@ package com.ezpizee.aem.models;
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.utils.CommerceDataUtil;
 import com.ezpizee.aem.utils.DataUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 
 import java.util.Map;
@@ -24,8 +23,9 @@ public class CommerceData extends BaseProperties {
             props = DataUtil.valueMap2Map(getResource().getValueMap());
         }
         if (props != null) {
-            props.put("edit_id", getRequest().getRequestParameterMap().containsKey("edit_id")?getRequest().getParameter("edit_id"): StringUtils.EMPTY);
-            props.put("currentPagePath", getCurrentPage().getPath() + ".html");
+            if (getRequest().getRequestParameterMap().containsKey("edit_id")) {
+                props.put("edit_id", getRequest().getParameter("edit_id"));
+            }
             CommerceDataUtil commerceDataUtil = new CommerceDataUtil();
             data = commerceDataUtil.fetch(getAppConfig(), props);
         }

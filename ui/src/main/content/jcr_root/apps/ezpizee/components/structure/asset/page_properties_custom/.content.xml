@@ -120,12 +120,6 @@
                         </actions>
                     </items>
                 </dataActions>
-                <form_page
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
-                        fieldLabel="Form Page"
-                        name="./form_page"
-                        rootPath="/content/ezpizee"/>
                 <deleteApiEndpoint
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/select"
@@ -146,6 +140,18 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="/apps/ezpizee/components/datasource/displaytemplates"/>
                 </displayTemplate>
+                <folderForm
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                        fieldLabel="Assets - Folder Form Page"
+                        name="./folder_form_page"
+                        rootPath="/content/ezpizee"/>
+                <fileForm
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                        fieldLabel="Assets - File Form Page"
+                        name="./file_form_page"
+                        rootPath="/content/ezpizee"/>
                 <uriParams
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/textarea"

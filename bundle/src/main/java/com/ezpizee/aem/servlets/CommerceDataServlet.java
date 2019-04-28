@@ -1,5 +1,6 @@
 package com.ezpizee.aem.servlets;
 
+import com.day.cq.i18n.I18n;
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.utils.AppConfigLoader;
 import com.ezpizee.aem.utils.CommerceDataUtil;
@@ -51,10 +52,30 @@ public final class CommerceDataServlet extends SlingSafeMethodsServlet {
         final Resource jcrRes = request.getResourceResolver().getResource(jcrPath);
         if (jcrRes != null) {
             final Map<String, Object> props = DataUtil.valueMap2Map(jcrRes.getValueMap());
-            props.put("edit_id", request.getRequestParameterMap().containsKey("edit_id")?request.getParameter("edit_id"): StringUtils.EMPTY);
-            props.put("currentPagePath", parts[0] + ".html");
+            if (request.getRequestParameterMap().containsKey("edit_id")) {
+                props.put("edit_id", request.getParameter("edit_id"));
+            }
             final CommerceDataUtil commerceDataUtil = new CommerceDataUtil();
             data = commerceDataUtil.fetch(appConfigLoader.getAppConfig(), props);
+            if (data.containsKey("fieldLabels")) {
+                I18n i18n = new I18n(request);
+                JSONObject fieldLabels = (JSONObject)data.get("fieldLabels");
+                for (String key : fieldLabels.keySet()) {
+                    fieldLabels.put(key, i18n.get(fieldLabels.getAsString(key)));
+                }
+                data.put("fieldLabels", fieldLabels);
+            }
+            for (String key : props.keySet()) {
+                if (!data.containsKey(key)) {
+                    Object val = props.get(key);
+                    if (val instanceof String) {
+                        data.put(key, val);
+                    }
+                    else if (val instanceof String[]) {
+                        data.put(key, DataUtil.toJSONArray((String[])val));
+                    }
+                }
+            }
         }
         else {
             data = new JSONObject();

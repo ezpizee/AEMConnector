@@ -1,146 +1,629 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-		  jcr:language="en"
-		  jcr:mixinTypes="[mix:language]"
-		  jcr:primaryType="nt:folder">
-	<action
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="ACTION"
-			sling:message="Action"/>
-	<edit
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="EDIT"
-			sling:message="Edit"/>
-	<delete
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="DELETE"
-			sling:message="Delete"/>
-	<add
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="ADD"
-			sling:message="Add"/>
-	<save
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="SAVE"
-			sling:message="Save"/>
-	<cancel
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="CANCEL"
-			sling:message="Cancel"/>
-	<noResult
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="NO_RESULTS"
-			sling:message="No item was found"/>
-	<next
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="NEXT"
-			sling:message="Next"/>
-	<previous
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="PREVIOUS"
-			sling:message="Previous"/>
-	<more
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="MORE"
-			sling:message="More..."/>
-	<less
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="LESS"
-			sling:message="Less"/>
-	<id
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="id"
-			sling:message="ID"/>
-	<name
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="name"
-			sling:message="Name"/>
-	<name_with_depth
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="name_with_depth"
-			sling:message="Name"/>
-	<internal_name
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="internal_name"
-			sling:message="Internal Name"/>
-	<public_name
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="public_name"
-			sling:message="Public Name"/>
-	<description
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="description"
-			sling:message="Description"/>
-	<parent
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="parent"
-			sling:message="Parent"/>
-	<addr_street
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="addr_street"
-			sling:message="Street"/>
-	<addr_city
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="addr_city"
-			sling:message="City"/>
-	<addr_province
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="addr_province"
-			sling:message="State / Province"/>
-	<addr_country
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="addr_country"
-			sling:message="Country"/>
-	<addr_postalcode
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="addr_postalcode"
-			sling:message="Zip / Postal Code"/>
-	<email
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="email"
-			sling:message="Email"/>
-	<url
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="url"
-			sling:message="URL"/>
-	<telephone
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="telephone"
-			sling:message="Telephone"/>
-	<telephone_type
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="telephone_type"
-			sling:message="Telephone type"/>
-	<parent_name
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="parent_name"
-			sling:message="Parent Name"/>
-	<tax_code
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="tax_code"
-			sling:message="Tax Code"/>
-	<tax_rate
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="tax_rate"
-			sling:message="Tax Rate"/>
-	<start_date
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="start_date"
-			sling:message="Start Date"/>
-	<end_date
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="end_date"
-			sling:message="End Date"/>
-	<offer_type
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="offer_type"
-			sling:message="Offer Type"/>
-	<percentage_off
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="percentage_off"
-			sling:message="Percentage off"/>
-	<published
-			jcr:primaryType="sling:MessageEntry"
-			sling:key="published"
-			sling:message="Is Published?"/>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+          xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:language="en"
+          jcr:mixinTypes="[mix:language]"
+          jcr:primaryType="nt:folder">
+    <label_na
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_NA"
+            sling:message="Not Applicable"/>
+    <label_id
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ID"
+            sling:message="ID"/>
+    <label_name
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_NAME"
+            sling:message="Name"/>
+    <label_internal_name
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_INTERNAL_NAME"
+            sling:message="Internal Name"/>
+    <label_public_name
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PUBLIC_NAME"
+            sling:message="Public Name"/>
+    <label_description
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_DESCRIPTION"
+            sling:message="Description"/>
+    <label_config_value
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_CONFIG_VALUE"
+            sling:message="Predefined Data - Config Value"/>
+    <label_tax_code
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TAX_CODE"
+            sling:message="Tax Code"/>
+    <label_tax_rate
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TAX_RATE"
+            sling:message="Tax Rate"/>
+    <label_modal_store
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_STORE"
+            sling:message="Store"/>
+    <label_modal_stores
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_STORES"
+            sling:message="Stores"/>
+    <label_modal_payment_service
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_PAYMENT_SERVICE"
+            sling:message="Payment Service"/>
+    <label_modal_payment_method
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_PAYMENT_METHOD"
+            sling:message="Payment Method"/>
+    <label_modal_country
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_COUNTRY"
+            sling:message="Country"/>
+    <label_modal_currency
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_CURRENCY"
+            sling:message="Currency"/>
+    <label_modal_temperature
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_TEMPERATURE"
+            sling:message="Temperature"/>
+    <label_modal_length
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_LENGTH"
+            sling:message="Length"/>
+    <label_modal_weight
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_WEIGHT"
+            sling:message="Weight"/>
+    <label_modal_address
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_ADDRESS"
+            sling:message="Address"/>
+    <label_modal_category
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_CATEGORY"
+            sling:message="Category"/>
+    <label_modal_category_parent
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_CATEGORY_PARENT"
+            sling:message="Parent"/>
+    <label_modal_product_type
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_PRODUCT_TYPE"
+            sling:message="Product Type"/>
+    <label_modal_product
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_PRODUCT"
+            sling:message="Product"/>
+    <label_modal_product_1
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_PRODUCT_1"
+            sling:message="Product 1"/>
+    <label_modal_product_2
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MODAL_PRODUCT_2"
+            sling:message="Product 2"/>
+    <label_price
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PRICE"
+            sling:message="Price"/>
+    <label_published_start
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PUBLISHED_START"
+            sling:message="Publish Start"/>
+    <label_published_end
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PUBLISHED_END"
+            sling:message="Publish End"/>
+    <label_sku
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SKU"
+            sling:message="Sku"/>
+    <label_barcode
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_BARCODE"
+            sling:message="Barcode"/>
+    <label_in_stock
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_IN_STOCK"
+            sling:message="In-Stock"/>
+    <label_product_type
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PRODUCT_TYPE"
+            sling:message="Type"/>
+    <label_is_variation
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_IS_VARIATION"
+            sling:message="Is Variation"/>
+    <label_category_ordering
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_CATEGORY_ORDERING"
+            sling:message="Category Ordering"/>
+    <label_email
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_EMAIL"
+            sling:message="Email"/>
+    <label_url
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_URL"
+            sling:message="URL"/>
+    <label_telephone
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TELEPHONE"
+            sling:message="Telephone"/>
+    <label_telephone_country
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TELEPHONE_COUNTRY"
+            sling:message="Country Code"/>
+    <label_telephone_area
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TELEPHONE_AREA"
+            sling:message="Area Code"/>
+    <label_telephone_number
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TELEPHONE_NUMBER"
+            sling:message="Number"/>
+    <label_telephone_ext
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TELEPHONE_EXT"
+            sling:message="Extension"/>
+    <label_telephone_type
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TELEPHONE_TYPE"
+            sling:message="Telephone Type"/>
+    <label_addr_street
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADDR_STREET"
+            sling:message="Street"/>
+    <label_addr_city
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADDR_CITY"
+            sling:message="City"/>
+    <label_addr_province
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADDR_PROVINCE"
+            sling:message="Province"/>
+    <label_addr_country
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADDR_COUNTRY"
+            sling:message="Country"/>
+    <label_addr_postalcode
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADDR_POSTALCODE"
+            sling:message="Postal Code"/>
+    <label_payment_api
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PAYMENT_API"
+            sling:message="Payment API"/>
+    <label_min_amount
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MIN_AMOUNT"
+            sling:message="Min Amount"/>
+    <label_max_amount
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MAX_AMOUNT"
+            sling:message="Max Amount"/>
+    <label_fee_per_transaction
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_FEE_PER_TRANSACTION"
+            sling:message="Fee per transaction"/>
+    <label_parent
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PARENT"
+            sling:message="Parent"/>
+    <label_action
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ACTION"
+            sling:message="Action"/>
+    <label_payment_service_fieldset
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PAYMENT_SERVICE_FIELDSET"
+            sling:message="Payment Service Fieldset"/>
+    <label_duration
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_DURATION"
+            sling:message="Duration"/>
+    <label_shipping_cost
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SHIPPING_COST"
+            sling:message="Shipping Cost"/>
+    <label_package_fee
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PACKAGE_FEE"
+            sling:message="Package Fee"/>
+    <label_min_weight
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MIN_WEIGHT"
+            sling:message="Min Weight"/>
+    <label_max_weight
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MAX_WEIGHT"
+            sling:message="Max Weight"/>
+    <label_min_numprods
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MIN_NUMPRODS"
+            sling:message="Min # Products"/>
+    <label_max_numprods
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MAX_NUMPRODS"
+            sling:message="Max # Products"/>
+    <label_min_orderamount
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MIN_ORDERAMOUNT"
+            sling:message="Min Order Amount"/>
+    <label_max_orderamount
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MAX_ORDERAMOUNT"
+            sling:message="Max Order Amount"/>
+    <label_min_amount_get_free
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_MIN_AMOUNT_GET_FREE"
+            sling:message="Min Amount Get Free Shipping"/>
+    <label_name_with_depth
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_NAME_WITH_DEPTH"
+            sling:message="Name"/>
+    <label_parent_name
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PARENT_NAME"
+            sling:message="Parent"/>
+    <label_published
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PUBLISHED"
+            sling:message="Published"/>
+    <label_add
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADD"
+            sling:message="Add"/>
+    <label_edit
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_EDIT"
+            sling:message="Edit"/>
+    <label_cancel
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_CANCEL"
+            sling:message="Cancel"/>
+    <label_back
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_BACK"
+            sling:message="Back"/>
+    <label_save
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SAVE"
+            sling:message="Save"/>
+    <label_delete
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_DELETE"
+            sling:message="Delete"/>
+    <label_ordering_item
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ORDERING_ITEM"
+            sling:message="Item"/>
+    <label_ordering_position
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ORDERING_POSITION"
+            sling:message="Ordering Position"/>
+    <label_root
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ROOT"
+            sling:message="Root"/>
+    <label_select_one
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SELECT_ONE"
+            sling:message="Select One"/>
+    <label_browse
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_BROWSE"
+            sling:message="Browse"/>
+    <message_form_submission_success
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="MESSAGE_FORM_SUBMISSION_SUCCESS"
+            sling:message="Successfully save."/>
+    <message_delete_success
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="MESSAGE_DELETE_SUCCESS"
+            sling:message="Successfully deleted."/>
+    <message_invalid_request
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="MESSAGE_INVALID_REQUEST"
+            sling:message="Invalid request."/>
+    <label_confirm_delete
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_CONFIRM_DELETE"
+            sling:message="Confirm delete"/>
+    <label_confirm_delete_message
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_CONFIRM_DELETE_MESSAGE"
+            sling:message="Are you sure you want to delete this item."/>
+    <label_field_type
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_FIELD_TYPE"
+            sling:message="Field Type"/>
+    <label_default_value
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_DEFAULT_VALUE"
+            sling:message="Default Value"/>
+    <label_setup
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SETUP"
+            sling:message="Setup"/>
+    <label_alttext
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ALTTEXT"
+            sling:message="Alt Text"/>
+    <label_title
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_TITLE"
+            sling:message="Title"/>
+    <label_row
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ROW"
+            sling:message="Row"/>
+    <label_height
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_HEIGHT"
+            sling:message="Height"/>
+    <label_width
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_WIDTH"
+            sling:message="Width"/>
+    <label_column
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_COLUMN"
+            sling:message="Column"/>
+    <label_range_start
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_RANGE_START"
+            sling:message="Range - Start"/>
+    <label_range_end
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_RANGE_END"
+            sling:message="Range - End"/>
+    <label_range_min
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_RANGE_MIN"
+            sling:message="Range - Min"/>
+    <label_range_max
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_RANGE_MAX"
+            sling:message="Range - Max"/>
+    <label_product_attrs
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PRODUCT_ATTRS"
+            sling:message="Product Attrs"/>
+    <label_start_date
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_START_DATE"
+            sling:message="Start Date"/>
+    <label_end_date
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_END_DATE"
+            sling:message="End Date"/>
+    <label_offer_type
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_OFFER_TYPE"
+            sling:message="Offer Type"/>
+    <label_percentage_off
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PERCENTAGE_OFF"
+            sling:message="% Discount"/>
+    <label_percentage_off_1
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PERCENTAGE_OFF_1"
+            sling:message="% Discount 1"/>
+    <label_percentage_off_2
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PERCENTAGE_OFF_2"
+            sling:message="% Discount 2"/>
+    <label_publish_start_date
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PUBLISH_START_DATE"
+            sling:message="Publish Start Date"/>
+    <label_publish_end_date
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PUBLISH_END_DATE"
+            sling:message="Publish End Date"/>
+    <label_folder
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_FOLDER"
+            sling:message="Folder"/>
+    <label_add_folder
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADD_FOLDER"
+            sling:message="Create Folder"/>
+    <label_file
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_FILE"
+            sling:message="File"/>
+    <label_files
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_FILES"
+            sling:message="Files"/>
+    <label_add_file
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_ADD_FILE"
+            sling:message="Upload File"/>
+    <label_product_mode
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_PRODUCT_MODE"
+            sling:message="Product Mode"/>
+    <tab_basic
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="TAB_BASIC"
+            sling:message="Basic"/>
+    <tab_product_type_and_attrs
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="TAB_PRODUCT_TYPE_AND_ATTRS"
+            sling:message="Product Type &amp; Attributes"/>
+    <tab_stores_and_categories
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="TAB_STORES_AND_CATEGORIES"
+            sling:message="Stores &amp; Categories"/>
+    <tab_assets_or_files
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="TAB_ASSETS_OR_FILES"
+            sling:message="Assets / Files"/>
+    <product_mode_physical
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PRODUCT_MODE_PHYSICAL"
+            sling:message="Physical"/>
+    <product_mode_download
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PRODUCT_MODE_DOWNLOAD"
+            sling:message="Download"/>
+    <product_mode_subscription
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PRODUCT_MODE_SUBSCRIPTION"
+            sling:message="Subscription"/>
+    <no_results
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="NO_RESULTS"
+            sling:message="There's no item."/>
+    <work_mobile
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="WORK_MOBILE"
+            sling:message="Work Mobile"/>
+    <personal_mobile
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PERSONAL_MOBILE"
+            sling:message="Personal Mobile"/>
+    <work_landline
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="WORK_LANDLINE"
+            sling:message="Work Land Line"/>
+    <first
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="FIRST"
+            sling:message="First"/>
+    <last
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LAST"
+            sling:message="Last"/>
+    <before
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="BEFORE"
+            sling:message="Before"/>
+    <after
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="AFTER"
+            sling:message="After"/>
+    <client_id
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="CLIENT_ID"
+            sling:message="Client ID"/>
+    <client_secret
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="CLIENT_SECRET"
+            sling:message="Client Secret"/>
+    <select_one
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="SELECT_ONE"
+            sling:message="Select One"/>
+    <credit_card
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="CREDIT_CARD"
+            sling:message="Credit Card"/>
+    <paypalhere
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PAYPALHERE"
+            sling:message="PayPal Here"/>
+    <paytype
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PAYTYPE"
+            sling:message="Pay Type"/>
+    <api_key
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="API_KEY"
+            sling:message="API Key"/>
+    <business_day
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="BUSINESS_DAY"
+            sling:message="Business days"/>
+    <required
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="REQUIRED"
+            sling:message="Required"/>
+    <answer_yes
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="ANSWER_YES"
+            sling:message="Yes"/>
+    <answer_no
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="ANSWER_NO"
+            sling:message="No"/>
+    <add
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="ADD"
+            sling:message="Add"/>
+    <remove
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="REMOVE"
+            sling:message="Remove"/>
+    <optional
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="OPTIONAL"
+            sling:message="Optional"/>
+    <discount
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="DISCOUNT"
+            sling:message="Discount"/>
+    <bundle
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="BUNDLE"
+            sling:message="Bundle"/>
+    <crosssell
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="CROSSSELL"
+            sling:message="Cross Sell"/>
+    <upsell
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="UPSELL"
+            sling:message="Up Sell"/>
+    <previous
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PREVIOUS"
+            sling:message="Previous"/>
+    <next
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="NEXT"
+            sling:message="Next"/>
+    <show_more
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="SHOW_MORE"
+            sling:message="Show more"/>
+    <show_less
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="SHOW_LESS"
+            sling:message="Show less"/>
+    <mimetype
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="MIMETYPE"
+            sling:message="Mime-type"/>
+    <size
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="SIZE"
+            sling:message="Size"/>
+    <created_on
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="CREATED_ON"
+            sling:message="Created"/>
+    <modified_on
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="MODIFIED_ON"
+            sling:message="Modified"/>
+    <label_file_name
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_FILE_NAME"
+            sling:message="File name"/>
+    <product_type_on_product_form_notes
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="PRODUCT_TYPE_ON_PRODUCT_FORM_NOTES"
+            sling:message="After selected and saved, product type cannot be changed."/>
+    <is_main
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="IS_MAIN"
+            sling:message="Is Main"/>
 </jcr:root>

@@ -15,6 +15,6 @@
             <sly data-sly-include="content.html"></sly>
         </div>
         <sly data-sly-include="partials/footerscripts.html"></sly>
-        <sly data-sly-include="partials/hbs.html"></sly>
+        <sly data-sly-use.hbsTemplates="com.ezpizee.aem.models.HBSTemplates">${hbsTemplates.data.hbs @ context='unsafe'}</sly>
     </body>
 </html>

@@ -17,7 +17,6 @@
     <modules>
         <module>bundle</module>
         <module>ui</module>
-        <module>workflow</module>
     </modules>
     <!-- ====================================================================== -->
     <!-- P R O J E C T  P R O P E R T I E S                                     -->
