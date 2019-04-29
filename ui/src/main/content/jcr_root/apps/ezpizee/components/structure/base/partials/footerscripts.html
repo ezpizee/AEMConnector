@@ -109,4 +109,7 @@
     WC.constants.CROSS_SELL_LIST = WCConfig.adminPathPfx + 'offer-manager/cross-sells.ezpz.json';
     WC.constants.UP_SELL_LIST = WCConfig.adminPathPfx + 'offer-manager/up-sells.ezpz.json';
     WC.constants.CART_ITEM_LIST = WCConfig.adminPathPfx + 'cart/items.ezpz.json';
+    if (typeof loadDefaultOnInit !== "undefined" && loadDefaultOnInit === true) {
+        WC.loadPage('/content/ezpizee/dashboard.ezpz.json');
+    }
 </script>
