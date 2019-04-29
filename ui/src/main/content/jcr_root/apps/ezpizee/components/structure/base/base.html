@@ -11,8 +11,15 @@
         <sly data-sly-include="partials/head.html"></sly>
     </head>
     <body class="${mod.bodyClass}" vocab="http://schema.org/" typeof="WebPage">
-        <div class="root">
-            <sly data-sly-include="content.html"></sly>
+        <div class="root" data-sly-use.ezpzPageProps="com.ezpizee.aem.models.PageProperties">
+            <sly data-sly-test="${ezpzPageProps.data.validAppConfig}">
+                <sly data-sly-include="content.html"></sly>
+            </sly>
+            <div class="container-fluid" data-sly-test="${!ezpzPageProps.data.validAppConfig}">
+                <main class="main" id="top" data-sly-use.ezpzPageProps="com.ezpizee.aem.models.PageProperties">
+                    <sly data-sly-resource="${'install' @ resourceType='/apps/ezpizee/components/content/install'}"></sly>
+                </main>
+            </div>
         </div>
         <sly data-sly-include="partials/footerscripts.html"></sly>
         <sly data-sly-use.hbsTemplates="com.ezpizee.aem.models.HBSTemplates">${hbsTemplates.data.hbs @ context='unsafe'}</sly>

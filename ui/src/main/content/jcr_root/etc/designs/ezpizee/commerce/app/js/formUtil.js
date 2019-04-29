@@ -68,83 +68,86 @@ WC.formUtil = function() {
     that.bindValidator = function(noAjaxSubmit) {
         let forms = jQuery('form');
         if (forms.length) {
-            let ids = [];
             forms.each(function(){
                 let e = jQuery(this);
-                if (e.attr('id')) {
-                    ids.push('#'+e.attr('id'));
-                }
-                else {
-                    let id = phpjs.uniqid('ezpz-form-');
-                    e.attr('id', id);
-                    ids.push('#'+id);
+                if (!WC.isHooked(e, 'validator')) {
+                    if (e.attr('id')) {
+                        _bindValidator('#'+e.attr('id'), noAjaxSubmit);
+                    }
+                    else {
+                        let id = phpjs.uniqid('ezpz-form-');
+                        e.attr('id', id);
+                        _bindValidator('#'+id, noAjaxSubmit);
+                    }
                 }
             });
-            if (ids.length) {
-                jQuery.validate({
-                    form: ids.join(','),
-                    modules : 'location, date, security, file',
-                    errorMessagePosition: 'top',
-                    showHelpOnFocus: false,
-                    onModulesLoaded : function() {},
-                    onSuccess: function($form) {
-                        if (noAjaxSubmit) {
-                            return true;
-                        }
-                        let oldAction = $form.attr('action');
-                        let parts = oldAction.split('#!');
-                        if (parts.length === 2) {
-                            let action = parts[parts.length-1];
-                            let parts2 = action.split('?');
-                            $form.attr('action', action+(parts2.length>1?'&':'?')+'response=json');
-                        }
-                        // ajax submit the form via jquery.form
-                        let spinner = WC.spinner.start();
-                        $form.ajaxSubmit({
-                            success: function(resp) {
-                                if (phpjs.is_string(resp)) {resp=phpjs.json_decode(resp)||{};}
-                                if (typeof resp.success !== "undefined") {
-                                    WC.renderAlert('success', resp.message||"Unknown message", formMsgId($form));
-                                    if (typeof resp.data !== "undefined" && phpjs.is_object(resp.data) &&
-                                        typeof resp.data.id !== "undefined" && phpjs.strpos(oldAction, 'edit_id='+resp.data.id) === false) {
-                                        oldAction = oldAction + '?edit_id='+resp.data.id;
-                                        location.href = oldAction;
-                                    }
-                                    else {
-                                        $form.attr('action', oldAction);
-                                    }
-                                    if ($form.attr('data-onsubmit-success')) {
-                                        $form.attr('data-onsubmit-success')(resp);
-                                    }
-                                }
-                                else {
-                                    WC.renderAlert('error', resp.message||"Unknown message", formMsgId($form));
-                                    $form.attr('action', oldAction);
-                                    if ($form.attr('data-onsubmit-error')) {
-                                        $form.attr('data-onsubmit-error')(resp);
-                                    }
-                                }
-                                spinner.stop();
-                            },
-                            error: function(a,b,c) {
-                                spinner.stop();
-                                WC.renderAlert('error', 'Error. '+c, formMsgId($form));
-                            }
-                        });
-                        return false;
-                    },
-                    onError: function($form) {
-                        if ($form.find('.form-error.alert').length) {
-                            setTimeout(function(){
-                                $form.find('.form-error.alert').fadeOut();
-                            }, 4500);
-                        }
-                        return false;
-                    }
-                });
-            }
         }
     };
+
+    function _bindValidator(selector, noAjaxSubmit) {
+        console.log(selector, noAjaxSubmit);
+        jQuery.validate({
+            form: selector,
+            modules : 'location, date, security, file',
+            errorMessagePosition: 'top',
+            showHelpOnFocus: false,
+            onModulesLoaded : function() {},
+            onSuccess: function($form) {
+                if (noAjaxSubmit) {
+                    return true;
+                }
+                let oldAction = $form.attr('action');
+                let parts = oldAction.split('#!');
+                if (parts.length === 2) {
+                    let action = parts[parts.length-1];
+                    let parts2 = action.split('?');
+                    $form.attr('action', action+(parts2.length>1?'&':'?')+'response=json');
+                }
+                // ajax submit the form via jquery.form
+                let spinner = WC.spinner.start();
+                $form.ajaxSubmit({
+                    success: function(resp) {
+                        if (phpjs.is_string(resp)) {resp=phpjs.json_decode(resp)||{};}
+                        if (typeof resp.success !== "undefined") {
+                            WC.renderAlert('success', resp.message||"Unknown message", formMsgId($form));
+                            if (typeof resp.data !== "undefined" && phpjs.is_object(resp.data) &&
+                                typeof resp.data.id !== "undefined" && phpjs.strpos(oldAction, 'edit_id='+resp.data.id) === false) {
+                                oldAction = oldAction + '?edit_id='+resp.data.id;
+                                location.href = oldAction;
+                            }
+                            else {
+                                $form.attr('action', oldAction);
+                            }
+                            if ($form.attr('data-onsubmit-success')) {
+                                $form.attr('data-onsubmit-success')(resp);
+                            }
+                        }
+                        else {
+                            WC.renderAlert('error', resp.message||"Unknown message", formMsgId($form));
+                            $form.attr('action', oldAction);
+                            if ($form.attr('data-onsubmit-error')) {
+                                $form.attr('data-onsubmit-error')(resp);
+                            }
+                        }
+                        spinner.stop();
+                    },
+                    error: function(a,b,c) {
+                        spinner.stop();
+                        WC.renderAlert('error', 'Error. '+c, formMsgId($form));
+                    }
+                });
+                return false;
+            },
+            onError: function($form) {
+                if ($form.find('.form-error.alert').length) {
+                    setTimeout(function(){
+                        $form.find('.form-error.alert').fadeOut();
+                    }, 4500);
+                }
+                return false;
+            }
+        });
+    }
 
     function formMsgId($form) {
         if (!$('#'+$form.attr('id')+'-msg').length) {

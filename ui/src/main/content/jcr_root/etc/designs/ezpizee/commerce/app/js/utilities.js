@@ -403,7 +403,7 @@ WC.utilities = function () {
 
     that.applySortable = function (selector) {
         var e = jQuery(selector);
-        if (!isHooked(e, 'sortable')) {
+        if (!WC.isHooked(e, 'sortable')) {
             e.sortable({
                 group: phpjs.uniqid('no-drop-'),
                 handle: '.fa-arrows-alt',
@@ -419,7 +419,7 @@ WC.utilities = function () {
 
     that.applyColorPicker = function (selector) {
         var e = jQuery(selector);
-        if (!isHooked(e, 'colorpicker')) {
+        if (!WC.isHooked(e, 'colorpicker')) {
             e.colorpicker({
                 inline: true,
                 container: true,
@@ -450,7 +450,7 @@ WC.utilities = function () {
 
     that.applyDatePicker = function (selector, settings) {
         var e = jQuery(selector);
-        if (!isHooked(e, 'datepicker')) {
+        if (!WC.isHooked(e, 'datepicker')) {
             e.datepicker(settings || {
                 format: 'yyyy-mm-dd',
                 startDate: '-3d',
@@ -461,7 +461,7 @@ WC.utilities = function () {
 
     that.applyDateTimePicker = function (selector, settings) {
         var e = jQuery(selector);
-        if (!isHooked(e, 'datetimepicker')) {
+        if (!WC.isHooked(e, 'datetimepicker')) {
             e.each(function(){
                 var $t = jQuery(this);
                 var $id = phpjs.uniqid('dt-');
@@ -491,7 +491,7 @@ WC.utilities = function () {
 
     that.applyMoreLess = function(selector) {
         var ele = jQuery(selector);
-        if (!isHooked(ele, 'moreless')) {
+        if (!WC.isHooked(ele, 'moreless')) {
             ele.each(function(){
                 var e = jQuery(this);
                 var id = null;
@@ -535,7 +535,7 @@ WC.utilities = function () {
         if (e.length) {
             e.each(function(){
                 var $t = jQuery(this);
-                if (!isHooked($t, 'lightbox')) {
+                if (!WC.isHooked($t, 'lightbox')) {
                     $t.on('click', function(event){
                         event.preventDefault();
                         jQuery(this).ekkoLightbox();
@@ -545,20 +545,6 @@ WC.utilities = function () {
             });
         }
     };
-
-    function isHooked(e, s) {
-        if (e.length && !e.attr('data-hooked-'+s)) {
-            e.attr('data-hooked-'+s, true);
-            return false;
-        }
-        return true;
-    }
-
-    function unHook(e, s) {
-        if (e.length && e.attr('data-hooked-'+s)) {
-            e.removeAttr('data-hooked-'+s);
-        }
-    }
 
     return that;
 }();

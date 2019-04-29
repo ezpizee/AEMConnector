@@ -48,6 +48,7 @@ public class DeleteServlet extends SlingAllMethodsServlet {
             responseObject.setStatusCode(200);
             responseObject.setSuccess(false);
             responseObject.setMessage("invalid_request");
+            LOG.debug(request.getRequestParameterMap().toString());
         }
 
         response.getWriter().write(responseObject.toString());

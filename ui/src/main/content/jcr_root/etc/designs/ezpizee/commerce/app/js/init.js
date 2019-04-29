@@ -1,5 +1,6 @@
 $(document).ready(function(){
     WC.aem();
+    WC.bindCSRFTokenToAjaxCalls();
     WC.observers.init();
     WC.formUtil.init();
     let uri = new WC.uri();

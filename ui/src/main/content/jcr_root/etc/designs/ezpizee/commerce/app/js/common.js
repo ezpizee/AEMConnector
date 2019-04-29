@@ -233,3 +233,17 @@ WC.loadPage = function(uri) {
         });
     }
 };
+
+WC.isHooked = function(e, s) {
+    if (e.length && !e.attr('data-hooked-'+s)) {
+        e.attr('data-hooked-'+s, true);
+        return false;
+    }
+    return true;
+};
+
+WC.unHook = function(e, s) {
+    if (e.length && e.attr('data-hooked-'+s)) {
+        e.removeAttr('data-hooked-'+s);
+    }
+};
