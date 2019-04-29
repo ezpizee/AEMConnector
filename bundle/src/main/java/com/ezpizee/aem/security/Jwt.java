@@ -126,7 +126,6 @@ public class Jwt {
     private static Algorithm algorithm() { return Algorithm.HMAC256(ecdsaKey()); }
 
     private static String ecdsaKey() {
-        return "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJL2OA0xJsYJz+"+
-            "Va+ayzfBqbMsPRy2wIMDbPHSS0xVoTj6Vl+Mcl5WHAmudwhie5k8DnWKssCPJEhUkVY7a7I18= info@webconsol.com\n";
+        return "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJL2OA0xJsYJz+Va+ayzfBqbMsPRy2wIMDbPHSS0xVoTj6Vl+Mcl5WHAmudwhie5k8DnWKssCPJEhUkVY7a7I18= info@webconsol.com";
     }
 }

@@ -22,6 +22,7 @@ public class SSHAgent {
         client.setRequiredAccessToken(false);
         client.setByPassAppConfigValidation(true);
         client.setFormParams(formData);
+        client.setByPassAppConfigValidation(true);
         Response response = client.post(Constants.ENDPOINT_GEN_SSH_KEYS);
         if (response.isSuccess() && response.hasData("public_key")) {
             return (String)response.getDataAsJSONObject().get("public_key");
