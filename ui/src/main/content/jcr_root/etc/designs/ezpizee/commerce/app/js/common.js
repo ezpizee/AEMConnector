@@ -1,3 +1,4 @@
+var WCConfig = WCConfig||{};
 var WC = function() {
     var that = {};
     var hbsTmpls = {};
@@ -22,11 +23,13 @@ var WC = function() {
             }
         });
     };
+    that.csrfTokenName = WCConfig.csrfTokenName;
+    that.csrfTokenValue = WCConfig.csrfTokenValue||'';
     that.bindCSRFTokenToAjaxCalls = function() {
         $.ajaxSetup({
             beforeSend: function (xhr) {
-                if (typeof csrftoken !== "undefined") {
-                    xhr.setRequestHeader("csrftoken", csrftoken);
+                if (WC.csrfTokenName && WC.csrfTokenValue) {
+                    xhr.setRequestHeader(WC.csrfTokenName, WC.csrfTokenValue);
                 }
             }
         });
@@ -85,14 +88,41 @@ WC.filterList = function(e){
     }
 };
 
+WC.aem = function() {
+    if (typeof WCConfig.aemCSRFTokenPath !== "undefined") {
+        updateToken();
+        // load every 10 minutes
+        setInterval(updateToken, 100000);
+    }
+    function updateToken() {
+        $.ajax({
+            url: WCConfig.aemCSRFTokenPath,
+            dataType: 'json',
+            success: function(data) {
+                WC.csrfTokenName = WCConfig.csrfTokenName;
+                if (data && data.token) {
+                    WC.csrfTokenValue = data.token;
+                    var field = $('[name="'+WC.csrfTokenName+'"]');
+                    if (field.length) {
+                        field.attr('value', data.token);
+                    }
+                }
+            }
+        });
+    }
+};
+
+// use for deleting user's installed app
 WC.deleteApp = function(element, endpoint, hashedAppName) {
     if (hashedAppName) {
         var e = WC.renderModal(WC.i18n.get('LABEL_CONFIRM_DELETE'), WC.i18n.get('LABEL_CONFIRM_DELETE_MESSAGE'));
         var tmpId = phpjs.uniqid('modal-');
         e.find('>.modal:first-child').attr('id', tmpId);
         $('#'+tmpId).modal('show');
+
         WC.onOKClick(tmpId, onOk);
-        function onOk(modalId) {
+
+        function onOk() {
             WC.httpClient({
                 type: 'DELETE',
                 url: WC.constants.DELETE,
@@ -114,6 +144,7 @@ WC.deleteApp = function(element, endpoint, hashedAppName) {
     }
 };
 
+// use for deleting commerce items
 WC.delete = function(endpoint, id) {
     if (endpoint && id) {
         var e = WC.renderModal(WC.i18n.get('LABEL_CONFIRM_DELETE'), WC.i18n.get('LABEL_CONFIRM_DELETE_MESSAGE'));
@@ -123,7 +154,7 @@ WC.delete = function(endpoint, id) {
 
         WC.onOKClick(tmpId, onOk);
 
-        function onOk(modalId) {
+        function onOk() {
             WC.httpClient({
                 type: 'DELETE',
                 url: WC.constants.DELETE,

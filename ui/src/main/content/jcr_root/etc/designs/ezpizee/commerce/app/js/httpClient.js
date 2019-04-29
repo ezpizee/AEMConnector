@@ -10,9 +10,11 @@ WC.httpClient = function(o) {
             data: o.data||'',
             dataType: o.dataType||'json',
             beforeSend: function(xhr) {
-                xhr.setRequestHeader('csrftoken', WC.params.get('csrftoken', ''));
                 if (o.beforeSend) {
                     (o.beforeSend)(xhr);
+                }
+                else if (WC.csrfTokenValue && WC.csrfTokenName) {
+                    xhr.setRequestHeader(WC.csrfTokenName, WC.csrfTokenValue);
                 }
             },
             success: function(d){

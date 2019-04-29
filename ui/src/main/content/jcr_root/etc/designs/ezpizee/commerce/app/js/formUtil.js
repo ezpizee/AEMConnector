@@ -101,23 +101,6 @@ WC.formUtil = function() {
                         // ajax submit the form via jquery.form
                         let spinner = WC.spinner.start();
                         $form.ajaxSubmit({
-                            beforeSend: function(xhr) {
-                                if (typeof csrftoken === "undefined" || !csrftoken) {
-                                    var csrfTokenField = $form.find('[name="CSRF-Token"]');
-                                    if (csrfTokenField.length) {
-                                        xhr.setRequestHeader("CSRF-Token", csrfTokenField.val());
-                                    }
-                                    else {
-                                        csrfTokenField = $form.find('[name="csrftoken"]');
-                                        if (csrfTokenField.length) {
-                                            xhr.setRequestHeader("csrftoken", csrfTokenField.val());
-                                        }
-                                    }
-                                }
-                                else {
-                                    xhr.setRequestHeader("csrftoken", csrftoken);
-                                }
-                            },
                             success: function(resp) {
                                 if (phpjs.is_string(resp)) {resp=phpjs.json_decode(resp)||{};}
                                 if (typeof resp.success !== "undefined") {
@@ -159,31 +142,9 @@ WC.formUtil = function() {
                         return false;
                     }
                 });
-                aemCSRFToken();
             }
         }
     };
-
-    function aemCSRFToken() {
-        if (typeof csrftoken === "undefined" && typeof csrfTokenPath !== "undefined") {
-            if ($('[name="CSRF-Token"]').length) {
-                fetchCSRFToken(csrfTokenPath);
-                setInterval(function() {fetchCSRFToken(csrfTokenPath);}, 100000);
-            }
-        }
-    }
-
-    function fetchCSRFToken(uri) {
-        $.ajax({
-            url: uri,
-            dataType: 'json',
-            success: function(data) {
-                if (data && data.token) {
-                    $('[name="CSRF-Token"]').attr('value', data.token);
-                }
-            }
-        });
-    }
 
     function formMsgId($form) {
         if (!$('#'+$form.attr('id')+'-msg').length) {
