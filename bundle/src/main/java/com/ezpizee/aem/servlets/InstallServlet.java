@@ -41,7 +41,6 @@ public class InstallServlet extends SlingAllMethodsServlet {
             AppConfig appConfig = new AppConfig(DataUtil.jsonObject2MapString(object));
             SSHFormData sshFormData = new SSHFormData(object);
             String publicKey = SSHAgent.generatePublicKey(appConfig, sshFormData);
-            LOG.error("publicKey: "+publicKey);
             if (StringUtils.isNotEmpty(publicKey)) {
                 // save
                 Map<String, String> props = appConfig.toMap();
