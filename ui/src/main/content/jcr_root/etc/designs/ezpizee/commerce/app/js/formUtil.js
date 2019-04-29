@@ -85,7 +85,6 @@ WC.formUtil = function() {
     };
 
     function _bindValidator(selector, noAjaxSubmit) {
-        console.log(selector, noAjaxSubmit);
         jQuery.validate({
             form: selector,
             modules : 'location, date, security, file',
