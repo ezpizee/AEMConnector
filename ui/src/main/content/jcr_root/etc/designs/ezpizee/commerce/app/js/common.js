@@ -124,7 +124,7 @@ WC.deleteApp = function(element, endpoint, hashedAppName) {
 
         function onOk() {
             WC.httpClient({
-                type: 'DELETE',
+                type: 'POST',
                 url: WC.constants.DELETE,
                 data: {hashedAppName: hashedAppName, endpoint: endpoint},
                 success: function (data) {
@@ -156,7 +156,7 @@ WC.delete = function(endpoint, id) {
 
         function onOk() {
             WC.httpClient({
-                type: 'DELETE',
+                type: 'POST',
                 url: WC.constants.DELETE,
                 data: {endpoint: endpoint, id: id},
                 success: function (data) {

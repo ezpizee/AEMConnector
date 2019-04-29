@@ -27,7 +27,7 @@ public class DeleteServlet extends SlingAllMethodsServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected final void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
+    protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(Constants.HEADER_VALUE_JSON);
         Response responseObject = new Response();
         final String endpoint = request.getParameterMap().containsKey(Constants.KEY_ENDPOINT) ? request.getParameter(Constants.KEY_ENDPOINT) : StringUtils.EMPTY;
