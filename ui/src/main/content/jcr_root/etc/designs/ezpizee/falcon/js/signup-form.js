@@ -1,6 +1,7 @@
 function signUpForm() {
     var form = $('#signup-form'), steps, goTo, plan = "", selectPlan, plans, debug = false;
     if (form.length) {
+        WC.scanHbsTmpl();
         var uri = new WC.uri();
         steps = form.find('[data-step]');
         goTo = form.find('[data-goto]');

@@ -14,6 +14,14 @@ var WC = function() {
         console.error('Handlebars template: ' + t + ' does not exist.');
         return '';
     };
+    that.scanHbsTmpl = function() {
+        $('[data-hbstmpl]').each(function(){
+            var e = $(this), t = e.attr('data-hbstmpl');
+            if (t && !that.hasHbsTmpl(t)) {
+                hbsTmpls[t] = e.html();
+            }
+        });
+    };
     that.bindCSRFTokenToAjaxCalls = function() {
         $.ajaxSetup({
             beforeSend: function (xhr) {
