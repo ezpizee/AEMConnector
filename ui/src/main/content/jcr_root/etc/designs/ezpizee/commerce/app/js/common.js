@@ -17,7 +17,7 @@ var WC = function() {
     that.bindCSRFTokenToAjaxCalls = function() {
         $.ajaxSetup({
             beforeSend: function (xhr) {
-                if (csrftoken !== undefined) {
+                if (typeof csrftoken !== "undefined") {
                     xhr.setRequestHeader("csrftoken", csrftoken);
                 }
             }

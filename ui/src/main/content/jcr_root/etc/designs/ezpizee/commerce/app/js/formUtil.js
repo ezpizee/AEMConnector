@@ -102,7 +102,7 @@ WC.formUtil = function() {
                         let spinner = WC.spinner.start();
                         $form.ajaxSubmit({
                             beforeSend: function(xhr) {
-                                if (typeof csrftoken === "undefined") {
+                                if (typeof csrftoken === "undefined" || !csrftoken) {
                                     var csrfTokenField = $form.find('[name="CSRF-Token"]');
                                     if (csrfTokenField.length) {
                                         xhr.setRequestHeader("CSRF-Token", csrfTokenField.val());

@@ -2,7 +2,9 @@ package com.ezpizee.aem.utils;
 
 import com.ezpizee.aem.Constants;
 import net.minidev.json.JSONObject;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 
 import java.util.ArrayList;
@@ -17,6 +19,12 @@ import java.util.List;
 public class ResourceUtil {
 
     private ResourceUtil() {}
+
+    public static Resource getJCRContentResource(ResourceResolver resolver, Resource resource) {
+        final String[] parts = resource.getPath().split("/" + Constants.NODE_JCR_CONTENT);
+        final String jcrPath = parts[0] + "/" + Constants.NODE_JCR_CONTENT;
+        return resolver.getResource(jcrPath);
+    }
 
     public static JSONObject toJSONObject(Resource resource)
         throws Exception {

@@ -36,7 +36,7 @@ public class InstallServlet extends SlingAllMethodsServlet {
     protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(Constants.HEADER_VALUE_JSON);
         final Response responseObject = new Response();
-        final JSONObject object = WCContentFormDataUtil.getJSONObject(request.getRequestParameterList(), Constants.FORM_NAME);
+        final JSONObject object = WCContentFormDataUtil.getJSONObject(request.getRequestParameterList(), Constants.FORM_WC_CONTENT_FORM_NAME);
         if (!object.isEmpty()) {
             AppConfig appConfig = new AppConfig(DataUtil.jsonObject2MapString(object));
             SSHFormData sshFormData = new SSHFormData(object);

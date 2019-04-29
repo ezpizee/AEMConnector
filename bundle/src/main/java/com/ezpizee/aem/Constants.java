@@ -21,7 +21,8 @@ public class Constants {
     public static final String SERVLET_INSTALL = "/bin/ezpizee/install";
     public static final String SERVLET_DELETE = "/bin/ezpizee/delete";
 
-    public static final String FORM_NAME = "wc_content_form";
+    public static final String FORM_COMMERCE_FORM_NAME = "commerce_form";
+    public static final String FORM_WC_CONTENT_FORM_NAME = "wc_content_form";
 
     public static final String ETC_COMMERCE_PATH = "/etc/commerce/ezpizee";
     public static final String CONTENT_PATH = "/content/ezpizee";
@@ -69,6 +70,7 @@ public class Constants {
     public static final String KEY_FIELD_LABELS = "fieldLabels";
     public static final String KEY_PARENT_ID = "parent_id";
     public static final String KEY_HASHED_APP_NAME = "hashedAppName";
+    public static final String KEY_FORM_API_ENDPOINT = "form_api_endpoint";
 
     // Properties
     public static final String NODE_JCR_CONTENT = "jcr:content";
