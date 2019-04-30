@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2019-04-30T12:09:46.559-04:00"
+        cq:lastModified="{Date}2019-04-30T15:56:17.371-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2019-04-29T13:19:41.150-04:00"
         cq:lastReplicatedBy="admin"
@@ -19,7 +19,7 @@
         display_template="list"
         endpoint="/v1/storemanager/category/list"
         fields="[{&quot;field&quot;:&quot;id&quot;},{&quot;field&quot;:&quot;name_with_depth&quot;},{&quot;field&quot;:&quot;description&quot;},{&quot;field&quot;:&quot;parent_name&quot;},{&quot;field&quot;:&quot;published&quot;},{&quot;field&quot;:&quot;action&quot;}]"
-        form_page="/content/ezpizee/store-manager/categories"
+        form_page="/content/ezpizee/store-manager/categories/form"
         method="GET"/>
     <form/>
 </jcr:root>
