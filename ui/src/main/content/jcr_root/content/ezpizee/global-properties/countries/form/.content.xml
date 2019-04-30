@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-30T11:16:05.995-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:30.503-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/ezpizee/templates/form"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Country Form"
+        jcr:uuid="37da06a6-60d0-475d-8383-b839544e743f"
+        sling:resourceType="ezpizee/components/structure/form"
+        actions="[{&quot;action&quot;:&quot;cancel&quot;},{&quot;action&quot;:&quot;save&quot;}]"
+        display_template="form"
+        endpoint="/v1/globalproperties/country/byid/{id}"
+        fields="\{&quot;field&quot;:&quot;modal_common_countries&quot;}"
+        form_api_endpoint="/v1/globalproperties/country/form"
+        formAction="/content/ezpizee/global-properties/countries/form"
+        list_page="/content/ezpizee/global-properties/countries"
+        method="POST"/>
+</jcr:root>

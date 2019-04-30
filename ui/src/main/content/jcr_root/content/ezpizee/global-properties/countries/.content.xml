@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2019-04-04T09:02:07.219-04:00"
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-30T11:19:10.291-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:30.503-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
         cq:template="/apps/ezpizee/templates/list"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Countries"
-        sling:resourceType="ezpizee/components/structure/list"/>
+        jcr:uuid="f5d1c0e2-0d83-44ea-b277-6630eaadf343"
+        sling:resourceType="ezpizee/components/structure/list"
+        actions="[{&quot;action&quot;:&quot;add&quot;},{&quot;action&quot;:&quot;edit&quot;},{&quot;action&quot;:&quot;delete&quot;}]"
+        delete_api_endpoint="/v1/globalproperties/country/delete"
+        display_template="list"
+        endpoint="/v1/globalproperties/predefined/{data_type}/list"
+        fields="[{&quot;field&quot;:&quot;name&quot;},{&quot;field&quot;:&quot;action&quot;}]"
+        form_page="/content/ezpizee/global-properties/countries/form"
+        method="GET"
+        rest_api_uri_params="\{&quot;data_type&quot;:&quot;country&quot;}"/>
+    <form/>
 </jcr:root>

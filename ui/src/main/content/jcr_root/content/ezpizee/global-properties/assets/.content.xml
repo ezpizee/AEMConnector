@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2019-04-04T09:02:07.219-04:00"
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-30T11:45:04.623-04:00"
         cq:lastModifiedBy="admin"
-        cq:template="/apps/ezpizee/templates/list"
+        cq:lastReplicated="{Date}2019-04-29T13:19:35.332-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/ezpizee/templates/asset"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Assets"
-        sling:resourceType="ezpizee/components/structure/list"/>
+        jcr:uuid="abe44b9d-6cbf-4add-b79a-e097337c4225"
+        sling:resourceType="ezpizee/components/structure/asset"
+        actions="[{&quot;action&quot;:&quot;add&quot;},{&quot;action&quot;:&quot;edit&quot;},{&quot;action&quot;:&quot;delete&quot;}]"
+        delete_api_endpoint="/v1/assets/digitalasset/delete"
+        display_template="assets-list"
+        endpoint="/v1/assets/digitalasset/list"
+        fields="\{&quot;field&quot;:&quot;na&quot;}"
+        file_form_page="/content/ezpizee/global-properties/assets/upload-file"
+        folder_form_page="/content/ezpizee/global-properties/assets/create-folder"
+        method="GET"/>
+    <create-folder/>
+    <upload-file/>
+    <folders/>
+    <asset-data/>
 </jcr:root>

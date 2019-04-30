@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-30T12:34:49.681-04:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/ezpizee/templates/form"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Tax Form"
+        sling:resourceType="ezpizee/components/structure/form"
+        actions="[{&quot;action&quot;:&quot;save&quot;},{&quot;action&quot;:&quot;cancel&quot;}]"
+        display_template="form"
+        endpoint="/v1/storemanager/tax/byid/{id}"
+        fields="[{&quot;field&quot;:&quot;name&quot;},{&quot;field&quot;:&quot;description&quot;},{&quot;field&quot;:&quot;tax_code&quot;},{&quot;field&quot;:&quot;tax_rate&quot;},{&quot;field&quot;:&quot;modal_store&quot;}]"
+        form_api_endpoint="/v1/storemanager/tax/form"
+        formAction="/content/ezpizee/store-manager/taxes/form"
+        list_page="/content/ezpizee/store-manager/taxes"/>
+</jcr:root>
