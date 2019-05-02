@@ -37,7 +37,7 @@ import java.util.Map;
 })
 public final class CommerceDataServlet extends SlingAllMethodsServlet {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommerceDataServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CommerceDataServlet.class);
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
@@ -110,20 +110,20 @@ public final class CommerceDataServlet extends SlingAllMethodsServlet {
                 if (props.containsKey(Constants.KEY_FORM_API_ENDPOINT)) {
                     final AppConfigLoader appConfigLoader = new AppConfigLoader(request.getResourceResolver(), request.getSession());
                     final Client client = new Client(appConfigLoader.getAppConfig());
-                    LOGGER.debug("formData: {}", object.toString());
+                    LOG.debug("formData: {}", object.toString());
                     client.setBody(object.toJSONString());
                     responseObject = client.post(props.get(Constants.KEY_FORM_API_ENDPOINT).toString());
                 }
                 else {
-                    LOGGER.debug("props: {}", props.toString());
+                    LOG.debug("props: {}", props.toString());
                 }
             }
             else {
-                LOGGER.debug("jcrRes is null: true");
+                LOG.debug("jcrRes is null: true");
             }
         }
         else {
-            LOGGER.debug("object is empty: {}", object.toString());
+            LOG.debug("object is empty: {}", object.toString());
         }
 
         response.getWriter().write(responseObject.toString());

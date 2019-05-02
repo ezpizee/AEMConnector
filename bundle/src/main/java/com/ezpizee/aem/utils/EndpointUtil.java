@@ -2,9 +2,13 @@ package com.ezpizee.aem.utils;
 
 import com.ezpizee.aem.Constants;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EndpointUtil
 {
+    protected static final Logger LOG = LoggerFactory.getLogger(EndpointUtil.class);
+
     private EndpointUtil() {}
 
     public static String getService(String env, String endpoint) {
@@ -29,6 +33,7 @@ public class EndpointUtil
     public static String getPosHostName(String env) { return getHostName(env, APIServiceEnum.POS.toString()); }
     public static String getPriceHostName(String env) { return getHostName(env, APIServiceEnum.PRICE.toString()); }
     public static String getStoreManagerHostName(String env) { return getHostName(env, APIServiceEnum.STOREMANAGER.toString()); }
+    public static String getOfferHostName(String env) { return getHostName(env, APIServiceEnum.OFFER.toString()); }
 
     private static String getHostName(String env, String key) {
         if (isEnv(env)) {

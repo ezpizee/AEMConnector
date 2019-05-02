@@ -79,4 +79,10 @@ public enum APIServiceEnum {
             return super.toString().toLowerCase();
         }
     },
+    OFFER {
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+    },
 }
