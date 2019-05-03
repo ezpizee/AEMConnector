@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-30T11:34:30.737-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:35.332-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/ezpizee/templates/form"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Weight Measurement Form"
+        jcr:uuid="706365c5-be98-47a7-a241-48889b121afc"
+        sling:resourceType="ezpizee/components/structure/form"
+        actions="[{&quot;action&quot;:&quot;cancel&quot;},{&quot;action&quot;:&quot;save&quot;}]"
+        display_template="form"
+        endpoint="/v1/globalproperties/measurement/weight/byid/{id}"
+        fields="\{&quot;field&quot;:&quot;config_value&quot;}"
+        form_api_endpoint="/v1/globalproperties/measurement/weight/form"
+        formAction="/content/ezpizee/global-properties/weight-measurement/form"
+        list_page="/content/ezpizee/global-properties/weight-measurement"
+        targetPage="/content/ezpizee/global-properties/countries"/>
+</jcr:root>

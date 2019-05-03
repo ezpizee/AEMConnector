@@ -13,11 +13,10 @@ import java.util.Map;
 
 public class CommerceDataUtil {
 
-    protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
     private final JSONObject data;
     private Map<String, Object> props;
     private String endpoint;
-
 
     public CommerceDataUtil() {data = new JSONObject();}
 
@@ -39,7 +38,7 @@ public class CommerceDataUtil {
                         }
                     }
                     else {
-                        log.debug("Response is invalid for list request");
+                        LOG.debug("Response is invalid for list request");
                     }
                 }
 
@@ -52,7 +51,7 @@ public class CommerceDataUtil {
                             data.put(Constants.KEY_ITEM_DATA, response.getDataAsJSONObject());
                         }
                         else {
-                            log.debug("Response is invalid for item by id");
+                            LOG.debug("Response is invalid for item by id");
                         }
                     }
                 }
@@ -69,11 +68,11 @@ public class CommerceDataUtil {
                 path(Constants.KEY_FORM_ACTION);
             }
             else {
-                log.debug("endpoint is empty");
+                LOG.debug("endpoint is empty");
             }
         }
         else {
-            log.debug("appConfig is invalid");
+            LOG.debug("appConfig is invalid");
         }
         return data;
     }

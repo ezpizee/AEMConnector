@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-30T12:02:21.086-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:35.332-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/ezpizee/templates/form"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Asset Data"
+        jcr:uuid="c1aa2ac3-2061-4095-8e2b-06797bfd22e1"
+        sling:resourceType="ezpizee/components/structure/form"
+        actions="\{&quot;action&quot;:&quot;na&quot;}"
+        endpoint="/v1/assets/digitalasset/info/{id}"
+        fields="\{&quot;field&quot;:&quot;na&quot;}"
+        list_page="/content/ezpizee/global-properties/assets"
+        targetPage="/content/ezpizee/global-properties/countries"/>
+</jcr:root>

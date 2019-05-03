@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-05T00:54:15.729-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:49.629-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/ezpizee/templates/api"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Data"
+        jcr:uuid="53d3eff7-34fe-4737-9399-a25dc1edee49"
+        sling:resourceType="ezpizee/components/structure/api"
+        hideInNav="true"/>
+    <common-country-list/>
+    <common-currency-list/>
+    <common-payment-service-list/>
+    <product-type-attributes-list/>
+</jcr:root>

@@ -17,7 +17,7 @@
                 <sly data-sly-include="content.html"></sly>
             </sly>
             <div class="container-fluid" data-sly-test="${!ezpzPageProps.data.validAppConfig}">
-                <main class="main" id="top" data-sly-use.ezpzPageProps="com.ezpizee.aem.models.PageProperties">
+                <main class="main" id="top">
                     <sly data-sly-resource="${'install' @ resourceType='/apps/ezpizee/components/content/install'}"></sly>
                 </main>
             </div>

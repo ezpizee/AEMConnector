@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-30T13:40:20.647-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:49.629-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/ezpizee/templates/list"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Product Type Attributes List"
+        jcr:uuid="5f0bfd8a-eaad-4b8f-a74a-522ab4f90d4e"
+        sling:resourceType="ezpizee/components/structure/list"
+        actions="\{&quot;action&quot;:&quot;na&quot;}"
+        endpoint="/v1/pim/product/attribute/list/by/producttypeid/{id}"
+        fields="\{&quot;field&quot;:&quot;na&quot;}"
+        hideInNav="true"/>
+</jcr:root>

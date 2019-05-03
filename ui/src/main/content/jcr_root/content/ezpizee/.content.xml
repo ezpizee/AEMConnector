@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2019-04-04T09:02:07.219-04:00"
+        cq:contextHubPath="/etc/cloudsettings/default/contexthub"
+        cq:contextHubSegmentsPath="/etc/segmentation/contexthub"
+        cq:lastModified="{Date}2019-04-09T15:22:12.137-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:30.503-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
         cq:template="/apps/ezpizee/templates/admin"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:language="en_us"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Ezpizee Admin"
+        jcr:uuid="3c0c41de-0a63-4824-80cf-c9ae85ae1f9f"
         sling:resourceType="ezpizee/components/structure/admin"/>
     <dashboard/>
     <global-properties/>
@@ -14,4 +23,5 @@
     <product-manager/>
     <offer-manager/>
     <user/>
+    <api/>
 </jcr:root>

@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2019-04-04T09:02:07.219-04:00"
+        cq:lastModified="{Date}2019-04-30T12:37:56.160-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2019-04-29T13:19:41.150-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
         cq:template="/apps/ezpizee/templates/list"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Payment Methods"
-        sling:resourceType="ezpizee/components/structure/list"/>
+        jcr:uuid="ef288acb-bab3-4424-9c54-f36883aa43af"
+        sling:resourceType="ezpizee/components/structure/list"
+        actions="[{&quot;action&quot;:&quot;add&quot;},{&quot;action&quot;:&quot;edit&quot;},{&quot;action&quot;:&quot;delete&quot;}]"
+        delete_api_endpoint="/v1/storemanager/payment/method/delete"
+        display_template="list"
+        endpoint="/v1/storemanager/payment/method/list"
+        fields="[{&quot;field&quot;:&quot;id&quot;},{&quot;field&quot;:&quot;internal_name&quot;},{&quot;field&quot;:&quot;public_name&quot;},{&quot;field&quot;:&quot;description&quot;},{&quot;field&quot;:&quot;action&quot;}]"
+        form_page="/content/ezpizee/store-manager/payment-methods/form"
+        method="GET"/>
+    <form/>
 </jcr:root>
