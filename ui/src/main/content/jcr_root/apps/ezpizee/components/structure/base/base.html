@@ -11,6 +11,7 @@
         <sly data-sly-include="partials/head.html"></sly>
     </head>
     <body class="${mod.bodyClass}" vocab="http://schema.org/" typeof="WebPage">
+        <sly data-sly-resource="${'install' @ resourceType='/apps/ezpizee/components/content/coralheader'}"></sly>
         <div class="root" data-sly-use.ezpzPageProps="com.ezpizee.aem.models.PageProperties">
             <sly data-sly-test="${ezpzPageProps.data.validAppConfig}">
                 <sly data-sly-include="content.html"></sly>
