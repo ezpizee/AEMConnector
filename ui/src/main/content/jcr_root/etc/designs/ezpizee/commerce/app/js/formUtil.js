@@ -230,7 +230,7 @@ WC.formUtil.productManager = function(){
             WC.httpClient({
                 url: WC.constants.PRODUCT_ATTRIBUTE_LIST,
                 success: function(data) {
-                    data = data && data.data && (phpjs.is_object(data) || phpjs.is_array(data.data)) ? data.data : {};
+                    data = data && data.list && (phpjs.is_object(data.list) || phpjs.is_array(data.list)) ? data.list : {};
                     e.html(WC.compileHandlebars(WC.hbsTmpl('product_attrs'), {product_attrs_list: data}));
                     WC.utilities.applySortable('.product_attrs_list');
                 }
@@ -254,10 +254,10 @@ WC.formUtil.productManager = function(){
                     url: WC.constants.COMMON_PRODUCT_TYPE_ATTRS_LIST.replace('{parent_id}', selectedValue.id).replace('{id}', selectedValue.id),
                     success: function(data){
                         var html = [];
-                        if (data.data && phpjs.is_array(data.data)) {
-                            data = data.data;
+                        if (data && data.list && phpjs.is_array(data.list)) {
+                            data = data.list;
                             for (var i in data) {
-                                html.push('<div class="attr_field">'+WC.compileHandlebars(WC.hbsTmpl(data[i].field_type+'-form'), data[i])+'</div>');
+                                html.push('<div class="attr_field">'+WC.compileHandlebars(fieldTypeHBSTemplate(data[i].field_type), data[i])+'</div>');
                             }
                         }
                         product_type_attrs_set.html(html.join(''));
@@ -325,6 +325,8 @@ WC.formUtil.productManager = function(){
             $(ele).parent().parent().parent().remove();
         }
     };
+
+    function fieldTypeHBSTemplate(tmpl) {return WC.hbsTmpl('field_types-form-'+tmpl);}
 
     return that;
 }();

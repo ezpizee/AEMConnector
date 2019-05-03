@@ -3,11 +3,27 @@ WC.assets = function() {
     var containerSelector = '.commerce-items.assets';
     var columnsSelector = '.panel-body-content-columns .column';
     var assetCookieName = 'da_selected_folder';
-    that.loadDrilldown = function(itemId, container) {
+
+    that.init = function() {
+        setBtns();
+        var count = 0, intv = setInterval(function(){
+            if (count >= 2000) {
+                clearInterval(intv);
+            }
+            else if (jQuery(columnsSelector).length) {
+                clearInterval(intv);
+                autoClick();
+            }
+            count++;
+        }, 10);
+    };
+
+    that.loadDrillDown = function(itemId, container) {
         remember(itemId, container);
         container = jQuery(container).parent()[0];
         removeExtraColumns(container);
         highlightClickedColumn(container);
+        buildCreateBtnFormUri(itemId);
         WC.httpClient({
             url: WC.constants.ASSETS_BY_PARENT,
             data: {parent_id: itemId},
@@ -61,6 +77,12 @@ WC.assets = function() {
     that.buildFormUri = function(id, ele) {
         setBtns();
         var ele = jQuery(ele);
+        deleteBtn.attr('data-id', id);
+        buildEditBtnFormUri(id, ele);
+        buildCreateBtnFormUri(id);
+    };
+
+    function buildEditBtnFormUri(id, ele) {
         editBtn.removeClass('hide');
         deleteBtn.removeClass('hide');
         var value = phpjs.json_decode(ele.val());
@@ -70,36 +92,29 @@ WC.assets = function() {
         else if (value.type === 'file' || value.type === 'doc' || value.type === 'image'|| value.type === 'picture') {
             editBtn.attr('href', href(editBtn.attr('data-file-url'), 'edit_id='+value.id));
         }
-        deleteBtn.attr('data-id', id);
+    }
+
+    function buildCreateBtnFormUri(id) {
         if (createBtn && createBtn.length) {
             createBtn.each(function(){
                 var t = jQuery(this);
                 var h = t.attr('href');
                 var arr = h.split('?parent_id=');
-                if (arr.length === 2) {
-                    h = arr[1] + '?parent_id=' + id;
+                if (id) {
+                    if (arr.length === 2) {
+                        h = arr[0] + '?parent_id=' + id;
+                    }
+                    else {
+                        h = h + '?parent_id=' + id;
+                    }
                 }
                 else {
-                    h = h + '?parent_id=' + id;
+                    h = arr[0];
                 }
                 t.attr('href', h);
             });
         }
-    };
-
-    that.init = function() {
-        setBtns();
-        var count = 0, intv = setInterval(function(){
-            if (count >= 2000) {
-                clearInterval(intv);
-            }
-            else if (jQuery(columnsSelector).length) {
-                clearInterval(intv);
-                autoClick();
-            }
-            count++;
-        }, 10);
-    };
+    }
 
     function autoScroll() {
         let e1 = jQuery(containerSelector);

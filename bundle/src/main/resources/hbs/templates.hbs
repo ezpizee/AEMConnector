@@ -1588,7 +1588,7 @@
                         </label>
                     </div>
                     <div class="column-item-content" data-folder="{{id}}"
-                         onclick="{{#gt num_children 0}}WC.assets.loadDrilldown('{{id}}', this){{else}}WC.assets.loadContent('{{id}}', this){{/gt}}">
+                         onclick="{{#gt num_children 0}}WC.assets.loadDrillDown('{{id}}', this){{else}}WC.assets.loadContent('{{id}}', this){{/gt}}">
                         {{#if title}}{{title}}{{else}}{{#if name}}{{name}}{{/if}}{{/if}}
                     </div>
                 </div>
@@ -1949,24 +1949,26 @@
 {{else}}
     {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
 {{/ifnot}}</script>
-<script type="text/x-handlebars-template" data-hbstmpl="partials-list-name_with_depth">{{#ifnot this.is_protected 0}}
-    {{#if actions.edit}}
-        <span class="depth level-{{this.depth}}">
+<script type="text/x-handlebars-template" data-hbstmpl="partials-list-name_with_depth">
+    {{#ifnot this.is_protected}}
+        {{#if actions.edit}}
+            <span class="depth level-{{this.depth}}">
             <a href="{{form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">
-            {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
-            </a>
+                {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+                </a>
         </span>
-    {{/if}}
-    {{#unless actions.edit}}
-        <span class="depth level-{{this.depth}}">
-            {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
-        </span>
-    {{/unless}}
-{{else}}
-    <span class="depth">
+        {{/if}}
+        {{#unless actions.edit}}
+            <span class="depth level-{{this.depth}}">
+                {{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}
+            </span>
+        {{/unless}}
+    {{else}}
+        <span class="depth">
         <span class="level-{{this.depth}}">{{#eq this.name 'ROOT'}}{{language.LABEL_ROOT}}{{else}}{{this.name}}{{/eq}}</span>
     </span>
-{{/ifnot}}</script>
+    {{/ifnot}}
+</script>
 <script type="text/x-handlebars-template" data-hbstmpl="partials-list-public_name">{{#ifnot this.is_protected 0}}
     {{#if ../actions.edit}}
         <a href="{{../form_page}}?edit_id={{#if this.edit_id}}{{this.edit_id}}{{else}}{{this.id}}{{/if}}">{{this.public_name}}</a>
@@ -2281,14 +2283,19 @@
     <div class="form-group">
         <label class="control-label" for="folder_name">{{i18n 'LABEL_FOLDER'}}</label>
         <div class="input-group mb-2">
-            <input type="text" class="form-control" id="folder_name" disabled
-                   value="{{item_data.folder.name}}"
-                   placeholder="{{i18n 'LABEL_FOLDER'}}"/>
-            <div class="input-group-append pointer" onclick="WC.folderModal({title:'{{i18n 'LABEL_FOLDER'}}'})">
-                <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
-            </div>
-            <input type="hidden" name="commerce_form[folder_id]" id="folder_id"
-                   value="{{item_data.folder.id}}"/>
+            {{#if parent_data}}
+                <input type="text" class="form-control" id="folder_name" disabled value="{{parent_data.name}}" placeholder="{{i18n 'LABEL_FOLDER'}}" />
+                <div class="input-group-append pointer" onclick="WC.folderModal({title:'{{i18n 'LABEL_FOLDER'}}'})">
+                    <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                </div>
+                <input type="hidden" name="commerce_form[folder_id]" id="folder_id" value="{{item_data.id}}" />
+            {{else}}
+                <input type="text" class="form-control" id="folder_name" disabled value="{{item_data.folder.name}}" placeholder="{{i18n 'LABEL_FOLDER'}}" />
+                <div class="input-group-append pointer" onclick="WC.folderModal({title:'{{i18n 'LABEL_FOLDER'}}'})">
+                    <div class="input-group-text">{{i18n 'LABEL_BROWSE'}}</div>
+                </div>
+                <input type="hidden" name="commerce_form[folder_id]" id="folder_id" value="{{item_data.folder.id}}" />
+            {{/if}}
         </div>
     </div>
 </script>
