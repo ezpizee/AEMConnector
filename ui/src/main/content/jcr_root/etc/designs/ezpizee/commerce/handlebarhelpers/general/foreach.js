@@ -1,5 +1,6 @@
-Handlebars.registerHelper('foreach', function(context, options) {
+Handlebars.registerHelper('foreach', function(context) {
     var ret = "", data;
+    var options = arguments[arguments.length-1];
     if (context) {
         if (options.data) {
             data = Handlebars.createFrame(options.data);

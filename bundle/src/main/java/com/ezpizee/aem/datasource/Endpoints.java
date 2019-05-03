@@ -27,7 +27,7 @@ public class Endpoints extends BaseProperties {
         vm.put("text", "None");
         fakeResourceList.add(new ValueMapResource(getResourceResolver(), new ResourceMetadata(), Constants.PROP_NT_UNSTRUCTURE, vm));
 
-        JSONObject data = DataUtil.toJSONObject(ConfigUtil.getResource("data/endpoints.json"));
+        JSONObject data = DataUtil.toJSONObject(ConfigUtil.getData("endpoints"));
         for (String service : data.keySet()) {
             JSONObject actions = (JSONObject)data.get(service);
             for (String action : actions.keySet()) {

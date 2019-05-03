@@ -1,3 +1,3 @@
-Handlebars.registerHelper('object', function(context, options) {
+Handlebars.registerHelper('object', function(context) {
     console.log(context);
 });

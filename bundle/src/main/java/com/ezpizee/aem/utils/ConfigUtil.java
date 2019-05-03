@@ -29,4 +29,6 @@ public class ConfigUtil
         }
         return sb.toString();
     }
+
+    public static String getData(String filename) { return getResource("data/"+filename+".json"); }
 }

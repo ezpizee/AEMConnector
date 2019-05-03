@@ -8,6 +8,7 @@ public class Constants {
     public static final String APP_RESOURCE_DASHBOARD = "ezpizee/components/structure/dashboard";
     public static final String APP_RESOURCE_LIST = "ezpizee/components/structure/list";
     public static final String APP_RESOURCE_FORM = "ezpizee/components/structure/form";
+    public static final String APP_RESOURCE_ASSET = "ezpizee/components/structure/asset";
 
     public static final String SERVICE_PROTOCOL_SCHEME = "https://";
     public static final String HOST_SFX = ".ezpizee.com";
@@ -71,6 +72,7 @@ public class Constants {
     public static final String KEY_PARENT_ID = "parent_id";
     public static final String KEY_HASHED_APP_NAME = "hashedAppName";
     public static final String KEY_FORM_API_ENDPOINT = "form_api_endpoint";
+    public static final String KEY_FIELD_TYPES = "fieldTypes";
 
     // Properties
     public static final String NODE_JCR_CONTENT = "jcr:content";

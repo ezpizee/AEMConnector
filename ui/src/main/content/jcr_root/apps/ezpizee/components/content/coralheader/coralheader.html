@@ -11,11 +11,13 @@
                     data-foundation-toggleable-control-src="/mnt/overlay/granite/ui/content/shell/userproperties.html" icon="userCircleColor"
                     iconsize="M">
                 <button is="coral-button" class="coral-Button coral-Button--minimal coral-Shell-menu-button" size="M" variant="minimal" iconsize="S"
+                        id="navbarDropdownUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                         handle="shellMenuButton">
                     <coral-icon class="coral-Icon coral-Icon--userCircleColor coral-Icon--sizeM" icon="userCircleColor" size="M" role="img"
                                 aria-label="user circle color"></coral-icon>
                     <coral-button-label></coral-button-label>
                 </button>
+                <sly data-sly-resource="${'usernav' @ resourceType='/apps/ezpizee/components/content/usernav'}"></sly>
             </coral-shell-menubar-item>
         </coral-shell-menubar>
     </coral-shell-header-actions>

@@ -53,15 +53,18 @@ public final class CommerceDataServlet extends SlingAllMethodsServlet {
             if (request.getRequestParameterMap().containsKey(Constants.KEY_EDIT_ID)) {
                 props.put(Constants.KEY_EDIT_ID, request.getParameter(Constants.KEY_EDIT_ID));
             }
+            // for getting list by parent id
             if (request.getRequestParameterMap().containsKey(Constants.KEY_PARENT_ID)) {
                 JSONObject uriParams = new JSONObject();
-                uriParams.put(Constants.KEY_PARENT_ID, request.getParameter(Constants.KEY_PARENT_ID));
+                uriParams.put(Constants.KEY_ID, request.getParameter(Constants.KEY_PARENT_ID));
                 props.put(Constants.KEY_REST_API_URI_PARAMS, uriParams);
             }
+            // for getting data by id
             if (request.getRequestParameterMap().containsKey(Constants.KEY_ID)) {
                 JSONObject uriParams = new JSONObject();
                 uriParams.put(Constants.KEY_ID, request.getParameter(Constants.KEY_ID));
                 props.put(Constants.KEY_REST_API_URI_PARAMS, uriParams);
+                props.put(Constants.KEY_ID, request.getParameter(Constants.KEY_ID));
             }
             final CommerceDataUtil commerceDataUtil = new CommerceDataUtil();
             data = commerceDataUtil.fetch(appConfigLoader.getAppConfig(), props);

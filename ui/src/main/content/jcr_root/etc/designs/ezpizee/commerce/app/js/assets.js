@@ -28,7 +28,7 @@ WC.assets = function() {
             url: WC.constants.ASSETS_BY_PARENT,
             data: {parent_id: itemId},
             success: function (data) {
-                if (phpjs.sizeof(data) && phpjs.sizeof(data.list)) {
+                if (data && data.list) {
                     var html = WC.compileHandlebars(WC.hbsTmpl('partials-column'), {list: data.list});
                     container = jQuery(container);
                     var nextColumn = container.parent().parent().next('.column');
@@ -57,7 +57,7 @@ WC.assets = function() {
                     container.parent().parent().parent().append('<div class="column"></div>');
                     nextColumn = container.parent().parent().parent().find('.column:last-child');
                 }
-                var html = WC.compileHandlebars(WC.hbsTmpl('partials-preview'), {item_data: data.data});
+                var html = WC.compileHandlebars(WC.hbsTmpl('partials-preview'), {item_data: data.data||data.item_data});
                 nextColumn.replaceWith(html);
                 autoScroll();
             }

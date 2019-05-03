@@ -182,8 +182,10 @@ WC.formUtil.productManager = function(){
                 var context = e.attr('data-config') ? phpjs.json_decode(e.attr('data-config')) : {};
                 context.field_type_title = field_type_title;
 
-                field_type_set.html(WC.compileHandlebars(WC.hbsTmpl('field_types-setup-'+selectedFieldType.toLowerCase()), context));
+                field_type_set.html(WC.compileHandlebars(fieldTypeSetupHBSTemplate(selectedFieldType.toLowerCase()), context));
                 WC.utilities.applySortable('.field-type-config-item-container');
+                WC.utilities.applyDateTimePicker('[data-trigger="datetimepicker"]');
+                WC.utilities.applyDatePicker('[data-trigger="datepicker"]');
             }
             else {
                 field_type_mandatory_fields.hide();
@@ -327,6 +329,7 @@ WC.formUtil.productManager = function(){
     };
 
     function fieldTypeHBSTemplate(tmpl) {return WC.hbsTmpl('field_types-form-'+tmpl);}
+    function fieldTypeSetupHBSTemplate(tmpl) {return WC.hbsTmpl('field_types-setup-'+tmpl);}
 
     return that;
 }();

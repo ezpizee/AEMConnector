@@ -35,7 +35,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>AEM App Core</Bundle-Name>
+                        <Bundle-Name>Ezpizee AEM App Core</Bundle-Name>
                         <Export-Package>
                             net.minidev.asm.*,
                             net.minidev.json.*,

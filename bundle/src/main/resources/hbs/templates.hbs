@@ -616,29 +616,38 @@
     {{#if params}}
         <div class="form-group">
             <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
-            <input type="datetime-local" class="form-control"
-                   {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
-                {{#if params.config.min}}min="{{params.config.min}}"{{/if}}
-                {{#if params.config.max}}max="{{params.config.max}}"{{/if}}
-                   name="commerce_form[attrs][{{params.name}}][value]"
-                   id="{{params.name}}" value="{{value}}"/>
-            <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
-            <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+            <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
+                <input type="text"
+                       class="form-control datetimepicker-input"
+                       {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
+                    {{#if params.config.min}}min="{{params.config.min}}"{{/if}}
+                    {{#if params.config.max}}max="{{params.config.max}}"{{/if}}
+                       name="commerce_form[attrs][{{params.name}}][value]"
+                       id="{{params.name}}"
+                       value="{{value}}"/>
+                <div class="input-group-append"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
+                <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}" />
+                <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}" />
+            </div>
         </div>
     {{/if}}
+
 </script>
 <script type="text/x-handlebars-template" data-hbstmpl="field_types-form-date">
     {{#if params}}
         <div class="form-group">
             <label class="control-label" for="{{params.name}}"><strong>{{name}}</strong></label>
-            <input type="date" class="form-control"
+            <input type="text"
+                   class="form-control"
                    {{#eq params.required 'yes'}}data-validation="required"{{/eq}}
-                {{#if params.config.min}}min="{{params.config.min}}"{{/if}}
-                {{#if params.config.max}}max="{{params.config.max}}"{{/if}}
+                   {{#if params.config.min}}min="{{params.config.min}}"{{/if}}
+                   {{#if params.config.max}}max="{{params.config.max}}"{{/if}}
                    name="commerce_form[attrs][{{params.name}}][value]"
-                   id="{{params.name}}" value="{{value}}"/>
-            <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}"/>
-            <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}"/>
+                   id="{{params.name}}"
+                   data-trigger="datepicker"
+                   value="{{value}}" />
+            <input type="hidden" name="commerce_form[attrs][{{params.name}}][id]" value="{{id}}" />
+            <input type="hidden" name="commerce_form[attrs][{{params.name}}][name]" value="{{params.name}}" />
         </div>
     {{/if}}
 </script>
@@ -813,40 +822,66 @@
     </div>
 </script>
 <script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-color"></script>
-<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-date-time"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
-    <hr/>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-date-time">
+    <h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr />
     <div class="row">
         <div class="col-6">
             <div class="form-group">
                 <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MIN'}}</label>
-                <input type="datetime-local" name="commerce_form[params][config][min]" id="param_config_min" placeholder="YYYY-MM-DD hh:mm:ss"
-                       class="form-control" value="{{config.min}}"/>
+                <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
+                    <input type="text"
+                           class="form-control datetimepicker-input"
+                           name="commerce_form[params][config][min]"
+                           id="param_config_min"
+                           value="{{config.min}}"/>
+                    <div class="input-group-append"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
+                </div>
             </div>
         </div>
         <div class="col-6">
             <div class="form-group">
-                <label class="control-label" for="param_config_max">{{i18n 'LABEL_RANGE_MAX'}}</label>
-                <input type="datetime-local" name="commerce_form[params][config][max]" id="param_config_max" placeholder="YYYY-MM-DD hh:mm:ss"
-                       class="form-control" value="{{config.max}}"/>
+                <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MAX'}}</label>
+                <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
+                    <input type="text"
+                           class="form-control datetimepicker-input"
+                           name="commerce_form[params][config][max]"
+                           id="param_config_max"
+                           value="{{config.max}}"/>
+                    <div class="input-group-append"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
+                </div>
             </div>
         </div>
     </div>
 </script>
-<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-date"><h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
-    <hr/>
+<script type="text/x-handlebars-template" data-hbstmpl="field_types-setup-date">
+    <h3>{{i18n 'LABEL_SETUP'}} - {{field_type_title}}</h3>
+    <hr />
     <div class="row">
         <div class="col-6">
             <div class="form-group">
                 <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MIN'}}</label>
-                <input type="date" name="commerce_form[params][config][min]" id="param_config_min" placeholder="YYYY-MM-DD"
-                       class="form-control" value="{{config.min}}"/>
+                <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
+                    <input type="text"
+                           name="commerce_form[params][config][min]"
+                           id="param_config_min"
+                           data-trigger="datepicker"
+                           class="form-control"
+                           value="{{config.min}}"/>
+                </div>
             </div>
         </div>
         <div class="col-6">
             <div class="form-group">
-                <label class="control-label" for="param_config_max">{{i18n 'LABEL_RANGE_MAX'}}</label>
-                <input type="date" name="commerce_form[params][config][max]" id="param_config_max" placeholder="YYYY-MM-DD"
-                       class="form-control" value="{{config.max}}"/>
+                <label class="control-label" for="param_config_min">{{i18n 'LABEL_RANGE_MAX'}}</label>
+                <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
+                    <input type="text"
+                           name="commerce_form[params][config][max]"
+                           id="param_config_max"
+                           data-trigger="datepicker"
+                           class="form-control"
+                           value="{{config.max}}"/>
+                </div>
             </div>
         </div>
     </div>
@@ -2671,18 +2706,17 @@
     </div>
 </script>
 <script type="text/x-handlebars-template" data-hbstmpl="product-form">
-<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}?edit_id={{item_data.id}}{{/if}}{{/if}}" method="post" class="commerce-form">
+<form action="{{pathPfx}}{{formAction}}{{#if item_data.edit_id}}?edit_id={{item_data.edit_id}}{{else}}{{#if item_data.id}}?edit_id={{item_data.id}}{{/if}}{{/if}}"
+    method="post" class="commerce-form">
     <div class="card mb-3">
         <div class="card-header bg-light">
             <div class="row">
                 <div class="col-6"><h3 class="mb-0 mt-0">{{page_title}}</h3></div>
                 <div class="col-6">
                     <div class="text-right">
-                        {{#if actions.cancel}}
-                            <a href="{{list_page}}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}</a>{{/if}}
+                        {{#if actions.cancel}}<a href="{{list_page}}" class="btn btn-primary"><i class="fa fa-chevron-left"></i>&nbsp;{{i18n 'LABEL_BACK'}}</a>{{/if}}
                         &nbsp;
-                        {{#if actions.save}}
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;{{i18n 'LABEL_SAVE'}}</button>{{/if}}
+                        {{#if actions.save}}<button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;{{i18n 'LABEL_SAVE'}}</button>{{/if}}
                     </div>
                 </div>
             </div>
@@ -2695,8 +2729,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities" role="tab" aria-controls="entities"
-                       aria-selected="false">
+                    <a class="nav-link" id="entities-tab" data-toggle="tab" href="#entities" role="tab" aria-controls="entities" aria-selected="false">
                         {{i18n 'TAB_STORES_AND_CATEGORIES'}}
                     </a>
                 </li>
@@ -2722,22 +2755,12 @@
                     <div class="row">
                         <div class="col-6">
                             {{#if fieldKeys.published_start}}
-                            {{!--
-                            <div class="form-group">
-                                <label class="control-label" for="published_start">{{i18n 'LABEL_PUBLISH_START_DATE'}}</label>
-                                <input type="text" name="commerce_form[published_start]" id="published_start" class="form-control"
-                                       data-trigger="datetimepicker" data-date-format="yyyy-mm-dd"
-                                       value="{{item_data.published_start}}" />
-                            </div>
-                            --}}
                                 <div class="form-group">
                                     <label class="control-label" for="published_start">{{i18n 'LABEL_PUBLISH_START_DATE'}}</label>
                                     <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
                                         <input type="text" name="commerce_form[published_start]" class="form-control datetimepicker-input"
                                                value="{{item_data.published_start}}"/>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
+                                        <div class="input-group-append"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
                                     </div>
                                 </div>
                             {{/if}}
@@ -2758,49 +2781,34 @@
                                     <label class="control-label" for="product_mode">{{i18n 'LABEL_PRODUCT_MODE'}}</label>
                                     <select name="commerce_form[product_mode]" id="product_mode" class="form-control">
                                         <option value="">{{i18n 'SELECT_ONE'}}</option>
-                                        <option value="physical"{{#eq item_data.product_mode 'physical'}} selected{{/eq}}>{{i18n
-                                                'PRODUCT_MODE_PHYSICAL'}}</option>
-                                        <option value="download"{{#eq item_data.product_mode 'download'}} selected{{/eq}}>{{i18n
-                                                'PRODUCT_MODE_DOWNLOAD'}}</option>
-                                        <option value="subscription"{{#eq item_data.product_mode 'subscription'}} selected{{/eq}}>{{i18n
-                                                'PRODUCT_MODE_SUBSCRIPTION'}}</option>
+                                        <option value="physical"{{#eq item_data.product_mode 'physical'}} selected{{/eq}}>{{i18n 'PRODUCT_MODE_PHYSICAL'}}</option>
+                                        <option value="download"{{#eq item_data.product_mode 'download'}} selected{{/eq}}>{{i18n 'PRODUCT_MODE_DOWNLOAD'}}</option>
+                                        <option value="subscription"{{#eq item_data.product_mode 'subscription'}} selected{{/eq}}>{{i18n 'PRODUCT_MODE_SUBSCRIPTION'}}</option>
                                     </select>
                                 </div>
                             {{/if}}
                         </div>
                         <div class="col-6">
                             {{#if fieldKeys.published_end}}
-                            {{!--
-                            <div class="form-group">
-                                <label class="control-label" for="published_end">{{i18n 'LABEL_PUBLISH_END_DATE'}}</label>
-                                <input type="text" name="commerce_form[published_end]" id="published_end" class="form-control"
-                                       data-trigger="datepicker" data-date-format="yyyy-mm-dd"
-                                       value="{{item_data.published_end}}" />
-                            </div>
-                            --}}
                                 <div class="form-group">
                                     <label class="control-label" for="published_end">{{i18n 'LABEL_PUBLISH_END_DATE'}}</label>
                                     <div class="input-group date" data-target-input="nearest" data-trigger="datetimepicker">
                                         <input type="text" name="commerce_form[published_end]" class="form-control datetimepicker-input"
                                                value="{{item_data.published_end}}"/>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
+                                        <div class="input-group-append"><div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
                                     </div>
                                 </div>
                             {{/if}}
                             {{#if fieldKeys.in_stock}}
                                 <div class="form-group">
                                     <label class="control-label" for="in_stock">{{i18n 'LABEL_IN_STOCK'}} (-1 if not applicable)</label>
-                                    <input type="text" name="commerce_form[in_stock]" id="in_stock" class="form-control"
-                                           value="{{item_data.in_stock}}"/>
+                                    <input type="text" name="commerce_form[in_stock]" id="in_stock" class="form-control" value="{{item_data.in_stock}}"/>
                                 </div>
                             {{/if}}
                             {{#if fieldKeys.price}}
                                 <div class="form-group">
                                     <label class="control-label" for="price">{{i18n 'LABEL_PRICE'}}</label>
-                                    <input type="number" step="any" name="commerce_form[price]" id="price" class="form-control"
-                                           value="{{item_data.price}}"/>
+                                    <input type="number" step="any" name="commerce_form[price]" id="price" class="form-control" value="{{item_data.price}}"/>
                                 </div>
                             {{/if}}
                             {{#if fieldKeys.modal_currency}}{{require "partials/modal_currency" this}}{{/if}}
@@ -2809,8 +2817,7 @@
                     {{#if fieldKeys.description}}
                         <div class="form-group">
                             <label class="control-label" for="description">{{i18n 'LABEL_DESCRIPTION'}}</label>
-                            <textarea name="commerce_form[description]" id="description"
-                                      class="form-control basic">{{item_data.description}}</textarea>
+                            <textarea name="commerce_form[description]" id="description" class="form-control basic">{{item_data.description}}</textarea>
                         </div>
                     {{/if}}
                 </div>

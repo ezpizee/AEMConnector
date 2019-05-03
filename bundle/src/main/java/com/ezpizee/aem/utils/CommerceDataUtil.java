@@ -4,6 +4,7 @@ import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.http.Response;
 import com.ezpizee.aem.models.AppConfig;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class CommerceDataUtil {
 
                 formatEndpoint();
 
-                if (isList()) {
+                if (isList() || isAsset()) {
                     Client client = new Client(appConfig);
                     Response response = client.get(endpoint);
                     if (response.isSuccess()) {
@@ -43,17 +44,35 @@ public class CommerceDataUtil {
                 }
 
                 else if (isForm()) {
-                    String editId = props.getOrDefault(Constants.KEY_EDIT_ID, StringUtils.EMPTY).toString();
+                    String editId = props.getOrDefault(Constants.KEY_EDIT_ID, props.getOrDefault(Constants.KEY_ID, StringUtils.EMPTY)).toString();
                     if (StringUtils.isNotEmpty(editId)) {
                         Client client = new Client(appConfig);
                         Response response = client.get(endpoint.replace("{"+Constants.KEY_ID+"}", editId).replace("{"+Constants.KEY_EDIT_ID+"}", editId));
                         if (response.isSuccess()) {
+                            // For product form > product type > product attribute fields
+                            if (response.getDataAsJSONObject().containsKey("product_type") &&
+                                ((JSONObject)response.getDataAsJSONObject().get("product_type")).containsKey("product_attrs")
+                            ) {
+                                JSONArray prodAttrs = (JSONArray) ((JSONObject)response.getDataAsJSONObject().get("product_type")).get("product_attrs");
+                                if (prodAttrs != null && !prodAttrs.isEmpty()) {
+                                    for (int i = 0; i < prodAttrs.size(); i++) {
+                                        JSONObject jsonObject = (JSONObject) prodAttrs.get(i);
+                                        if (jsonObject != null && jsonObject.containsKey("field_type")) {
+                                            jsonObject.put("product_attr_field", "field_types/form-"+jsonObject.get("field_type"));
+                                            prodAttrs.set(i, jsonObject);
+                                        }
+                                    }
+                                    ((JSONObject)response.getDataAsJSONObject().get("product_type")).put("product_attrs", prodAttrs);
+                                }
+                            }
+
                             data.put(Constants.KEY_ITEM_DATA, response.getDataAsJSONObject());
                         }
                         else {
                             LOG.debug("Response is invalid for item by id");
                         }
                     }
+                    data.put(Constants.KEY_FIELD_TYPES, DataUtil.toJSONArray(ConfigUtil.getData("fieldtypes")));
                 }
                 data.put(Constants.KEY_PAGE_TITLE, props.getOrDefault(com.day.cq.wcm.api.NameConstants.PN_TITLE, StringUtils.EMPTY));
                 setData(Constants.KEY_METHOD);
@@ -148,11 +167,9 @@ public class CommerceDataUtil {
         }
     }
 
-    private boolean isList() {
-        return Constants.APP_RESOURCE_LIST.equals(props.getOrDefault(Constants.PROP_SLING_RESOURCETYPE, StringUtils.EMPTY));
-    }
+    private boolean isAsset() { return Constants.APP_RESOURCE_ASSET.equals(props.getOrDefault(Constants.PROP_SLING_RESOURCETYPE, StringUtils.EMPTY)); }
 
-    private boolean isForm() {
-        return Constants.APP_RESOURCE_FORM.equals(props.getOrDefault(Constants.PROP_SLING_RESOURCETYPE, StringUtils.EMPTY));
-    }
+    private boolean isList() { return Constants.APP_RESOURCE_LIST.equals(props.getOrDefault(Constants.PROP_SLING_RESOURCETYPE, StringUtils.EMPTY)); }
+
+    private boolean isForm() { return Constants.APP_RESOURCE_FORM.equals(props.getOrDefault(Constants.PROP_SLING_RESOURCETYPE, StringUtils.EMPTY)); }
 }

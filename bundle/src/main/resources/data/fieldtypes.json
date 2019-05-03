@@ -1,0 +1,42 @@
+[
+  {
+    "value": "checkbox",
+    "text": "Checkbox"
+  },
+  {
+    "value": "color",
+    "text": "Color"
+  },
+  {
+    "value": "date",
+    "text": "Date"
+  },
+  {
+    "value": "date-time",
+    "text": "Date Time"
+  },
+  {
+    "value": "number",
+    "text": "Number"
+  },
+  {
+    "value": "plaintext",
+    "text": "Plaintext"
+  },
+  {
+    "value": "radio",
+    "text": "Radio"
+  },
+  {
+    "value": "select-option",
+    "text": "Select Option"
+  },
+  {
+    "value": "time",
+    "text": "Time"
+  },
+  {
+    "value": "url",
+    "text": "URL"
+  }
+]
