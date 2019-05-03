@@ -92,7 +92,7 @@ WC.formUtil = function() {
             showHelpOnFocus: false,
             onModulesLoaded : function() {},
             onSuccess: function($form) {
-                if (noAjaxSubmit) {
+                if (noAjaxSubmit || $form.attr('data-noajaxsubmit') === 'true') {
                     return true;
                 }
                 let oldAction = $form.attr('action');
