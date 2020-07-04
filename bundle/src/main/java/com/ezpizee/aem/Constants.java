@@ -33,7 +33,6 @@ public class Constants {
     public static final String IMG_LOGO = "/etc/designs/ezpizee/project_common/images/ezpizee.png";
     public static final String EZPIZEE_SERVICE = "ezpizee-service";
     public static final String UTF_8 = "UTF-8";
-    public static final String ISO_8859_1 = "ISO-8859-1";
     public static final String ECMA_DATE_FORMAT = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z";
 
     public static final String HEADER_PARAM_ACCEPT = "Accept";

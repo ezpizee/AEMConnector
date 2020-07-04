@@ -1,4 +1,4 @@
-WC.utilities = function () {
+WC.utilities = function ($) {
     var that = {};
 
     that.parseUri = function(url) {
@@ -177,7 +177,7 @@ WC.utilities = function () {
     function _loadCSS(url, attrs, e) {
         if (url) {
             if (phpjs.in_array(url, dynamicCSS)) {
-                var dom = jQuery('link[href="' + url + '"]');
+                var dom = $('link[href="' + url + '"]');
                 if (dom.length) {
                     dom.remove();
                 }
@@ -204,7 +204,7 @@ WC.utilities = function () {
     function _loadJS(url, attrs, e) {
         if (url) {
             if (phpjs.in_array(url, dynamicJS)) {
-                var dom = jQuery('script[src="' + url + '"]');
+                var dom = $('script[src="' + url + '"]');
                 if (dom.length) {
                     dom.remove();
                 }
@@ -231,10 +231,10 @@ WC.utilities = function () {
     }
 
     that.scrollbar = function () {
-        var elements = jQuery('[data-scrollbar]');
+        var elements = $('[data-scrollbar]');
         if (elements.length) {
             elements.each(function () {
-                var element = jQuery(this);
+                var element = $(this);
                 if (!element.attr(WC.constants.ATTR_DATA_HOOK_PFX + '-scrollbar')) {
                     var settings = element.attr('data-scrollbar');
                     if (that.isJSONString(settings)) {
@@ -259,7 +259,7 @@ WC.utilities = function () {
             e = e.find('>.mCustomScrollBox');
             var id = e.attr('id');
             if (e.find('#' + id + '_container').length) {
-                e = jQuery('#' + id + '_container');
+                e = $('#' + id + '_container');
             }
         }
         return e;
@@ -270,7 +270,7 @@ WC.utilities = function () {
     };
     that.destroyScrollbar = function (e) {
         if (phpjs.is_string(e)) {
-            e = jQuery(e);
+            e = $(e);
         }
         e.mCustomScrollbar('destroy');
     };
@@ -402,7 +402,7 @@ WC.utilities = function () {
     };
 
     that.applySortable = function (selector) {
-        var e = jQuery(selector);
+        var e = $(selector);
         if (!WC.isHooked(e, 'sortable')) {
             e.sortable({
                 group: phpjs.uniqid('no-drop-'),
@@ -418,7 +418,7 @@ WC.utilities = function () {
     };
 
     that.applyColorPicker = function (selector) {
-        var e = jQuery(selector);
+        var e = $(selector);
         if (!WC.isHooked(e, 'colorpicker')) {
             e.colorpicker({
                 inline: true,
@@ -449,7 +449,7 @@ WC.utilities = function () {
     };
 
     that.applyDatePicker = function (selector, settings) {
-        var e = jQuery(selector);
+        var e = $(selector);
         if (!WC.isHooked(e, 'datepicker')) {
             e.datepicker(settings || {
                 format: 'yyyy-mm-dd',
@@ -460,10 +460,10 @@ WC.utilities = function () {
     };
 
     that.applyDateTimePicker = function (selector, settings) {
-        var e = jQuery(selector);
+        var e = $(selector);
         if (!WC.isHooked(e, 'datetimepicker')) {
             e.each(function(){
-                var $t = jQuery(this);
+                var $t = $(this);
                 var $id = phpjs.uniqid('dt-');
                 var $input = $t.find('>input[type="text"]');
                 $t.attr('id', $id);
@@ -490,10 +490,10 @@ WC.utilities = function () {
     that.applyRichText = function (selector) {if (phpjs.is_callable('rteStandardConfig')) {rteStandardConfig(selector);}};
 
     that.applyMoreLess = function(selector) {
-        var ele = jQuery(selector);
+        var ele = $(selector);
         if (!WC.isHooked(ele, 'moreless')) {
             ele.each(function(){
-                var e = jQuery(this);
+                var e = $(this);
                 var id = null;
                 if (!e.find('.show.m').length) {
                     var words = e.html().split(' ');
@@ -519,8 +519,8 @@ WC.utilities = function () {
                     e.find('.show.l').html(WC.i18n.get(e.find('.show.l').html()));
                 }
                 if (id) {
-                    jQuery('#'+id).click(function(){
-                        var $this = jQuery(this);
+                    $('#'+id).click(function(){
+                        var $this = $(this);
                         $this.find('.m').toggleClass('hide');
                         $this.find('.l').toggleClass('hide');
                         $this.prev().toggleClass('hide');
@@ -531,14 +531,14 @@ WC.utilities = function () {
     };
 
     that.applyLightBox = function(selector) {
-        var e = jQuery(selector||'[data-toggle="lightbox"]');
+        var e = $(selector||'[data-toggle="lightbox"]');
         if (e.length) {
             e.each(function(){
-                var $t = jQuery(this);
+                var $t = $(this);
                 if (!WC.isHooked($t, 'lightbox')) {
                     $t.on('click', function(event){
                         event.preventDefault();
-                        jQuery(this).ekkoLightbox();
+                        $(this).ekkoLightbox();
                         return false;
                     });
                 }
@@ -546,5 +546,46 @@ WC.utilities = function () {
         }
     };
 
+    that.childOf = function(v) {
+        var e = $('[data-child-of]');
+        if (e.length) {
+            if (v) {
+                e.each(function(){
+                    var $this = $(this);
+                    if ($this.attr('data-child-of') === v) {
+                        $this.show();
+                    }
+                    else {
+                        $this.hide();
+                    }
+                });
+            }
+            else {
+                e.each(function(){$(this).hide();});
+            }
+        }
+    };
+
+    that.str2fn = function(str) {
+        var fn = null;
+        if (str) {
+            var parts = str.split('.');
+            for (var i in parts) {
+                if (window[parts[i]]) {
+                    if (!fn) {
+                        fn = window[parts[i]];
+                    }
+                }
+                else if (fn && fn[parts[i]]) {
+                    fn = fn[parts[i]];
+                }
+                else {
+                    fn = null;
+                }
+            }
+        }
+        return fn;
+    };
+
     return that;
-}();
+}(jQuery);

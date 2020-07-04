@@ -5,7 +5,7 @@ import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.http.Response;
 import com.ezpizee.aem.models.AppConfig;
 import com.ezpizee.aem.security.Jwt;
-import net.minidev.json.JSONObject;
+import com.google.gson.JsonObject;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
@@ -55,9 +55,9 @@ public class AppConfigLoader {
             client.setFormParams(formParams);
             Response response = client.post(Constants.ENDPOINT_GET_TOKEN);
             if (response.isSuccess()) {
-                JSONObject data = response.getDataAsJSONObject();
-                if (data.containsKey(AppConfig.KEY_ACCESS_TOKEN)) {
-                    appConfig.setAccessToken((String)data.get(AppConfig.KEY_ACCESS_TOKEN));
+                JsonObject data = response.getDataAsJsonObject();
+                if (data.has(AppConfig.KEY_ACCESS_TOKEN)) {
+                    appConfig.setAccessToken(data.get(AppConfig.KEY_ACCESS_TOKEN).getAsString());
                     session.setAttribute(AppConfig.KEY_ACCESS_TOKEN, data.get(AppConfig.KEY_ACCESS_TOKEN));
                 }
             }

@@ -5,20 +5,15 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ezpizee.aem.Constants;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * @author Sothea Nim
@@ -64,15 +59,15 @@ public class HashUtil {
     }
 
     public static String base64Decode(String s) {
-        return StringUtils.newStringUtf8(Base64.decodeBase64(StringUtils.getBytesUtf8(s)));
+        return new String(Base64.getDecoder().decode(s));
     }
 
     public static String base64Encode(String s) {
-        return StringUtils.newStringUtf8(Base64.encodeBase64(StringUtils.getBytesUtf8(s)));
+        return new String(Base64.getEncoder().encode(s.getBytes()));
     }
 
     public static String base64Encode(byte[] bytes) {
-        return StringUtils.newStringUtf8(Base64.encodeBase64(bytes));
+        return new String(Base64.getEncoder().encode(bytes));
     }
 
     public static String rawurlencode(String url) {
@@ -93,16 +88,19 @@ public class HashUtil {
         }
     }
 
-    public static Map<String, Object> jsonToMap(String jsonString) throws ParseException {
-        if (DataUtil.isJSONArrayString(jsonString) || DataUtil.isJSONObjectString(jsonString)) {
-            JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
-            JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
-            return jsonToMap(jsonObject);
+    public static Map<String, Object> jsonToMap(String jsonString) {
+        if (DataUtil.isJsonArrayString(jsonString) || DataUtil.isJsonObjectString(jsonString)) {
+            JsonParser parser = new JsonParser();
+            JsonElement jsonElement = parser.parse(jsonString);
+            if (jsonElement.isJsonObject()) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                return jsonToMap(jsonObject);
+            }
         }
         return null;
     }
 
-    public static Map<String, Object> jsonToMap(JSONObject json) {
+    public static Map<String, Object> jsonToMap(JsonObject json) {
         Map<String, Object> retMap = new HashMap<>();
         if(json != null) {
             retMap = toMap(json);
@@ -110,18 +108,18 @@ public class HashUtil {
         return retMap;
     }
 
-    public static Map<String, Object> toMap(JSONObject object) {
+    public static Map<String, Object> toMap(JsonObject object) {
         Map<String, Object> map = new HashMap<>();
 
         for (String key : object.keySet()) {
             Object value = object.get(key);
 
-            if(value instanceof JSONArray) {
-                value = toList((JSONArray) value);
+            if(value instanceof JsonArray) {
+                value = toList((JsonArray) value);
             }
 
-            else if(value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
+            else if(value instanceof JsonObject) {
+                value = toMap((JsonObject) value);
             }
 
             map.put(key, value);
@@ -130,16 +128,16 @@ public class HashUtil {
         return map;
     }
 
-    public static List<Object> toList(JSONArray array) {
+    public static List<Object> toList(JsonArray array) {
         List<Object> list = new ArrayList<>();
         for(int i = 0; i < array.size(); i++) {
             Object value = array.get(i);
-            if(value instanceof JSONArray) {
-                value = toList((JSONArray) value);
+            if(value instanceof JsonArray) {
+                value = toList((JsonArray) value);
             }
 
-            else if(value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
+            else if(value instanceof JsonObject) {
+                value = toMap((JsonObject) value);
             }
             list.add(value);
         }

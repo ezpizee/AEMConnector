@@ -57,21 +57,6 @@ public class Jwt {
         return "";
     }
 
-    public static String sshGenFormDataToken(String env, SSHFormData formData) {
-        if (StringUtils.isNotEmpty(formData.client_id) && StringUtils.isNotEmpty(formData.phrase) && StringUtils.isNotEmpty(formData.app_name)) {
-            return JWT.create()
-                .withIssuer(env+":"+issSfx)
-                .withAudience(HashUtil.md5(env+":"+audSfx))
-                .withHeader(headers())
-                .withJWTId(env+":EzpizeeApp")
-                .withClaim("phrase", formData.phrase)
-                .withClaim("client_id", formData.client_id)
-                .withClaim("app_name", formData.app_name)
-                .sign(algorithm());
-        }
-        return "";
-    }
-
     public static Token decryptToken(String tokenData) {
 
         Token decryptedToken = new Token();

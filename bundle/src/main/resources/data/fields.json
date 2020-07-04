@@ -15,6 +15,7 @@
   {"key":"price","value":"Price"},
   {"key":"modal_currency","value":"Modal - Currency"},
   {"key":"modal_store","value":"Modal - Store"},
+  {"key":"modal_stores","value":"Modal - Stores"},
   {"key":"modal_common_countries","value":"Modal - Common Countries"},
   {"key":"modal_common_currencies","value":"Modal - Common Currencies"},
   {"key":"modal_payment_service","value":"Modal - Payment Service"},

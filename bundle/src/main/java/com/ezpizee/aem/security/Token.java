@@ -1,6 +1,7 @@
 package com.ezpizee.aem.security;
 
-import net.minidev.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class Token {
 
@@ -22,17 +23,17 @@ public class Token {
     }
 
     public String toString() {
-        JSONObject object = new JSONObject();
-        object.put("token", token);
-        object.put("jti", jti);
-        object.put("env", env);
-        object.put("appName", appName);
-        object.put("issuer", issuer);
-        object.put("audience", audience);
-        object.put("ssh", ssh);
-        object.put("client", client);
-        object.put("access_token", access_token);
-        return object.toJSONString();
+        JsonObject object = new JsonObject();
+        object.add("token", new JsonPrimitive(token));
+        object.add("jti", new JsonPrimitive(jti));
+        object.add("env", new JsonPrimitive(env));
+        object.add("appName", new JsonPrimitive(appName));
+        object.add("issuer", new JsonPrimitive(issuer));
+        object.add("audience", new JsonPrimitive(audience));
+        object.add("ssh", new JsonPrimitive(ssh));
+        object.add("client", new JsonPrimitive(client.toString()));
+        object.add("access_token", new JsonPrimitive(access_token));
+        return object.getAsString();
     }
 
     public class Client {
@@ -41,11 +42,11 @@ public class Token {
         public String phrase;
 
         public String toString() {
-            JSONObject object = new JSONObject();
-            object.put("client_id", client_id);
-            object.put("client_secret", client_secret);
-            object.put("phrase", phrase);
-            return object.toJSONString();
+            JsonObject object = new JsonObject();
+            object.add("client_id", new JsonPrimitive(client_id));
+            object.add("client_secret", new JsonPrimitive(client_secret));
+            object.add("phrase", new JsonPrimitive(phrase));
+            return object.getAsString();
         }
     }
 }

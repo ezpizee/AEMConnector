@@ -1,5 +1,5 @@
 var WCConfig = WCConfig||{};
-var WC = function() {
+var WC = function($) {
     var that = {};
     var hbsTmpls = {};
     that.hasHbsTmpl = function(t) {return typeof hbsTmpls[t] !== 'undefined';};
@@ -35,9 +35,9 @@ var WC = function() {
         });
     };
     return that;
-}();
+}(jQuery);
 
-WC.callbacks = function() {
+WC.callbacks = function($) {
     var that = {}, okBtnClick = {};
     that.onModalOKButtonClick = function (f, id) {
         if (phpjs.is_callable(f)) {
@@ -49,11 +49,12 @@ WC.callbacks = function() {
         else { return okBtnClick; }
     };
     return that;
-}();
+}(jQuery);
 
 WC.params = function() {
     var that = {};
     var data = {};
+    data.timeout = 2000;
     that.merge = function(o) {for (var i in o) {data[i] = o[i];}};
     that.get = function (k, v) {return data[k]||v;};
     that.has = function(k) {return !!data[k];};
@@ -64,7 +65,13 @@ WC.params = function() {
 
 WC.compileHandlebars = function(source, context) {
     try {
-        return Handlebars.compile(source)(phpjs.is_object(context) || phpjs.is_array(context) ? context : {});
+        if (WC.hasHbsTmpl(source)) {source = WC.hbsTmpl(source);}
+        context = phpjs.is_object(context)||phpjs.is_array(context)?context:{};
+        context.clientlibAssetRoot = WCConfig.clientlibAssetRoot||'clientlibs/commerce/app/images/';
+        if (!context.clientlibAssetRoot.startsWith('http') && context.clientlibAssetRoot.startsWith('/')) {
+            context.clientlibAssetRoot = phpjs.substr(context.clientlibAssetRoot, 1);
+        }
+        return Handlebars.compile(source)(context);
     }
     catch (e) {
         console.log(e);
@@ -128,7 +135,6 @@ WC.deleteApp = function(element, endpoint, hashedAppName) {
                 url: WC.constants.DELETE,
                 data: {hashedAppName: hashedAppName, endpoint: endpoint},
                 success: function (data) {
-                    console.log(data);
                     if (phpjs.sizeof(data) && data.message) {
                         WC.renderAlert('info', data.message);
                         if (data.status) {
@@ -162,7 +168,7 @@ WC.delete = function(endpoint, id) {
                 success: function (data) {
                     if (phpjs.sizeof(data) && data.message) {
                         WC.renderAlert('info', data.message);
-                        WC.loadCurrentPageContentInto(WC.ids.commerceItemsListId());
+                        setTimeout(function(){WC.loadCurrentPageContentInto(WC.ids.commerceItemsListId());},WC.params.get('timeout', 3000));
                     }
                 },
                 error: function (a, b, c) {
@@ -180,6 +186,9 @@ WC.renderAlert = function(type, message, containerId) {
     var alert = WC.compileHandlebars(WC.hbsTmpl(WC.constants.HBS_ALERT_MESSAGE), {type: type, message: message});
     var e = WC.getElementById(containerId||WC.ids.alertContainerId());
     e.html(alert);
+    setTimeout(function(){
+        WC.getElementById(containerId||WC.ids.alertContainerId()).fadeOut();
+    }, WC.params.get('timeout', 3000));
     return e;
 };
 
@@ -207,7 +216,7 @@ WC.loadCurrentPageContentInto = function(containerId) {
     }
 };
 
-WC.loadPage = function(uri) {
+WC.loadPage = function(uri, callback) {
     if (uri) {
         var data = {}, dataType = 'json', isHtml = false;
         if (phpjs.strpos(uri, '.html') !== false) {
@@ -228,6 +237,9 @@ WC.loadPage = function(uri) {
                 }
                 else {
                     $('#commerce-spa').html(uri);
+                }
+                if (callback && phpjs.is_callable(callback)) {
+                    callback(resp);
                 }
             }
         });

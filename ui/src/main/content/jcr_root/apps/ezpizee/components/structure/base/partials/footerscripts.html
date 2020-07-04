@@ -2,7 +2,8 @@
     var WCConfig = {
         adminPathPfx: "/content/ezpizee/",
         csrfTokenName: "CSRF-Token",
-        aemCSRFTokenPath: "/libs/granite/csrf/token.json"
+        aemCSRFTokenPath: "/libs/granite/csrf/token.json",
+        clientlibAssetRoot: "/etc/designs/ezpizee/commerce/app/images/"
     };
 </script>
 <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
@@ -88,6 +89,7 @@
     WC.constants.LENGTH_LIST = WCConfig.adminPathPfx + 'global-properties/length-measurement.ezpz.json';
     WC.constants.WEIGHT_LIST = WCConfig.adminPathPfx + 'global-properties/weight-measurement.ezpz.json';
     WC.constants.ADDRESS_LIST = WCConfig.adminPathPfx + 'global-properties/addresses.ezpz.json';
+    WC.constants.SUBSCRIPTION_PLAN_LIST = WCConfig.adminPathPfx + 'global-properties/subscription-plans.json';
     WC.constants.FOLDER_LIST = WCConfig.adminPathPfx + 'global-properties/assets/folders.ezpz.json';
     WC.constants.FOLDER_CONTENT = WCConfig.adminPathPfx + 'global-properties/assets/folders.html?tmpl=content';// TODO
     WC.constants.ASSETS_LIST = WCConfig.adminPathPfx + 'global-properties/assets.ezpz.json';

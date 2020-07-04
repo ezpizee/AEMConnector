@@ -92,6 +92,10 @@ WC.formUtil = function() {
             showHelpOnFocus: false,
             onModulesLoaded : function() {},
             onSuccess: function($form) {
+                if ($form.attr('data-trigger') === 'spinner-modal') {
+                    $('html').append('<div style="position:absolute;top:0;right:0;bottom:0;left:0;background:#fff;opacity:0.50"></div>');
+                    WC.spinner.start();
+                }
                 if (noAjaxSubmit || $form.attr('data-noajaxsubmit') === 'true') {
                     return true;
                 }
@@ -109,10 +113,10 @@ WC.formUtil = function() {
                         if (phpjs.is_string(resp)) {resp=phpjs.json_decode(resp)||{};}
                         if (typeof resp.success !== "undefined") {
                             WC.renderAlert('success', resp.message||"Unknown message", formMsgId($form));
-                            if (typeof resp.data !== "undefined" && phpjs.is_object(resp.data) &&
-                                typeof resp.data.id !== "undefined" && phpjs.strpos(oldAction, 'edit_id='+resp.data.id) === false) {
-                                oldAction = oldAction + '?edit_id='+resp.data.id;
-                                location.href = oldAction;
+                            var data = resp.data||resp.item_data||{}, edit_id = data.id||data.edit_id||0;
+                            if (edit_id && phpjs.strpos(oldAction, 'edit_id='+edit_id) === false) {
+                                oldAction = oldAction + '?edit_id='+edit_id;
+                                setTimeout(function(){location.href = oldAction;}, WC.params.get('timeout', 3000));
                             }
                             else {
                                 $form.attr('action', oldAction);

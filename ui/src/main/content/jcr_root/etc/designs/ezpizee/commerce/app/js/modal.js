@@ -17,6 +17,7 @@ WC.productOneModal = function(o){WC.commonModal(o, WC.constants.PRODUCT_LIST, 'p
 WC.productTwoModal = function(o){WC.commonModal(o, WC.constants.PRODUCT_LIST, 'product_2');};
 WC.fileModal = function(o, ele){WC.assetModal(o, WC.constants.ASSETS_CONTENT, 'file', ele);};
 WC.folderModal = function(o) {WC.assetModal(o, WC.constants.FOLDER_CONTENT, 'folder');};
+WC.subscriptionPlanModal = function(o, ele){WC.commonModal(o, WC.constants.SUBSCRIPTION_PLAN_LIST, 'subscription_plan', ele);};
 
 WC.assetModal = function(o, url, fieldName, $ele) {
     WC.httpClient({

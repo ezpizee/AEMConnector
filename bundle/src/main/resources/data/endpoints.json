@@ -301,6 +301,22 @@
     "paymentServicesList": {
       "uri": "/v1/globalproperties/common/payment/services",
       "method": "get"
+    },
+    "subscriptionPlanList": {
+      "uri": "/v1/globalproperties/subscription/plan/list",
+      "method": "get"
+    },
+    "subscriptionPlanGetById": {
+      "uri": "/v1/globalproperties/subscription/plan/byid/{id}",
+      "method": "get"
+    },
+    "subscriptionPlanForm": {
+      "uri": "/v1/globalproperties/subscription/plan/form",
+      "method": "post"
+    },
+    "subscriptionPlanDelete": {
+      "uri": "/v1/globalproperties/subscription/plan/delete",
+      "method": "delete"
     }
   },
   "offer": {

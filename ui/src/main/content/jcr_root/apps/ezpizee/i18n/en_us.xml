@@ -449,7 +449,19 @@
     <label_product_mode
             jcr:primaryType="sling:MessageEntry"
             sling:key="LABEL_PRODUCT_MODE"
-            sling:message="Product Mode"/>
+            sling:message="Product Mode/Type"/>
+    <label_subscription_plan
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SUBSCRIPTION_PLAN"
+            sling:message="Subscription Plan"/>
+    <label_subscription_plan_days
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SUBSCRIPTION_PLAN_DAYS"
+            sling:message="Subscription Plan - # of Days"/>
+    <label_subscription_trial_days
+            jcr:primaryType="sling:MessageEntry"
+            sling:key="LABEL_SUBSCRIPTION_TRIAL_DAYS"
+            sling:message="Subscription Trial - # of Days (if any)"/>
     <tab_basic
             jcr:primaryType="sling:MessageEntry"
             sling:key="TAB_BASIC"

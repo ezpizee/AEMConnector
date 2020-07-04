@@ -1,12 +1,9 @@
 package com.ezpizee.aem.utils;
 
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import org.apache.sling.api.resource.ValueMap;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,67 +25,69 @@ public class DataUtil {
         return map;
     }
 
-    public static boolean isJSONObjectString(String str) {
+    public static boolean isJsonObjectString(String str) {
         boolean flag;
-        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
         try {
-            JSONObject jsonObject = (JSONObject) parser.parse(str);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(str).getAsJsonObject();
             flag = jsonObject != null;
         }
-        catch (ParseException e) {
+        catch (JsonSyntaxException e) {
             flag = false;
         }
         return flag;
     }
 
-    public static boolean isJSONArrayString(String str) {
+    public static boolean isJsonArrayString(String str) {
         boolean flag;
-        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
         try {
-            JSONArray jsonArray = (JSONArray) parser.parse(str);
+            JsonParser parser = new JsonParser();
+            JsonArray jsonArray = parser.parse(str).getAsJsonArray();
             flag = jsonArray != null;
         }
-        catch (ParseException e) {
+        catch (JsonSyntaxException e) {
             flag = false;
         }
         return flag;
     }
 
-    public static boolean isJSONString(String str) {
-        boolean flag = DataUtil.isJSONObjectString(str);
+    public static boolean isJsonString(String str) {
+        boolean flag = DataUtil.isJsonObjectString(str);
         if (!flag) {
-            flag = DataUtil.isJSONArrayString(str);
+            flag = DataUtil.isJsonArrayString(str);
         }
         return flag;
     }
 
-    public static JSONArray toJSONArray(String str) {
-        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
-        JSONArray jsonArray;
+    public static JsonArray toJsonArray(String str) {
+        JsonParser parser = new JsonParser();
+        JsonArray jsonArray;
         try {
-            jsonArray = (JSONArray) parser.parse(str);
+            jsonArray = parser.parse(str).getAsJsonArray();
         }
-        catch (ParseException e) {
+        catch (JsonSyntaxException e) {
             jsonArray = null;
         }
         return jsonArray;
     }
 
-    public static JSONObject toJSONObject(String str) {
-        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
-        JSONObject jsonObject;
+    public static JsonObject toJsonObject(String str) {
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject;
         try {
-            jsonObject = (JSONObject) parser.parse(str);
+            jsonObject = parser.parse(str).getAsJsonObject();
         }
-        catch (ParseException e) {
+        catch (JsonSyntaxException e) {
             jsonObject = null;
         }
         return jsonObject;
     }
 
-    public static JSONArray toJSONArray(String[] arr) {
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.addAll(Arrays.asList(arr));
+    public static JsonArray toJsonArray(String[] arr) {
+        JsonArray jsonArray = new JsonArray();
+        for (String s : arr) {
+            jsonArray.add(s);
+        }
         return jsonArray;
     }
 
@@ -100,20 +99,12 @@ public class DataUtil {
         return data;
     }
 
-    public static Map<String, String> jsonObject2MapString(JSONObject object) {
-        Map<String, String> data = new HashMap<>();
-        for (String key : object.keySet()) {
-            data.put(key, (String)object.get(key));
-        }
-        return data;
+    public static Map<String, String> jsonObject2MapString(JsonObject object) {
+        return (new Gson().fromJson(object, new TypeToken<HashMap<String, String>>() {}.getType()));
     }
 
-    public static Map<String, Object> jsonObject2MapObject(JSONObject object) {
-        Map<String, Object> data = new HashMap<>();
-        for (String key : object.keySet()) {
-            data.put(key, object.get(key));
-        }
-        return data;
+    public static Map<String, Object> jsonObject2MapObject(JsonObject object) {
+        return (new Gson().fromJson(object, new TypeToken<HashMap<String, Object>>() {}.getType()));
     }
 
     public static Map<String, String> map2MapString(Map<String, Object> map) {

@@ -1,6 +1,6 @@
 package com.ezpizee.aem.utils;
 
-import net.minidev.json.JSONArray;
+import com.google.gson.JsonArray;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class FileSystem {
 
     private FileSystem() {}
 
-    public static void fetchFilesAsJsonArray(String folderPath, JSONArray files) {
+    public static void fetchFilesAsJsonArray(String folderPath, JsonArray files) {
 
         File dir = new File(folderPath);
 

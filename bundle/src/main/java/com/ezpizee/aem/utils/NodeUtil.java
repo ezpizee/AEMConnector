@@ -102,18 +102,15 @@ public class NodeUtil {
         }
         else {
             if (path.endsWith("/")) { path = path.substring(0, path.length()-1); }
-            LOG.error("SOTHEA path: "+path);
             String[] parts = path.split("/");
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < parts.length-1; i++) { sb.append(parts[i]).append("/"); }
             String parent = sb.toString();
             if (parent.endsWith("/")) { parent = parent.substring(0, parent.length()-1); }
-            LOG.error("SOTHEA parent: "+parent);
             if (resolver.getResource(parent) != null) {
                 Session session = resolver.adaptTo(Session.class);
                 if (session != null) {
                     try {
-                        LOG.error("SOTHEA child: "+parts[parts.length-1]);
                         Node parentNode = session.getNode(parent);
                         Node child = parentNode.addNode(parts[parts.length-1], primaryType);
                         session.save();

@@ -1,8 +1,6 @@
 package com.ezpizee.aem.utils;
 
 import com.ezpizee.aem.Constants;
-import net.minidev.json.JSONObject;
-import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
@@ -24,22 +22,6 @@ public class ResourceUtil {
         final String[] parts = resource.getPath().split("/" + Constants.NODE_JCR_CONTENT);
         final String jcrPath = parts[0] + "/" + Constants.NODE_JCR_CONTENT;
         return resolver.getResource(jcrPath);
-    }
-
-    public static JSONObject toJSONObject(Resource resource)
-        throws Exception {
-        return toJSONObject(resource, -1);
-    }
-
-    public static JSONObject toJSONObject(final Resource resource, final int levels)
-        throws Exception {
-        return toJSONObject(resource, levels, Integer.MAX_VALUE);
-    }
-
-    public static JSONObject toJSONObject(final Resource resource, final int levels, final long maxResources)
-        throws Exception {
-        ResourceTraversor traversor = new ResourceTraversor(resource, levels, maxResources);
-        return traversor.getJSONObject();
     }
 
     public static boolean isAsset(Resource resource) {

@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.ezpizee.aem</groupId>
         <artifactId>ezpizee-app</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- ====================================================================== -->
@@ -17,192 +17,144 @@
     <!-- ====================================================================== -->
     <artifactId>ezpizee-app-ui</artifactId>
     <packaging>content-package</packaging>
-    <name>AEM App - Front-end Application</name>
-    <description>AEM App Front-end Application</description>
+    <name>Ezpizee Connector - Front-end</name>
+    <description>Ezpizee Connector Front-end Application</description>
     <!-- ====================================================================== -->
     <!-- B U I L D   D E F I N I T I O N                                        -->
     <!-- ====================================================================== -->
     <build>
         <resources>
-            <!-- define the resources that will go into the package -->
             <resource>
-                <!--
-                    we want to keep some of the META-INF files and not configure
-                    everything in the plugin.
-                -->
-                <directory>${basedir}/src/main/content/META-INF</directory>
-                <targetPath>../vault-work/META-INF</targetPath>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/content/jcr_root</directory>
+                <directory>src/main/content/jcr_root</directory>
+                <filtering>false</filtering>
                 <excludes>
-                    <!-- exclude .vlt control files in the package -->
                     <exclude>**/.vlt</exclude>
                     <exclude>**/.vltignore</exclude>
-                    <exclude>**/.gitignore</exclude>
-                    <exclude>**/*.iml</exclude>
-                    <exclude>**/.classpath</exclude>
-                    <exclude>**/.project</exclude>
-                    <exclude>**/.settings</exclude>
-                    <exclude>**/.DS_Store</exclude>
-                    <exclude>**/target/**</exclude>
-                    <exclude>**/pom.xml</exclude>
                 </excludes>
             </resource>
         </resources>
         <plugins>
-            <!--
-                we want to keep some of the META-INF files and not configure
-                everything in the plugin (mainly the filters).
-
-                copy the resource explicitly instead of attaching it to the default resources
-            -->
+            <!-- maven resources plugin -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <!-- ensure that the empty directories are copied -->
                 <configuration>
                     <includeEmptyDirs>true</includeEmptyDirs>
                 </configuration>
+            </plugin>
+            <!-- maven jslint plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jslint-maven-plugin</artifactId>
+                <version>1.0.1</version>
                 <executions>
                     <execution>
-                        <id>copy-metainf-vault-resources</id>
-                        <phase>generate-resources</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>jslint</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/vault-work/META-INF</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/META-INF</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <sourceJsFolder>src/main/content/jcr_root</sourceJsFolder>
+                    <failOnIssues>true</failOnIssues>
+                    <predefinedVars>jQuery,window,$,use,properties,pageProperties,inheritedPageProperties,component,componentContext,currentDesign,currentNode,currentPage,currentSession,currentStyle,designer,editContext,log,out,pageManager,reader,request,resource,resourceDesign,resourcePage,response,sling,slyWcmHelper,wcmmode,xssAPI</predefinedVars>
+                    <excludes>
+                        <exclude>**/apps/**/*.js</exclude>
+                        <exclude>**/etc/**/*.js</exclude>
+                        <exclude>**/extensions/**/*.js</exclude>
+                        <exclude>**/vendor/**/*.js</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
-
-            <!-- ====================================================================== -->
-            <!-- V A U L T   P A C K A G E   P L U G I N                                -->
-            <!-- ====================================================================== -->
+            <!-- maven content package plugin -->
             <plugin>
                 <groupId>com.day.jcr.vault</groupId>
                 <artifactId>content-package-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <filterSource>${basedir}/META-INF/vault/filter.xml</filterSource>
-                    <verbose>true</verbose>
-                    <failOnError>true</failOnError>
-                    <group>ezpizee</group>
+                    <group>Ezpizee</group>
+                    <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
+                    <properties>
+                        <acHandling>merge_preserve</acHandling>
+                    </properties>
                     <embeddeds>
                         <embedded>
                             <groupId>com.ezpizee.aem</groupId>
                             <artifactId>ezpizee-app-core</artifactId>
-                            <target>/apps/ezpizee/install</target>
+                            <target>${ezpizeeAppInstallSuffix}</target>
                         </embedded>
                     </embeddeds>
+                    <subPackages>
+                        <subPackage>
+                            <groupId>com.adobe.acs</groupId>
+                            <artifactId>acs-aem-commons-content</artifactId>
+                            <filter>true</filter>
+                        </subPackage>
+                    </subPackages>
+                    <targetURL>${slingServer}/crx/packmgr/service.jsp</targetURL>
+                </configuration>
+            </plugin>
+            <!-- maven htl plugin -->
+            <plugin>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>htl-maven-plugin</artifactId>
+                <version>1.3.4-1.4.0</version>
+                <configuration>
+                    <sourceDirectory>src/main/content/jcr_root</sourceDirectory>
                 </configuration>
             </plugin>
         </plugins>
     </build>
     <!-- ====================================================================== -->
-    <!-- P R O F I L E S                                                        -->
-    <!-- ====================================================================== -->
-    <profiles>
-        <profile>
-            <id>deploy-aem-app</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.day.jcr.vault</groupId>
-                        <artifactId>content-package-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <executions>
-                            <execution>
-                                <id>install-package</id>
-                                <goals>
-                                    <goal>install</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <targetURL>${aem.server}/crx/packmgr/service.jsp</targetURL>
-                            <failOnError>true</failOnError>
-                            <failOnMissingEmbed>true</failOnMissingEmbed>
-                            <userId>${aem.user}</userId>
-                            <password>${aem.password}</password>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>deploy-acs-commons</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.day.jcr.vault</groupId>
-                        <artifactId>content-package-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <executions>
-                            <execution>
-                                <id>install-package</id>
-                                <goals>
-                                    <goal>install</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <targetURL>${aem.server}/crx/packmgr/service.jsp</targetURL>
-                            <failOnError>true</failOnError>
-                            <failOnMissingEmbed>true</failOnMissingEmbed>
-                            <userId>${aem.user}</userId>
-                            <password>${aem.password}</password>
-                            <subPackages>
-                                <subPackage>
-                                    <groupId>com.adobe.acs</groupId>
-                                    <artifactId>acs-aem-commons-content</artifactId>
-                                    <filter>true</filter>
-                                </subPackage>
-                            </subPackages>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-    <!-- ====================================================================== -->
     <!-- D E P E N D E N C I E S                                                -->
     <!-- ====================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>com.adobe.acs</groupId>
-            <artifactId>acs-aem-commons-content</artifactId>
-            <version>3.19.0</version>
-            <type>content-package</type>
-            <scope>provided</scope>
-            <classifier>min</classifier> <!-- optional, see below -->
+            <groupId>com.ezpizee.aem</groupId>
+            <artifactId>ezpizee-app-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.ezpizee.aem</groupId>
-            <artifactId>ezpizee-app-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.day.commons</groupId>
+            <artifactId>day-commons-jstl</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.jcr</groupId>
             <artifactId>jcr</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-taglib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.scripting.jsp.taglib</artifactId>
         </dependency>
         <dependency>
             <groupId>com.adobe.aem</groupId>
@@ -210,12 +162,48 @@
             <classifier>apis</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+        <!-- Adobe -->
+        <dependency>
+            <groupId>com.adobe.acs</groupId>
+            <artifactId>acs-aem-commons-bundle</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.acs</groupId>
+            <artifactId>acs-aem-commons-content</artifactId>
+            <type>content-package</type>
+            <classifier>min</classifier>
         </dependency>
     </dependencies>
+    <!-- ====================================================================== -->
+    <!-- P R O F I L E S                                                -->
+    <!-- ====================================================================== -->
+    <profiles>
+        <profile>
+            <id>deploy-aem-package</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.day.jcr.vault</groupId>
+                        <artifactId>content-package-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install-content-package</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

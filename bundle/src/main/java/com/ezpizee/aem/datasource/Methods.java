@@ -1,13 +1,13 @@
 package com.ezpizee.aem.datasource;
 
 import com.adobe.cq.commerce.common.ValueMapDecorator;
+import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.adobe.granite.ui.components.ds.EmptyDataSource;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.adobe.granite.ui.components.ds.ValueMapResource;
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.http.MethodEnum;
-import com.ezpizee.aem.models.BaseProperties;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceMetadata;
 import org.apache.sling.api.resource.ValueMap;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Methods extends BaseProperties {
+public class Methods extends WCMUsePojo {
 
     @Override
     public void activate() throws Exception {

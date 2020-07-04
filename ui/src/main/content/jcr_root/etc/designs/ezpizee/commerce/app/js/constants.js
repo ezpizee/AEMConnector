@@ -16,6 +16,7 @@ WC.constants = function() {
     that.LENGTH_LIST = COMMERCE + 'global-properties/length-measurement.json';
     that.WEIGHT_LIST = COMMERCE + 'global-properties/weight-measurement.json';
     that.ADDRESS_LIST = COMMERCE + 'global-properties/addresses.json';
+    that.SUBSCRIPTION_PLAN_LIST = COMMERCE + 'global-properties/subscription-plans.json';
 
     that.FOLDER_LIST = COMMERCE + 'global-properties/assets/folders.json';
     that.FOLDER_CONTENT = COMMERCE + 'global-properties/assets/folders.html?tmpl=content';

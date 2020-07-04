@@ -1,0 +1,58 @@
+Step 1:
+
+Get Token
+Type: POST
+Endpoint: /api/v1/client_credentials_token
+Body: see Ezpizee's API Documentation
+Header: N/A
+
+curl
+-X POST "https://dev-api.pos.ezpz.solutions/api/v1/client_credentials_token"
+-H "accept: application/json"
+-H "Content-Type: application/json"
+-d "{ \"grant_type\": \"client_credentials\", \"client_id\": \"eb1540156ff222f33a42ec35eb2a6d78\", \"client_secret\": \"bba31a28fd8be49c3ed8f46148da7431969e3a1a5b572743195199ca713b50415757ca4f4f193952e0a4c6ecefb1ce6a6b8b83bab030ba545516929c649e5614\"}"
+
+Response:
+{
+  "expires_in": 3600,
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJlYjE1NDAxNTZmZjIyMmYzM2E0MmVjMzVlYjJhNmQ3OCIsInVzZXJuYW1lIjoiZWIxNTQwMTU2ZmYyMjJmMzNhNDJlYzM1ZWIyYTZkNzgiLCJqdGkiOiI3ZDk5M2IzNGJhZTVlMmJkN2VkNDFjYTc1ZTYxNzM2NzJhNThlOGY4ZmRkZjFmYWQ4ZjZmNjFlODQ1NjMzZThjOGU5MDQxOGFhNDFkZDA2MyIsImlhdCI6MTU5MDYzNzk1NSwibmJmIjoxNTkwNjM3OTU1LCJleHAiOjE1OTA2NDE1NTUsInN1YiI6IiIsInNjb3BlcyI6W119.YfT-QTKfRCujRwof5JpG99QBwntKtds2b15SUltO0uq5SyadZvse6JxrCoksDNptfdmNUCEDE7PmII39RJWQec_wZeDHtvVpBNbpFxaRfFtRovFm2HcFEaW3gc_yc_h6TlBK6wpG3_-p0cdcDweNc98qOutmnclHOWjjZTYBI709CaKDe-LtYKfGLgnF-OLiTfN6Ne8Z3T6n6ECLHVzjcLCecjqHWS8ChfaCrM1I4lBOrxq24R7Ih9hVwXMSx3jX-xqQPAbqTneNwzYjPpCf5OicBbTh6BYgc4f9SE5KAFDY5Veefn-LUtjhMLbVrPCWF5uPVAaA0A9t3KacJba_uay1n3ShmG3xp35B6Xhyj6bjhDhROCg1vldCYIixTsllJae4qFgBPOn2f-7p3s8MMGPXFV-Hl2IlaPvetTSiCcFWmW7TvWkGetJujAJUBSE7oUCuebFcYBkiGkoxJv_tUaN-sajM6ukpRLOBhUnroN0h_H83WVBk7gD1nRQLpeIHM4hcOe3QiTY23XnQDmH5rDnrlxgFGn0ajQQEYYwfl6c8MzgYDHmXboxJeBxBNrZbHWarB0u_szRZ6iZIclrrmf9iiO4nNLIBCS2vOY1KwS5vg4AVNPZkn3UVpk4caXRdxQ2gVUBhuY2isrYxX7cq6t2_o7r2fkzp-SUn5AwGpBo"
+}
+
+Store the value of "{token}" to session
+
+Step 2:
+
+Get Product
+Endpoint: /api/v1/en/products/1
+Body: N/A
+Header:
+JWTAuthorization = "Bearer JWT({token})" (JWT String) ==> how to build this string???
+
+JWT String:
+Header:
+{
+    "alg": "HS256",
+    "typ": "JWT"
+}
+Payload:
+{
+    "aud": "{client_id}",
+    "username": "{client_id}",,
+    "jti": "{jwt_id}???"
+    "iat": "Bearer {token}"
+}
+Verify signature:
+
+
+
+curl
+-X GET "https://dev-api.pos.ezpz.solutions/api/v1/en/products?limit=50&offset=0&view=list"
+-H "accept: application/json"
+-H "JWTAuthorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJlYjE1NDAxNTZmZjIyMmYzM2E0MmVjMzVlYjJhNmQ3OCIsInVzZXJuYW1lIjoiZWIxNTQwMTU2ZmYyMjJmMzNhNDJlYzM1ZWIyYTZkNzgiLCJqdGkiOiJkZTYyY2RhNTBjMGJjZjY0ZTJmZjRlNTA0YWI1NTQ5YWFiZTliMWRlOTgwMGE5ZjM2ZjcxNzIyOTQxY2U4N2RkMjA0NGNlYWRkMzE0YjZlMiIsImlhdCI6MTU5MDYzNjY3NywibmJmIjoxNTkwNjM2Njc3LCJleHAiOjE1OTA2NDAyNzcsInN1YiI6IiIsInNjb3BlcyI6W119.bilMpGn8E5f-mEhwuGYnmYKJof3OmUI9fIPxYF0prkMm5HRsritxYFag5-43fzLDee8GQmNFp2bv4ykiWupkuVgzgiv5HOBfngKWFT7MCsS8Lq9NgGxu-go95di-ZvFTz16FMDk7Q8tX_VvjuBb7ZDnfv6U1ncZxbIAc37NsworggCtXHVQX2DbxXGdZDkYOHy3A12BE2gTc9Ac-UrSIe_DQ1rLzI0TjWCRdJyXSqBCr3GsxtYe6z-2g7_pFP7o4EonrdtVCuHwAM-On1cMzCKqUzM87RnQBMdeH3poWIhuTxml6BMyBhGZderOJj0OElmVbk1VIYOUs_XmWQsenzIAsv6s27rkzzZGvol5nU77yTXwrfktrBledtEcEmuhEYyEP8FGSBretwjlB-mMuFiaV86I1jMnJLsPCC6OS6IKQvhrCJFC8_e33kBryLhrMjS15YJgaLw1NbH6UTpCpoEWZ3hvG33E5lh-QpNP5POJZ9tHC5zQH-ms9sEg519SF7e8BPaQTJ5HAZjbrhc1CQcI9DipY0jxISNv0UghSBzaV3tQRyggcayk-GjEQ4DmYYdrG-dNEc08H6Yc9ejdkrUxWe5M64KcSJk99aoL_mfVwyzFzjlt7UM5xgbCwDtbQF2PTNMWaBwHJn2QZJs3yivxCnN5iUqn0GYrSsLxVYho"
+
+
+
+{
+    "access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1OTA2MzYzMzksImV4cCI6MTU5MDcyMjczOSwicm9sZXMiOltdLCJ1c2VybmFtZSI6InRlc3QifQ.OQrPFDWB1L13Daeh-p6lCWISUyR2iml2dZgJyH8YMnl8nv8hx2djmlmg8SXb80ttk3vTVkBamIzsSce0sU5U2Ct5BHl4ZxfFgZOMNb7jBSSK6C6hcsG77dVkEv1Og8L65r90fQhbOWiegGzJDgsaz0QC4ShiG0-CsOO7AONlm4EmedF8GUUEGw6chNlpnioWdgojVWTyeBjlmNTzJp7gev0FHCDNJytYQskgLy_A8LHMTGj7cvUFeH_oGuNiSmoJgbvvblGNIHY2H2XfX2-rPj8Ex2oPgm-kqyll4b1YeT1g-Ce9mTEAt0tlnEuakRurjfu0gp9CcN7VjnXT-MNBPOYdR7aM_nLOw8OrI0QRCg7BLCBUs8j0zy5qy_pD1dXW0_yCvUxvMGxIb9kX1zKnSmsNGH72PNGxEmZCRmYojjOFId6LTSSlk31WTmXolmyzkq_xI8Ofpf9k3_WRQdhvfgQmWKpYf1zkk-DRbP5D1bjv3BWp3rWCafHCPmM4bwowIkFjb0Du4obYoWA9xBHcIMkFS0i-y2qgx_rFyyAsx3delG8cVJtly-P8gGFeaud_DTo6i8HD6ieLpggXsN8xoWDZxTgsI3TypIsgb9BzCaOfhZAFPRsBWzgMDHe3FqGVQkTpKHS9OB2PpjFEXH2gDYce3wSRuqEFXiVFZvHXNnk",
+    "token_type":"Bearer"
+}

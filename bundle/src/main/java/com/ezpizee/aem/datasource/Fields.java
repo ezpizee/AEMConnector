@@ -1,16 +1,16 @@
 package com.ezpizee.aem.datasource;
 
 import com.adobe.cq.commerce.common.ValueMapDecorator;
+import com.adobe.cq.sightly.WCMUsePojo;
 import com.adobe.granite.ui.components.ds.DataSource;
 import com.adobe.granite.ui.components.ds.EmptyDataSource;
 import com.adobe.granite.ui.components.ds.SimpleDataSource;
 import com.adobe.granite.ui.components.ds.ValueMapResource;
 import com.ezpizee.aem.Constants;
-import com.ezpizee.aem.models.BaseProperties;
 import com.ezpizee.aem.utils.ConfigUtil;
 import com.ezpizee.aem.utils.DataUtil;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.*;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Fields extends BaseProperties {
+public class Fields extends WCMUsePojo {
 
     protected String dataPath = "data/fields.json";
 
@@ -33,10 +33,10 @@ public class Fields extends BaseProperties {
 
         String jsonStr = ConfigUtil.getResource(this.dataPath);
         if (StringUtils.isNotEmpty(jsonStr)) {
-            final JSONArray fieldsList = DataUtil.toJSONArray(jsonStr);
-            if (!fieldsList.isEmpty()) {
+            final JsonArray fieldsList = DataUtil.toJsonArray(jsonStr);
+            if (fieldsList.size() > 0) {
                 for (int i = 0; i < fieldsList.size(); i++) {
-                    final JSONObject field = (JSONObject)fieldsList.get(i);
+                    final JsonObject field = fieldsList.get(i).getAsJsonObject();
                     vm = new ValueMapDecorator(new HashMap<>());
                     vm.put("value", field.get("key"));
                     vm.put("text", field.get("value"));

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0"
-    xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="sling:OsgiConfig"
-    principalName="ezpizee/ezpizee-service-user"
-    type="add"
-    ensure-immediately="{Boolean}true"
-    aces="[type=allow;privileges=jcr:all;path=/content,type=allow;privileges=jcr:all,rep:write;path=/etc,type=allow;privileges=jcr:all,rep:write;path=/apps,type=allow;privileges=jcr:all,rep:write;path=/home]"/>
+          xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="sling:OsgiConfig"
+          principalName="ezpizee/ezpizee-service-user"
+          type="add"
+          ensure-immediately="{Boolean}true"
+          aces="[type=allow;privileges=jcr:all;path=/content,type=allow;privileges=jcr:read;path=/etc,type=allow;privileges=rep:write;path=/etc,type=allow;privileges=jcr:read;path=/apps,type=allow;privileges=rep:write;path=/apps,type=allow;privileges=jcr:read;path=/home,type=allow;privileges=rep:write;path=/home]"/>
