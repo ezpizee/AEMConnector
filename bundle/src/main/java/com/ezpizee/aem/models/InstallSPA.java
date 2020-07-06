@@ -26,7 +26,7 @@ public class InstallSPA extends WCMUsePojo {
             }
             if (StringUtils.isEmpty(content) && !validAppConfig) {
                 Client client = new Client(appConfig, true, true);
-                Response response = client.get(cdnServer+"/adminui/install/html/index.html");
+                Response response = client.get(cdnServer+"/adminui/html/install.html");
                 content = response.getDataAsString();
             }
         }
