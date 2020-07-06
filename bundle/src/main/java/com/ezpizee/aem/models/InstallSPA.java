@@ -22,7 +22,7 @@ public class InstallSPA extends WCMUsePojo {
                 cdnServer = "https://cdn.ezpz.solutions";
             }
             else {
-                cdnServer = "https://"+appConfig.getEnv()+"-cdn.ezpz.solutions";
+                cdnServer = "http://"+appConfig.getEnv()+"-cdn.ezpz.solutions";
             }
             if (StringUtils.isEmpty(content) && !validAppConfig) {
                 Client client = new Client(appConfig, true, true);
