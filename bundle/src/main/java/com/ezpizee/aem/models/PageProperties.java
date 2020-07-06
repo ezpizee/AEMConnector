@@ -2,6 +2,7 @@ package com.ezpizee.aem.models;
 
 import com.adobe.cq.sightly.WCMUsePojo;
 import com.ezpizee.aem.Constants;
+import com.ezpizee.aem.utils.HostName;
 
 import java.util.List;
 
@@ -16,12 +17,7 @@ public class PageProperties extends WCMUsePojo {
         if (appConfig == null) {
             appConfig = new AppConfig(getCurrentPage().getContentResource());
             validAppConfig = appConfig.isValid();
-            if (Constants.ENVIRONMENTS.get(4).equals(appConfig.getEnv())) {
-                cdnServer = "https://cdn.ezpz.solutions";
-            }
-            else {
-                cdnServer = "https://"+appConfig.getEnv()+"-cdn.ezpz.solutions";
-            }
+            cdnServer = HostName.getCDNServer(appConfig.getEnv());
         }
     }
 

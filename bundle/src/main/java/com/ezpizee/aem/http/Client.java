@@ -3,7 +3,6 @@ package com.ezpizee.aem.http;
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.models.AppConfig;
 import com.ezpizee.aem.security.Jwt;
-import com.ezpizee.aem.utils.EndpointUtil;
 import com.ezpizee.aem.utils.HashUtil;
 import kong.unirest.*;
 import org.apache.commons.lang3.StringUtils;
@@ -62,31 +61,31 @@ public class Client
     public void setFiles(Map<String, File> files) { this.files = files; }
 
     public Response get(String uri) {
-        this.uri = EndpointUtil.getService(this.appConfig.getEnv(), uri);
+        this.uri = uri;
         this.method = MethodEnum.GET;
         return this.getRequest();
     }
 
     public Response post(String uri) {
-        this.uri = EndpointUtil.getService(this.appConfig.getEnv(), uri);
+        this.uri = uri;
         this.method = MethodEnum.POST;
         return this.request();
     }
 
     public Response delete(String uri) {
-        this.uri = EndpointUtil.getService(this.appConfig.getEnv(), uri);
+        this.uri = uri;
         this.method = MethodEnum.DELETE;
         return this.request();
     }
 
     public Response put(String uri) {
-        this.uri = EndpointUtil.getService(this.appConfig.getEnv(), uri);
+        this.uri = uri;
         this.method = MethodEnum.PUT;
         return this.request();
     }
 
     public Response patch(String uri) {
-        this.uri = EndpointUtil.getService(this.appConfig.getEnv(), uri);
+        this.uri = uri;
         this.method = MethodEnum.PATCH;
         return this.request();
     }
