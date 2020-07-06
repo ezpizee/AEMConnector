@@ -24,7 +24,7 @@ public class VueSPA extends WCMUsePojo {
             else {
                 cdnServer = "http://"+appConfig.getEnv()+"-cdn.ezpz.solutions";
             }
-            if (StringUtils.isEmpty(content)) {
+            if (StringUtils.isEmpty(content) && validAppConfig) {
                 Client client = new Client(appConfig, true, true);
                 Response response = client.get(cdnServer+"/adminui/html/index.html");
                 content = response.getDataAsString();
