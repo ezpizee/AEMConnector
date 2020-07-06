@@ -1,2 +1,0 @@
-script/phpjs.js
-script/spin.js

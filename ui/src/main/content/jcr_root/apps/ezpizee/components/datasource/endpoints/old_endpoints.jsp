@@ -60,7 +60,7 @@
             String uri = Constants.SERVICE_PROTOCOL_SCHEME + EndpointUtil.getApiHostName(appConfig.getEnv()) + Constants.ENDPOINT_ENDPOINTS;
             Client client = new Client(appConfig);
             Response clientResponse = client.get(uri);
-            if (clientResponse.isSuccess()) {
+            if (clientResponse.getStatus()) {
                 JSONObject data = clientResponse.getDataAsJSONObject();
                 for (String service : data.keySet()) {
                     JSONObject actions = (JSONObject)data.get(service);

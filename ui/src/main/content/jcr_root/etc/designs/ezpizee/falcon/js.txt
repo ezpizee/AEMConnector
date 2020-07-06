@@ -1,3 +1,0 @@
-js/theme.js
-js/signup-form.js
-js/custom.js

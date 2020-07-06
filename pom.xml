@@ -51,7 +51,9 @@
         <aem.api.artifactId>uber-jar</aem.api.artifactId>
         <aem.api.version>6.5.0</aem.api.version>
         <aem.api.classifier>apis</aem.api.classifier>
+        <!--
         <acs-aem-commons.version>4.3.4</acs-aem-commons.version>
+        -->
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -63,6 +65,7 @@
                 <classifier>${aem.api.classifier}</classifier>
                 <scope>provided</scope>
             </dependency>
+            <!--
             <dependency>
                 <groupId>com.adobe.acs</groupId>
                 <artifactId>acs-aem-commons-bundle</artifactId>
@@ -77,6 +80,7 @@
                 <type>content-package</type>
                 <classifier>min</classifier>
             </dependency>
+            -->
             <dependency>
                 <groupId>com.adobe.cq</groupId>
                 <artifactId>core.wcm.components.core</artifactId>

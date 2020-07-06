@@ -27,17 +27,31 @@ public class Client
     private Map<String, File> files;
     private String uri;
     private MethodEnum method;
-    private boolean requiredAccessToken = true;
+    private boolean requiredAccessToken = true, bypassAppConfigValidation = false, htmlResponse = false;
     private AppConfig appConfig;
-    private boolean bypassAppConfigValidation = false;
 
-    public Client(AppConfig config) {
+    public Client(AppConfig config, boolean htmlResponse, boolean bypassAppConfigValidation) {
+        this.htmlResponse = htmlResponse;
+        this.bypassAppConfigValidation = bypassAppConfigValidation;
+        if (this.bypassAppConfigValidation) {
+            setRequiredAccessToken(false);
+        }
+        setConfig(config);
+    }
+
+    public Client(AppConfig config, boolean htmlResponse) {
+        this.htmlResponse = htmlResponse;
+        setConfig(config);
+    }
+
+    public Client(AppConfig config) { setConfig(config); }
+
+    private void setConfig(AppConfig config) {
         headers = new HashMap<>();
         appConfig = config;
         method = MethodEnum.GET;
     }
 
-    public void setByPassAppConfigValidation(boolean b) { this.bypassAppConfigValidation = b; }
     public void setRequiredAccessToken(boolean b) { requiredAccessToken = b; }
     public void setAuth(String username, String password) { this.addHeader(KEY_AUTH, "Basic "+HashUtil.base64Encode(username+":"+password)); }
     public void setHeaders(Map<String, String> headers) { this.headers = headers; }
@@ -79,7 +93,9 @@ public class Client
 
     private Response getRequest() {
         if (StringUtils.isNotEmpty(this.uri) && (this.appConfig.isValid() || this.bypassAppConfigValidation)) {
-            this.defaultHeaders();
+            if (!htmlResponse) {
+                this.defaultHeaders();
+            }
             try {
                 if (queries != null && !queries.isEmpty()) {
                     StringJoiner joiner = new StringJoiner("&");
@@ -90,10 +106,18 @@ public class Client
                 }
                 GetRequest request = Unirest.get(this.uri);
                 if (!this.headers.isEmpty()) { request.headers(this.headers); }
-                HttpResponse<JsonNode> jsonResponse = request.asJson();
-                LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
-                if (jsonResponse.getStatus() == 200) {
-                    return new Response(jsonResponse.getBody().getObject().toString());
+                if (htmlResponse) {
+                    LOG.info("Request method & url: " + this.method + " " + this.uri);
+                    Response resp = new Response();
+                    resp.setData(new String(request.asString().getBody().getBytes()));
+                    return resp;
+                }
+                else {
+                    HttpResponse<JsonNode> jsonResponse = request.asJson();
+                    LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
+                    if (jsonResponse.getStatus() == 200) {
+                        return new Response(jsonResponse.getBody().getObject().toString());
+                    }
                 }
             }
             catch (UnirestException e) {
@@ -103,12 +127,14 @@ public class Client
         else {
             LOG.error("uri is missing");
         }
-        return new Response(StringUtils.EMPTY);
+        return new Response();
     }
 
     private Response request() {
         if (StringUtils.isNotEmpty(this.uri) && (this.appConfig.isValid() || this.bypassAppConfigValidation)) {
-            this.defaultHeaders();
+            if (!this.htmlResponse) {
+                this.defaultHeaders();
+            }
             try {
                 HttpRequestWithBody request = null;
                 if (MethodEnum.POST.equals(this.method)) {
@@ -140,10 +166,17 @@ public class Client
                     if (!this.headers.isEmpty()) {
                         request.headers(this.headers);
                     }
-                    HttpResponse<JsonNode> jsonResponse = request.asJson();
-                    LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
-                    if (jsonResponse.getStatus() == 200) {
-                        return new Response(jsonResponse.getBody().getObject().toString());
+                    if (this.htmlResponse) {
+                        Response resp = new Response();
+                        resp.setData(new String(request.asString().getBody().getBytes()));
+                        return resp;
+                    }
+                    else {
+                        HttpResponse<JsonNode> jsonResponse = request.asJson();
+                        LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
+                        if (jsonResponse.getStatus() == 200) {
+                            return new Response(jsonResponse.getBody().getObject().toString());
+                        }
                     }
                 }
             }
@@ -154,16 +187,15 @@ public class Client
         else {
             LOG.error("uri is missing");
         }
-        return new Response(StringUtils.EMPTY);
+        return new Response();
     }
 
     private void defaultHeaders() {
         this.addHeader(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
         this.addHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
-        this.addHeader(Constants.HEADER_PARAM_USER_NAME, this.appConfig.getUserName());
         if (this.requiredAccessToken) {
             this.addHeader(Constants.HEADER_PARAM_ACCESS_TOKEN, Jwt.clientRequestToken(
-                appConfig.getEnv(), appConfig.getAccessToken(), appConfig.getAppName()
+                appConfig.getEnv(), "TODO", appConfig.getAppName()
             ));
         }
     }

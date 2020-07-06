@@ -45,8 +45,8 @@ public class DeleteServlet extends SlingAllMethodsServlet {
             client.addHeader(Constants.HEADER_PARAM_HASHED_APP_NAME, hashedAppName);
         }
         else {
-            responseObject.setCode(200);
-            responseObject.setSuccess(false);
+            responseObject.setCode(500);
+            responseObject.setStatus("ERROR");
             responseObject.setMessage("invalid_request");
             LOG.debug(request.getRequestParameterMap().toString());
         }

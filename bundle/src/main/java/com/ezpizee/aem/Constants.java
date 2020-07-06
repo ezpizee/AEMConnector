@@ -1,5 +1,8 @@
 package com.ezpizee.aem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Constants {
 
     private Constants() {}
@@ -19,6 +22,7 @@ public class Constants {
     public static final String ENDPOINT_GEN_SSH_KEYS = "/"+API_VERSION+"/config/generate/ssh/keys";
     public static final String ENDPOINT_GET_TOKEN = "/"+API_VERSION+"/auth/token";
     public static final String ENDPOINT_ENDPOINTS = "/"+API_VERSION+"/endpoints/list";
+    public static final String SERVLET_EZPIZEE_API = "/bin/ezpizee/api";
     public static final String SERVLET_INSTALL = "/bin/ezpizee/install";
     public static final String SERVLET_DELETE = "/bin/ezpizee/delete";
 
@@ -73,6 +77,12 @@ public class Constants {
     public static final String KEY_FORM_API_ENDPOINT = "form_api_endpoint";
     public static final String KEY_FIELD_TYPES = "fieldTypes";
 
+    public static final String KEY_CLIENT_ID = "client_id";
+    public static final String KEY_CLIENT_SECRET = "client_secret";
+    public static final String KEY_APP_NAME = "app_name";
+    public static final String KEY_ENV = "env";
+    public static final String KEY_ACCESS_TOKEN = "access_token";
+
     // Properties
     public static final String NODE_JCR_CONTENT = "jcr:content";
     public static final String PROP_JCR_PRIMARYTYPE = "jcr:primaryType";
@@ -83,5 +93,16 @@ public class Constants {
     public static final String PROP_DAMASSET = "dam:Asset";
     public static final String PROP_CQPAGE = "cq:Page";
     public static final String PROP_SLING_RESOURCETYPE = "sling:resourceType";
-    public static final java.lang.String AUTHENTICATION_INFO_SESSION = "user.jcr.session";
+    public static final String AUTHENTICATION_INFO_SESSION = "user.jcr.session";
+
+    public static final String DEFAULT_ENVIRONMENT = "local";
+    public static final List<String> ENVIRONMENTS = new ArrayList<>();
+
+    static {
+        ENVIRONMENTS.add("local");
+        ENVIRONMENTS.add("dev");
+        ENVIRONMENTS.add("qa");
+        ENVIRONMENTS.add("stage");
+        ENVIRONMENTS.add("prod");
+    }
 }

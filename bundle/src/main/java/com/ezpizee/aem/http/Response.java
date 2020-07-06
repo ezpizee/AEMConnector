@@ -4,24 +4,22 @@ import com.ezpizee.aem.utils.DataUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 
 public class Response
 {
-    private static final Logger LOG = LoggerFactory.getLogger(Response.class);
     private static final String KEY_STATUS = "status";
     private static final String KEY_CODE = "code";
     private static final String KEY_MESSAGE = "message";
     private static final String KEY_DATA = "data";
     private JsonObject jsonObjectData;
     private JsonArray jsonArrayData;
+    private String htmlData;
     private boolean noData = false;
-    private boolean success = true;
-    private String message = "Successfully processed";
+    private String status = "OK";
+    private String message = "SUCCESS";
     private long code = 200;
-    private boolean dataIsJsonObject = false;
-    private boolean dataIsJsonArray = false;
+    private boolean dataIsJsonObject = false, dataIsJsonArray = false, dataAsString = false;
 
     public Response(String content) {
         if (DataUtil.isJsonObjectString(content)) {
@@ -30,7 +28,7 @@ public class Response
             //LOG.info("Commerce Admin API Call Response "+content);
             final JsonObject jsonData = DataUtil.toJsonObject(content);
             if (jsonData.has(KEY_STATUS) && jsonData.has(KEY_CODE) && jsonData.has(KEY_MESSAGE) && jsonData.has(KEY_DATA)) {
-                this.success = jsonData.has(KEY_STATUS) && !jsonData.get(KEY_STATUS).getAsString().equals("ERROR");
+                this.status = jsonData.has(KEY_STATUS) ? jsonData.get(KEY_STATUS).getAsString() : "ERROR";
                 this.code = jsonData.has(KEY_CODE) ? jsonData.get(KEY_CODE).getAsLong() : 500;
                 this.message = jsonData.has(KEY_MESSAGE) ? jsonData.get(KEY_MESSAGE).getAsString() : "INTERNAL_SERVER_ERROR";
                 if (jsonData.has(KEY_DATA)) {
@@ -48,6 +46,9 @@ public class Response
                 this.jsonObjectData = jsonData;
             }
         }
+        else if (StringUtils.isNotEmpty(content)) {
+            this.htmlData = content;
+        }
         else {
             this.resetAsOnError("Failed to process");
         }
@@ -55,9 +56,10 @@ public class Response
 
     public Response() {}
 
-    public void setMessage(String a) {this.message=a;}
-    public void setSuccess(boolean a) {this.success=a;}
+    public void setStatus(String a) {this.status =a;}
     public void setCode(int a) {this.code =a;}
+    public void setCode(long a) {this.code =a;}
+    public void setMessage(String a) {this.message=a;}
     public void setData(JsonObject a) {
         this.dataIsJsonObject = true;
         this.jsonObjectData = a;
@@ -66,27 +68,36 @@ public class Response
         this.dataIsJsonArray = true;
         this.jsonArrayData = a;
     }
+    public void setData(String content) {
+        dataAsString = true;
+        htmlData = content;
+    }
 
-    public boolean isSuccess() {return this.success;}
+    public boolean isError() {return this.code != 200;}
+    public boolean isNotError() {return this.code == 200;}
+    public String getStatus() {return this.status;}
     public String getMessage() {return this.message;}
     public long getCode() {return this.code;}
     public boolean messageIs(String msg) {return this.message.equals(msg);}
     public boolean hasData() {return !this.noData;}
     public boolean hasData(String key) { return this.getDataAsJsonObject().has(key); }
     public boolean hasData(int key) { return this.getDataAsJsonArray().get(key) != null; }
-    public boolean isDataJsonObject() {return this.dataIsJsonObject;}
-    public boolean isDataJsonArray() {return this.dataIsJsonArray;}
+    public boolean isDataIsJsonObject() {return this.dataIsJsonObject;}
+    public boolean isDataIsJsonArray() {return this.dataIsJsonArray;}
+    public boolean isDataAsString() {return this.dataAsString;}
     public Object getData(String key) {return this.getDataAsJsonObject().get(key);}
 
     public JsonObject getDataAsJsonObject() { return this.jsonObjectData; }
     public JsonArray getDataAsJsonArray() { return this.jsonArrayData; }
+    public String getDataAsString() {return this.htmlData;}
 
     public String toString() {
         final JsonObject object = new JsonObject();
-        object.add(KEY_STATUS, new JsonPrimitive(this.success));
+        object.add(KEY_STATUS, new JsonPrimitive(this.status));
         object.add(KEY_CODE, new JsonPrimitive(this.code));
         object.add(KEY_MESSAGE, new JsonPrimitive(this.message));
-        if (this.dataIsJsonObject) {object.add(KEY_DATA, this.jsonObjectData);}
+        if (this.dataAsString) {object.add(KEY_DATA, new JsonPrimitive(htmlData));}
+        else if (this.dataIsJsonObject) {object.add(KEY_DATA, this.jsonObjectData);}
         else if (this.dataIsJsonArray) {object.add(KEY_DATA, this.jsonArrayData);}
         else {object.add(KEY_DATA, null);}
         return object.getAsString();
@@ -94,10 +105,11 @@ public class Response
 
     private void resetAsOnError(String msg) {
         this.noData = true;
-        this.success = false;
+        this.status = StringUtils.EMPTY;
         this.code = 500;
         this.message = msg;
         this.jsonObjectData = null;
         this.jsonArrayData = null;
+        this.htmlData = null;
     }
 }

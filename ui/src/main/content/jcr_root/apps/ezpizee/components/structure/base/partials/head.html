@@ -2,12 +2,12 @@
 <meta charset="utf-8">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<link rel="apple-touch-icon" sizes="180x180" href="/etc/designs/ezpizee/project_common/images/favicons/apple-touch-icon.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/etc/designs/ezpizee/project_common/images/favicons/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/etc/designs/ezpizee/project_common/images/favicons/favicon-16x16.png" />
-<link rel="shortcut icon" type="image/x-icon" href="/etc/designs/ezpizee/project_common/images/favicons/favicon.ico" />
-<link rel="mask-icon" href="/etc/designs/ezpizee/project_common/images/favicons/safari-pinned-tab.svg" color="#ffffff" />
-<meta name="msapplication-TileImage" content="/etc/designs/ezpizee/project_common/images/favicons/mstile-150x150.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/etc/designs/ezpizee/favicon/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/etc/designs/ezpizee/favicon/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/etc/designs/ezpizee/favicon/favicon-16x16.png" />
+<link rel="shortcut icon" type="image/x-icon" href="/etc/designs/ezpizee/favicon/favicon.ico" />
+<link rel="mask-icon" href="/etc/designs/ezpizee/favicon/safari-pinned-tab.svg" color="#ffffff" />
+<meta name="msapplication-TileImage" content="/etc/designs/ezpizee/favicon/mstile-150x150.png" />
 <meta name="msapplication-TileColor" content="#ffffff" />
 <meta name="theme-color" content="#ffffff" />
 <meta name="application-name" content="Ezpizee" />
@@ -16,31 +16,14 @@
 <meta property="og:title" content="Ezpizee" />
 <meta property="og:type" content="website" />
 <meta property="og:description" content="${description}" />
-<meta property="og:image:url" content="/etc/designs/ezpizee/project_common/images/ezpizee.png" />
+<meta property="og:image:url" content="/etc/designs/ezpizee/images/default-logo.png" />
 <meta property="og:site_name" content="Ezpizee Commerce Admin" />
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:title" content="Ezpizee Commerce Admin" />
 <meta property="twitter:description" content="${description}" />
-<meta property="twitter:image" content="/etc/designs/ezpizee/project_common/images/ezpizee.png" />
-<sly data-sly-test="${properties.offline == 'yes'}">
-    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
-        <sly data-sly-call="${clientLib.css @ categories='gf'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='fa'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='ezpizee.common'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='falcon'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='commerce.base'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='commerce.app'}"></sly>
-    </sly>
-</sly>
-<sly data-sly-test="${properties.offline != 'yes'}">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
-        <sly data-sly-call="${clientLib.css @ categories='ezpizee.common'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='falcon'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='commerce.base'}"></sly>
-        <sly data-sly-call="${clientLib.css @ categories='commerce.app'}"></sly>
-    </sly>
+<meta property="twitter:image" content="/etc/designs/ezpizee/images/default-logo.png" />
+<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
+    <sly data-sly-call="${clientLib.css @ categories='ezpizee'}"></sly>
 </sly>
 <title>${head.title}</title>
 <sly data-sly-test="${properties.gtm}">
@@ -48,4 +31,3 @@
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',"${properties.gtm @ context='unsafe'}");</script>
     <!-- End Google Tag Manager -->
 </sly>
-<link href="/etc.clientlibs/clientlibs/granite/coralui3.css" rel="stylesheet" />

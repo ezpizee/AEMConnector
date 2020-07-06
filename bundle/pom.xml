@@ -29,10 +29,12 @@
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
         </dependency>
+        <!--
         <dependency>
             <groupId>com.adobe.acs</groupId>
             <artifactId>acs-aem-commons-bundle</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>core.wcm.components.core</artifactId>
@@ -230,7 +232,13 @@
                         <Bundle-Name>Ezpizee Connector - Core Bundle</Bundle-Name>
                         <Sling-Model-Packages>com.ezpizee.aem</Sling-Model-Packages>
                         <Export-Package>
-                            com.ezpizee.aem.*
+                            com.ezpizee.aem.*,
+                            kong.unirest.*,
+                            com.auth0.jwt.*,
+                            org.apache.http.impl.nio.client.*,
+                            org.apache.http.impl.nio.conn.*,
+                            org.apache.http.nio.client.*,
+                            org.apache.http.nio.conn.*
                         </Export-Package>
                         <Bundle-Activator>com.ezpizee.aem.Activator</Bundle-Activator>
                     </instructions>

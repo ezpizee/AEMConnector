@@ -1,3 +1,0 @@
-css/jqvmap.css
-css/theme.css
-css/custom.less

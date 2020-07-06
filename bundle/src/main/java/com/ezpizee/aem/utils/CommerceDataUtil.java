@@ -35,7 +35,7 @@ public class CommerceDataUtil {
                 if (isList() || isAsset()) {
                     Client client = new Client(appConfig);
                     Response response = client.get(endpoint);
-                    if (response.isSuccess()) {
+                    if (response.isNotError()) {
                         data.add(Constants.KEY_LIST, response.getDataAsJsonArray());
                         if (response.hasData(Constants.KEY_PAGINATION)) {
                             data.add(Constants.KEY_PAGINATION, response.getDataAsJsonObject());
@@ -51,7 +51,7 @@ public class CommerceDataUtil {
                     if (StringUtils.isNotEmpty(editId)) {
                         Client client = new Client(appConfig);
                         Response response = client.get(endpoint.replace("{"+Constants.KEY_ID+"}", editId).replace("{"+Constants.KEY_EDIT_ID+"}", editId));
-                        if (response.isSuccess()) {
+                        if (response.isNotError()) {
                             // For product form > product type > product attribute fields
                             if (response.getDataAsJsonObject().has("product_type") &&
                                 ((JsonObject)response.getDataAsJsonObject().get("product_type")).has("product_attrs")

@@ -84,6 +84,7 @@
                             <target>${ezpizeeAppInstallSuffix}</target>
                         </embedded>
                     </embeddeds>
+                    <!--
                     <subPackages>
                         <subPackage>
                             <groupId>com.adobe.acs</groupId>
@@ -91,6 +92,7 @@
                             <filter>true</filter>
                         </subPackage>
                     </subPackages>
+                    -->
                     <targetURL>${slingServer}/crx/packmgr/service.jsp</targetURL>
                 </configuration>
             </plugin>
@@ -170,6 +172,7 @@
             <artifactId>slf4j-simple</artifactId>
         </dependency>
         <!-- Adobe -->
+        <!--
         <dependency>
             <groupId>com.adobe.acs</groupId>
             <artifactId>acs-aem-commons-bundle</artifactId>
@@ -180,6 +183,7 @@
             <type>content-package</type>
             <classifier>min</classifier>
         </dependency>
+        -->
     </dependencies>
     <!-- ====================================================================== -->
     <!-- P R O F I L E S                                                -->

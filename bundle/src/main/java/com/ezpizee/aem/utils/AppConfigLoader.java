@@ -29,7 +29,7 @@ public class AppConfigLoader {
             appConfig = new AppConfig(props);
         }
         if (appConfig.isValid()) {
-            Object obj = session.getAttribute(AppConfig.KEY_ACCESS_TOKEN);
+            Object obj = session.getAttribute(Constants.KEY_ACCESS_TOKEN);
             if (obj != null) {
                 appConfig.setAccessToken((String)obj);
             }
@@ -48,17 +48,17 @@ public class AppConfigLoader {
             client.setAuth(appConfig.getClientId(), appConfig.getClientSecret());
             client.addHeader(Constants.HEADER_PARAM_CTYPE, Constants.HEADER_VALUE_FORM);
             client.addHeader(Constants.HEADER_PARAM_JWT, Jwt.clientTokenForAccessTokenRequest(
-                appConfig.getEnv(), appConfig.getPublicKey(), appConfig.getClientId(), appConfig.getPhrase(), appConfig.getAppName()
+                appConfig.getEnv(), "", appConfig.getClientId(), "", appConfig.getAppName()
             ));
             Map<String, Object> formParams = new HashMap<>();
             formParams.put("grant_type", "client_credentials");
             client.setFormParams(formParams);
             Response response = client.post(Constants.ENDPOINT_GET_TOKEN);
-            if (response.isSuccess()) {
+            if (response.isNotError()) {
                 JsonObject data = response.getDataAsJsonObject();
-                if (data.has(AppConfig.KEY_ACCESS_TOKEN)) {
-                    appConfig.setAccessToken(data.get(AppConfig.KEY_ACCESS_TOKEN).getAsString());
-                    session.setAttribute(AppConfig.KEY_ACCESS_TOKEN, data.get(AppConfig.KEY_ACCESS_TOKEN));
+                if (data.has(Constants.KEY_ACCESS_TOKEN)) {
+                    appConfig.setAccessToken(data.get(Constants.KEY_ACCESS_TOKEN).getAsString());
+                    session.setAttribute(Constants.KEY_ACCESS_TOKEN, data.get(Constants.KEY_ACCESS_TOKEN));
                 }
             }
         }
