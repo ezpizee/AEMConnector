@@ -2,6 +2,7 @@ package com.ezpizee.aem.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,13 +26,9 @@ public class DateFormatUtil {
 
     private DateFormatUtil() {}
 
-    public static String microTimestamp() {
-        return DateFormatUtil.getTimeStr(null);
-    }
+    public static long now() { return (new Timestamp(System.currentTimeMillis())).getTime(); }
 
-    public static String displayFormat(Date date) {
-        return DATE_FORMAT.format((new Date(DateFormatUtil.getStandardTimezone(date.getTime())*1000)).getTime());
-    }
+    public static String displayFormat(Date date) { return DATE_FORMAT.format((new Date(DateFormatUtil.getStandardTimezone(date.getTime())*1000)).getTime()); }
 
     public static String datetime(Date date) {
         return date != null ? DATETIME_FORMAT.format((new Date(DateFormatUtil.getStandardTimezone(date.getTime())*1000)).getTime()) : "";

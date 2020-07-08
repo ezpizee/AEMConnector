@@ -15,6 +15,9 @@ public class HostName
             else if (Constants.ENVIRONMENTS.get(0).equals(env)) {
                 return "http://local-api.ezpizee.com";
             }
+            else if (Constants.ENVIRONMENTS.get(1).equals(env)) {
+                return "https://dev-api.ezpz.solutions";
+            }
             else {
                 return "https://"+env+"-api.ezpizee.com";
             }

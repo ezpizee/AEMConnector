@@ -1,5 +1,6 @@
 package com.ezpizee.aem.utils;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -10,6 +11,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,6 +20,20 @@ public class FileUtil {
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
     private FileUtil() {}
+
+    public static String bufferedReaderToString(BufferedReader bufferedReader) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            String currentLine;
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                sb.append(currentLine);
+            }
+        }
+        catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return sb.toString();
+    }
 
     public static String getContentAsStringFromFileOnCRX(ResourceResolver resolver, String path) {
         String str = "";
@@ -53,4 +69,7 @@ public class FileUtil {
         return result;
     }
 
+    public static String getExtension(String filename) { return FilenameUtils.getExtension(filename); }
+
+    public static String getBasename(String filename) { return FilenameUtils.getName(filename); }
 }

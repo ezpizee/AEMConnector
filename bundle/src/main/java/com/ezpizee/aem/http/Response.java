@@ -14,12 +14,9 @@ public class Response
     private static final String KEY_DATA = "data";
     private JsonObject jsonObjectData;
     private JsonArray jsonArrayData;
-    private String htmlData;
-    private boolean noData = false;
-    private String status = "OK";
-    private String message = "SUCCESS";
-    private long code = 200;
-    private boolean dataIsJsonObject = false, dataIsJsonArray = false, dataAsString = false;
+    private String htmlData, status = "OK", message = "SUCCESS";
+    private int code = 200;
+    private boolean noData = true, dataIsJsonObject = false, dataIsJsonArray = false, dataAsString = false;
 
     public Response(String content) {
         if (DataUtil.isJsonObjectString(content)) {
@@ -29,7 +26,7 @@ public class Response
             final JsonObject jsonData = DataUtil.toJsonObject(content);
             if (jsonData.has(KEY_STATUS) && jsonData.has(KEY_CODE) && jsonData.has(KEY_MESSAGE) && jsonData.has(KEY_DATA)) {
                 this.status = jsonData.has(KEY_STATUS) ? jsonData.get(KEY_STATUS).getAsString() : "ERROR";
-                this.code = jsonData.has(KEY_CODE) ? jsonData.get(KEY_CODE).getAsLong() : 500;
+                this.code = jsonData.has(KEY_CODE) ? jsonData.get(KEY_CODE).getAsInt() : 500;
                 this.message = jsonData.has(KEY_MESSAGE) ? jsonData.get(KEY_MESSAGE).getAsString() : "INTERNAL_SERVER_ERROR";
                 if (jsonData.has(KEY_DATA)) {
                     if (jsonData.get(KEY_DATA) instanceof JsonObject) {
@@ -47,10 +44,11 @@ public class Response
             }
         }
         else if (StringUtils.isNotEmpty(content)) {
+            this.noData = false;
             this.htmlData = content;
         }
         else {
-            this.resetAsOnError("Failed to process");
+            this.resetAsOnError("INVALID_JSON_STRING");
         }
     }
 
@@ -58,7 +56,6 @@ public class Response
 
     public void setStatus(String a) {this.status =a;}
     public void setCode(int a) {this.code =a;}
-    public void setCode(long a) {this.code =a;}
     public void setMessage(String a) {this.message=a;}
     public void setData(JsonObject a) {
         this.dataIsJsonObject = true;
@@ -77,7 +74,7 @@ public class Response
     public boolean isNotError() {return this.code == 200;}
     public String getStatus() {return this.status;}
     public String getMessage() {return this.message;}
-    public long getCode() {return this.code;}
+    public int getCode() {return this.code;}
     public boolean messageIs(String msg) {return this.message.equals(msg);}
     public boolean hasData() {return !this.noData;}
     public boolean hasData(String key) { return this.getDataAsJsonObject().has(key); }
@@ -100,7 +97,7 @@ public class Response
         else if (this.dataIsJsonObject) {object.add(KEY_DATA, this.jsonObjectData);}
         else if (this.dataIsJsonArray) {object.add(KEY_DATA, this.jsonArrayData);}
         else {object.add(KEY_DATA, null);}
-        return object.getAsString();
+        return object.toString();
     }
 
     private void resetAsOnError(String msg) {

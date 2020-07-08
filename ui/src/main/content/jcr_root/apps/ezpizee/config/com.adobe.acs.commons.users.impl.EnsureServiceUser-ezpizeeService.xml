@@ -5,4 +5,4 @@
           principalName="ezpizee/ezpizee-service-user"
           type="add"
           ensure-immediately="{Boolean}true"
-          aces="[type=allow;privileges=jcr:all;path=/content,type=allow;privileges=jcr:read;path=/etc,type=allow;privileges=rep:write;path=/etc,type=allow;privileges=jcr:read;path=/apps,type=allow;privileges=rep:write;path=/apps,type=allow;privileges=jcr:read;path=/home,type=allow;privileges=rep:write;path=/home]"/>
+          aces="[type=allow;privileges=jcr:all;path=/content,type=allow;privileges=jcr:read;path=/etc,type=allow;privileges=jcr:all;path=/etc/designs/ezpizee,type=allow;privileges=jcr:all;path=/etc/commerce/ezpizee,type=allow;privileges=jcr:read;path=/apps,type=allow;privileges=rep:write;path=/apps,type=allow;privileges=jcr:read;path=/home,type=allow;privileges=rep:write;path=/home,type=allow;privileges=jcr:all;path=/home/users/system/ezpizee]"/>

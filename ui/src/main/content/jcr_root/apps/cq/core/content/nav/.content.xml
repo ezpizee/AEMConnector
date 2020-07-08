@@ -8,7 +8,7 @@
             jcr:title="Ezpizee"
             desktopOnly="/content/ezpizee"
             desktopOnlyTitle="Ezpizee"
-            href="/content/ezpizee.html#!/content/ezpizee/dashboard.html"
+            href="/content/ezpizee.html#/"
             icon="imageAlbum"
             id="cq-commerce-ezpizee"/>
     </commerce>

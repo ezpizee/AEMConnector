@@ -17,11 +17,4 @@
         jcr:title="Ezpizee Admin"
         jcr:uuid="3c0c41de-0a63-4824-80cf-c9ae85ae1f9f"
         sling:resourceType="ezpizee/components/structure/admin"/>
-    <dashboard/>
-    <global-properties/>
-    <store-manager/>
-    <product-manager/>
-    <offer-manager/>
-    <user/>
-    <api/>
 </jcr:root>

@@ -2,8 +2,17 @@ package com.ezpizee.aem.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.io.IOUtils;
+import org.apache.sling.api.request.RequestParameter;
+import org.apache.sling.api.request.RequestParameterMap;
 import org.apache.sling.api.resource.ValueMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +24,63 @@ import java.util.Map;
 
 public class DataUtil {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DataUtil.class);
+
     private DataUtil() {}
+
+    public static Map<String, Object> toMapObject(final RequestParameterMap map) {
+        final Map<String, Object> obj = new HashMap<>();
+        for (String key : map.keySet()) {
+            if (!"file".equals(key)) {
+                final RequestParameter param = map.getValue(key);
+                if (param != null) {
+                    obj.put(key, param.getString());
+                }
+                else {
+                    final RequestParameter[] params = map.getValues(key);
+                    if (params != null) {
+                        JsonArray jsonArray = new JsonArray();
+                        for(RequestParameter p : params) {
+                            jsonArray.add(p.getString());
+                        }
+                        obj.put(key, jsonArray.toString());
+                    }
+                }
+            }
+            /*
+            else {
+                try {
+                    RequestParameter param = map.getValue(key);
+                    if (param != null) {
+                        final InputStream inputStream = param.getInputStream();
+                        final String fileName = param.getFileName();
+                        if (fileName != null && inputStream != null) {
+                            final String ext = "."+FileUtil.getExtension(fileName);
+                            final File tmpFile = File.createTempFile(FileUtil.getBasename(fileName), ext);
+                            tmpFile.deleteOnExit();
+                            try {
+                                FileOutputStream out = new FileOutputStream(tmpFile);
+                                IOUtils.copy(inputStream, out);
+                                obj.put(key, tmpFile);
+                            }
+                            catch (IOException e) { }
+                        }
+                    }
+                }
+                catch (IOException e) { }
+            }
+            */
+        }
+        return obj;
+    }
+
+    public static JsonObject map2JsonObject(final Map<String, String> valueMap) {
+        final JsonObject obj = new JsonObject();
+        for (String key : valueMap.keySet()) {
+            obj.add(key, new JsonPrimitive(valueMap.get(key)));
+        }
+        return obj;
+    }
 
     public static Map<String, Object> valueMap2Map(final ValueMap valueMap) {
         final Map<String, Object> map = new HashMap<>();
@@ -26,35 +91,44 @@ public class DataUtil {
     }
 
     public static boolean isJsonObjectString(String str) {
-        boolean flag;
-        try {
-            JsonParser parser = new JsonParser();
-            JsonObject jsonObject = parser.parse(str).getAsJsonObject();
-            flag = jsonObject != null;
-        }
-        catch (JsonSyntaxException e) {
-            flag = false;
+        boolean flag = false;
+        if (isJsonString(str)) {
+            try {
+                JsonParser parser = new JsonParser();
+                JsonElement jsonElement = parser.parse(str);
+                flag = jsonElement.getAsJsonObject() != null;
+            }
+            catch (JsonSyntaxException e) {
+                flag = false;
+            }
         }
         return flag;
     }
 
     public static boolean isJsonArrayString(String str) {
-        boolean flag;
-        try {
-            JsonParser parser = new JsonParser();
-            JsonArray jsonArray = parser.parse(str).getAsJsonArray();
-            flag = jsonArray != null;
-        }
-        catch (JsonSyntaxException e) {
-            flag = false;
+        boolean flag = false;
+        if (isJsonString(str)) {
+            try {
+                JsonParser parser = new JsonParser();
+                JsonElement jsonElement = parser.parse(str);
+                flag = jsonElement.getAsJsonArray() != null;
+            }
+            catch (JsonSyntaxException e) {
+                flag = false;
+            }
         }
         return flag;
     }
 
     public static boolean isJsonString(String str) {
-        boolean flag = DataUtil.isJsonObjectString(str);
-        if (!flag) {
-            flag = DataUtil.isJsonArrayString(str);
+        boolean flag;
+        Gson gson = new Gson();
+        try {
+            Object obj = gson.fromJson(str, Object.class);
+            flag = obj != null;
+        }
+        catch (JsonSyntaxException e) {
+            flag = false;
         }
         return flag;
     }

@@ -1,39 +1,40 @@
 package com.ezpizee.aem.http;
 
 import com.ezpizee.aem.Constants;
-import com.ezpizee.aem.models.AppConfig;
-import com.ezpizee.aem.security.Jwt;
+import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.HashUtil;
 import kong.unirest.*;
+import kong.unirest.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.sling.api.servlets.HttpConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
 
 public class Client
 {
     private static final Logger LOG = LoggerFactory.getLogger(Client.class);
-    private static final String KEY_AUTH = "Authorization";
     private Map<String, String> headers;
-    private Map<String, Object> formParams;
-    private Map<String, String> queries;
-    private String body;
+    private Map<String, Object> formParams, queries;
+    private JSONObject body;
     private Map<String, File> files;
-    private String uri;
-    private MethodEnum method;
-    private boolean requiredAccessToken = true, bypassAppConfigValidation = false, htmlResponse = false;
+    private List<Map<String, Object>> inputStreamList;
+    private String uri, method;
+    private boolean requiredAccessToken = true, bypassAppConfigValidation = false, htmlResponse = false, isMultipart = false;
     private AppConfig appConfig;
 
     public Client(AppConfig config, boolean htmlResponse, boolean bypassAppConfigValidation) {
         this.htmlResponse = htmlResponse;
         this.bypassAppConfigValidation = bypassAppConfigValidation;
         if (this.bypassAppConfigValidation) {
-            setRequiredAccessToken(false);
+            this.requiredAccessToken = false;
         }
         setConfig(config);
     }
@@ -48,64 +49,94 @@ public class Client
     private void setConfig(AppConfig config) {
         headers = new HashMap<>();
         appConfig = config;
-        method = MethodEnum.GET;
+        method = HttpConstants.METHOD_GET;
     }
 
-    public void setRequiredAccessToken(boolean b) { requiredAccessToken = b; }
-    public void setAuth(String username, String password) { this.addHeader(KEY_AUTH, "Basic "+HashUtil.base64Encode(username+":"+password)); }
-    public void setHeaders(Map<String, String> headers) { this.headers = headers; }
+    public void setBasicAuth(String username, String password) {
+        this.addHeader(Constants.HEADER_PARAM_ACCESS_TOKEN, "Basic "+HashUtil.base64Encode(username+":"+password));
+    }
+    public void setBearerToken(String token) { this.addHeader(Constants.HEADER_PARAM_ACCESS_TOKEN, "Bearer "+token); }
     public void addHeader(String key, String value) { this.headers.put(key, value); }
     public void setFormParams(Map<String, Object> params) { formParams = params; }
-    public void setQueries(Map<String, String> params) { queries = params; }
-    public void setBody(String body) { this.body = body; }
+    public void setBody(String jsonStr) { this.body = new JSONObject(jsonStr); }
+    public void setIsMultipart(boolean b) {this.isMultipart = b;}
+    public void addInputStream(String fieldName, InputStream is, String fileName) {
+        if (this.inputStreamList == null) {this.inputStreamList = new ArrayList<>();}
+        Map<String, Object> o = new HashMap<>();
+        o.put("fieldName", fieldName);
+        o.put("is", is);
+        o.put("fileName", fileName);
+        this.inputStreamList.add(o);
+    }
+    public void setRequiredAccessToken(boolean b) { requiredAccessToken = b; }
+    public void setHeaders(Map<String, String> headers) { this.headers = headers; }
     public void setFiles(Map<String, File> files) { this.files = files; }
+    public void setQueries(Map<String, Object> params) { queries = params; }
+
+    public Response install(String uri, String jsonStr) {
+        this.body = new JSONObject(jsonStr);
+        this.requiredAccessToken = false;
+        this.uri = uri;
+        this.method = HttpConstants.METHOD_POST;
+        return this.request();
+    }
+
+    public Response login(String uri, String user, String pwd) {
+        setBasicAuth(user, pwd);
+        addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
+        this.requiredAccessToken = false;
+        this.uri = uri;
+        this.method = HttpConstants.METHOD_POST;
+        return this.request();
+    }
+
+    public Response getAccessToken(String uri) {
+        setBasicAuth(appConfig.getClientId(), appConfig.getClientSecret());
+        addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
+        this.requiredAccessToken = false;
+        this.uri = uri;
+        this.method = HttpConstants.METHOD_POST;
+        return this.request();
+    }
 
     public Response get(String uri) {
         this.uri = uri;
-        this.method = MethodEnum.GET;
+        this.method = HttpConstants.METHOD_GET;
         return this.getRequest();
     }
 
     public Response post(String uri) {
         this.uri = uri;
-        this.method = MethodEnum.POST;
+        this.method = HttpConstants.METHOD_POST;
         return this.request();
     }
 
     public Response delete(String uri) {
         this.uri = uri;
-        this.method = MethodEnum.DELETE;
+        this.method = HttpConstants.METHOD_DELETE;
         return this.request();
     }
 
     public Response put(String uri) {
         this.uri = uri;
-        this.method = MethodEnum.PUT;
-        return this.request();
-    }
-
-    public Response patch(String uri) {
-        this.uri = uri;
-        this.method = MethodEnum.PATCH;
+        this.method = HttpConstants.METHOD_PUT;
         return this.request();
     }
 
     private Response getRequest() {
         if (StringUtils.isNotEmpty(this.uri) && (this.appConfig.isValid() || this.bypassAppConfigValidation)) {
-            if (!htmlResponse) {
+            if (!this.htmlResponse) {
                 this.defaultHeaders();
             }
             try {
-                if (queries != null && !queries.isEmpty()) {
-                    StringJoiner joiner = new StringJoiner("&");
-                    for (String key : queries.keySet()) {
-                        joiner.add(key+"="+ queries.get(key));
-                    }
-                    this.uri = this.uri + (this.uri.contains("?")?"&":"?") + joiner.toString();
-                }
                 GetRequest request = Unirest.get(this.uri);
-                if (!this.headers.isEmpty()) { request.headers(this.headers); }
-                if (htmlResponse) {
+                if (this.queries != null && !this.queries.isEmpty()) {
+                    request.queryString(this.queries);
+                }
+                if (!this.headers.isEmpty()) {
+                    request.headers(this.headers);
+                }
+                if (this.htmlResponse) {
                     LOG.info("Request method & url: " + this.method + " " + this.uri);
                     Response resp = new Response();
                     resp.setData(new String(request.asString().getBody().getBytes()));
@@ -114,9 +145,7 @@ public class Client
                 else {
                     HttpResponse<JsonNode> jsonResponse = request.asJson();
                     LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
-                    if (jsonResponse.getStatus() == 200) {
-                        return new Response(jsonResponse.getBody().getObject().toString());
-                    }
+                    return new Response(jsonResponse.getBody().getObject().toString());
                 }
             }
             catch (UnirestException e) {
@@ -131,40 +160,48 @@ public class Client
 
     private Response request() {
         if (StringUtils.isNotEmpty(this.uri) && (this.appConfig.isValid() || this.bypassAppConfigValidation)) {
-            if (!this.htmlResponse) {
-                this.defaultHeaders();
-            }
             try {
-                HttpRequestWithBody request = null;
-                if (MethodEnum.POST.equals(this.method)) {
-                    request = Unirest.post(this.uri);
+                LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
+                // request with body
+                if (this.body != null && !this.body.isEmpty()) {
+                    RequestBodyEntity request = Unirest.request(this.method, this.uri).body(this.body);
+                    this.defaultHeaders();
+                    if (this.headers != null && !this.headers.isEmpty()) { request.headers(this.headers); }
+
+                    final HttpResponse<JsonNode> jsonResponse = request.asJson();
+                    if (jsonResponse.getStatus() != 200) { LOG.debug(jsonResponse.getBody().getObject().toString()); }
+                    this.body = null;
+                    this.headers = null;
+                    return new Response(jsonResponse.getBody().getObject().toString());
                 }
-                else if (MethodEnum.PUT.equals(this.method)) {
-                    request = Unirest.put(this.uri);
-                }
-                else if (MethodEnum.DELETE.equals(this.method)) {
-                    request = Unirest.delete(this.uri);
-                }
-                else if (MethodEnum.PATCH.equals(this.method)) {
-                    request = Unirest.patch(this.uri);
-                }
-                if (request != null) {
-                    if (formParams != null && !formParams.isEmpty()) {
-                        for(String key : formParams.keySet()) {
-                            request.field(key, formParams.get(key));
+                // multipart request
+                else if (this.isMultipart && this.formParams != null && !this.formParams.isEmpty()) {
+                    MultipartBody request = Unirest.request(this.method, this.uri).fields(formParams);
+                    this.defaultHeaders();
+                    if (this.headers != null && !this.headers.isEmpty()) { request.headers(this.headers); }
+                    if (this.files != null && !this.files.isEmpty()) {
+                        for(String key : this.files.keySet()) {
+                            request.field(key, this.files.get(key));
                         }
                     }
-                    else if (StringUtils.isNotEmpty(this.body)) {
-                        request.body(body);
-                    }
-                    if (files != null && !files.isEmpty()) {
-                        for(String key : files.keySet()) {
-                            request.field(key, files.get(key));
+                    if (this.inputStreamList != null && !this.inputStreamList.isEmpty()) {
+                        for(Map<String, Object> map : this.inputStreamList) {
+                            request.field(map.get("fieldName").toString(), (InputStream)map.get("is"), map.get("fileName").toString());
                         }
                     }
-                    if (!this.headers.isEmpty()) {
-                        request.headers(this.headers);
-                    }
+
+                    final HttpResponse<JsonNode> jsonResponse = request.asJson();
+                    if (jsonResponse.getStatus() != 200) { LOG.debug(jsonResponse.getBody().getObject().toString()); }
+                    this.formParams = null;
+                    this.inputStreamList = null;
+                    this.files = null;
+                    this.headers = null;
+                    return new Response(jsonResponse.getBody().getObject().toString());
+                }
+                else {
+                    HttpRequestWithBody request = Unirest.request(this.method, this.uri);
+                    if (!this.htmlResponse) { this.defaultHeaders(); }
+                    if (this.headers != null && !this.headers.isEmpty()) { request.headers(this.headers); this.headers = null; }
                     if (this.htmlResponse) {
                         Response resp = new Response();
                         resp.setData(new String(request.asString().getBody().getBytes()));
@@ -172,10 +209,8 @@ public class Client
                     }
                     else {
                         HttpResponse<JsonNode> jsonResponse = request.asJson();
-                        LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
-                        if (jsonResponse.getStatus() == 200) {
-                            return new Response(jsonResponse.getBody().getObject().toString());
-                        }
+                        if (jsonResponse.getStatus() != 200) { LOG.debug(jsonResponse.getBody().getObject().toString()); }
+                        return new Response(jsonResponse.getBody().getObject().toString());
                     }
                 }
             }
@@ -190,12 +225,17 @@ public class Client
     }
 
     private void defaultHeaders() {
-        this.addHeader(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
-        this.addHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
-        if (this.requiredAccessToken) {
-            this.addHeader(Constants.HEADER_PARAM_ACCESS_TOKEN, Jwt.clientRequestToken(
-                appConfig.getEnv(), "TODO", appConfig.getAppName()
-            ));
+        if (!this.isMultipart && !this.headers.containsKey(Constants.HEADER_PARAM_CTYPE)) {
+            this.addHeader(Constants.HEADER_PARAM_CTYPE, Constants.HEADER_VALUE_JSON);
+        }
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_ACCEPT)) {
+            this.addHeader(Constants.HEADER_PARAM_ACCEPT, Constants.HEADER_VALUE_JSON);
+        }
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_USER_AGENT)) {
+            this.addHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
+        }
+        if (this.requiredAccessToken && !this.headers.containsKey(Constants.HEADER_PARAM_ACCESS_TOKEN)) {
+            this.setBearerToken(appConfig.getBearerToken());
         }
     }
 }
