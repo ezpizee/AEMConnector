@@ -13,6 +13,7 @@ public class Constants {
     public static final String APP_CONFIG_PATH = ETC_COMMERCE_PATH + "/config";
     public static final String EZPIZEE_SERVICE = "ezpizee-service";
     public static final String UTF_8 = "UTF-8";
+    public static final String EXT_HTML = ".html";
 
     public static final String HEADER_PARAM_ACCEPT = HttpConstants.HEADER_ACCEPT;
     public static final String HEADER_PARAM_CTYPE = "Content-Type";

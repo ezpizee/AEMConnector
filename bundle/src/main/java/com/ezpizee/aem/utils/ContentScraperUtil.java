@@ -1,5 +1,6 @@
 package com.ezpizee.aem.utils;
 
+import com.ezpizee.aem.Constants;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.slf4j.Logger;
@@ -25,9 +26,7 @@ public class ContentScraperUtil {
 
         try {
             if (path != null) {
-                if (!path.endsWith(".html")) {
-                    path += ".html";
-                }
+                if (!path.endsWith(Constants.EXT_HTML)) { path += Constants.EXT_HTML; }
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
                 CharResponseWrapper wrappedResponse = new CharResponseWrapper(response);
                 requestDispatcher.include(request, wrappedResponse);

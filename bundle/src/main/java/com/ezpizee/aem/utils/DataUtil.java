@@ -2,17 +2,12 @@ package com.ezpizee.aem.utils;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.request.RequestParameterMap;
 import org.apache.sling.api.resource.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,29 +42,6 @@ public class DataUtil {
                     }
                 }
             }
-            /*
-            else {
-                try {
-                    RequestParameter param = map.getValue(key);
-                    if (param != null) {
-                        final InputStream inputStream = param.getInputStream();
-                        final String fileName = param.getFileName();
-                        if (fileName != null && inputStream != null) {
-                            final String ext = "."+FileUtil.getExtension(fileName);
-                            final File tmpFile = File.createTempFile(FileUtil.getBasename(fileName), ext);
-                            tmpFile.deleteOnExit();
-                            try {
-                                FileOutputStream out = new FileOutputStream(tmpFile);
-                                IOUtils.copy(inputStream, out);
-                                obj.put(key, tmpFile);
-                            }
-                            catch (IOException e) { }
-                        }
-                    }
-                }
-                catch (IOException e) { }
-            }
-            */
         }
         return obj;
     }
