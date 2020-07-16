@@ -20,6 +20,14 @@ public class RunModesUtil {
 
     public static boolean isProd(SlingSettingsService slingSettingsService) { return isRunMode(slingSettingsService, "prod"); }
 
+    public static String env(SlingSettingsService sss) {
+        if (isDev(sss)) {return "dev";}
+        if (isQA(sss)) {return "qa";}
+        if (isStage(sss)) {return "stage";}
+        if (isProd(sss)) {return "prod";}
+        return "local";
+    }
+
     private static boolean isRunMode(SlingSettingsService slingSettingsService, String key) {
         if (slingSettingsService != null) {
             Set<String> runModes = slingSettingsService.getRunModes();
