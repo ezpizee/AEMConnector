@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Sothea Nim
@@ -29,6 +30,10 @@ public class HashUtil {
     private static final String UTF_8 = Constants.UTF_8;
     private static final String MD5FORMATSTR = "%02x";
     private static MessageDigest md;
+
+    public static String uuid() {return uuid(StringUtils.EMPTY);}
+
+    public static String uuid(String pfx) {return pfx.toUpperCase()+UUID.randomUUID().toString().toUpperCase();}
 
     private static void setMd5() {
         if (md == null) {

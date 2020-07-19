@@ -2,7 +2,9 @@ package com.ezpizee.aem.http;
 
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.services.AppConfig;
+import com.ezpizee.aem.utils.Endpoints;
 import com.ezpizee.aem.utils.HashUtil;
+import com.ezpizee.aem.utils.HostName;
 import kong.unirest.*;
 import kong.unirest.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -81,11 +83,18 @@ public class Client
         return this.request();
     }
 
-    public Response login(String uri, String user, String pwd) {
+    public Response logout() {
+        addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
+        this.uri = HostName.getAPIServer(appConfig.getEnv())+ Endpoints.logout();
+        this.method = HttpConstants.METHOD_POST;
+        return this.request();
+    }
+
+    public Response login(String user, String pwd) {
         setBasicAuth(user, pwd);
         addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
         this.requiredAccessToken = false;
-        this.uri = uri;
+        this.uri = HostName.getAPIServer(appConfig.getEnv())+ Endpoints.login();
         this.method = HttpConstants.METHOD_POST;
         return this.request();
     }
@@ -234,8 +243,13 @@ public class Client
         if (!this.headers.containsKey(Constants.HEADER_PARAM_USER_AGENT)) {
             this.addHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
         }
-        if (this.requiredAccessToken && !this.headers.containsKey(Constants.HEADER_PARAM_ACCESS_TOKEN)) {
-            this.setBearerToken(appConfig.getBearerToken());
+        if (this.requiredAccessToken) {
+            if (!this.headers.containsKey(Constants.HEADER_PARAM_ACCESS_TOKEN)) {
+                this.setBearerToken(appConfig.getBearerToken());
+            }
+            if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_NAME)) {
+                this.addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
+            }
         }
     }
 }

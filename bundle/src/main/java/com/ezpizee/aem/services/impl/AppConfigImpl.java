@@ -99,9 +99,11 @@ public class AppConfigImpl implements AppConfig {
         }
     }
 
-    public void keepAccessTokenInSession(JsonObject token, HttpSession session) {
+    public void keepAccessTokenInSession(JsonObject token, HttpSession session) { keepAccessTokenInSession(KEY_ACCESS_TOKEN, token, session); }
+
+    public void keepAccessTokenInSession(String key, JsonObject token, HttpSession session) {
         t = new Token(token);
-        session.setAttribute(KEY_ACCESS_TOKEN, t.toString());
+        session.setAttribute(key, t.toString());
     }
 
     private void loadData(ValueMap props) {
@@ -112,9 +114,11 @@ public class AppConfigImpl implements AppConfig {
         }
     }
 
-    private void loadAccessToken(HttpSession session) {
+    public void loadAccessToken(HttpSession session) { loadAccessToken(KEY_ACCESS_TOKEN, session); }
+
+    public void loadAccessToken(String key, HttpSession session) {
         if (isValid() && t == null) {
-            Object token = session.getAttribute(KEY_ACCESS_TOKEN);
+            Object token = session.getAttribute(key);
             if (token != null) {
                 t = new Token(token.toString());
                 if (t.isExpired()) {
