@@ -247,9 +247,11 @@ public class Client
             if (!this.headers.containsKey(Constants.HEADER_PARAM_ACCESS_TOKEN)) {
                 this.setBearerToken(appConfig.getBearerToken());
             }
-            if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_NAME)) {
-                this.addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
-            }
+        }
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_NAME) &&
+            appConfig != null &&
+            StringUtils.isNotEmpty(appConfig.getAppName())) {
+            this.addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
         }
     }
 }

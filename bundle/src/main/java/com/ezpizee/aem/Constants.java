@@ -22,10 +22,9 @@ public class Constants {
     public static final String HEADER_VALUE_JSON = "application/json";
     public static final String HEADER_VALUE_USER_AGENT = "Ezpizee/1.0";
     public static final String HEADER_PARAM_APP_NAME = "App-Name";
+    public static final String HEADER_LANGUAGE_TAG = "Language-Tag";
 
     public static final String KEY_ENDPOINT = "endpoint";
-    public static final String KEY_ID = "id";
-    public static final String KEY_HASHED_APP_NAME = "hashedAppName";
 
     public static final String KEY_CLIENT_ID = "client_id";
     public static final String KEY_CLIENT_SECRET = "client_secret";

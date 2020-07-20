@@ -21,8 +21,6 @@ public class DataUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataUtil.class);
 
-    private DataUtil() {}
-
     public static Map<String, Object> toMapObject(final RequestParameterMap map) {
         final Map<String, Object> obj = new HashMap<>();
         for (String key : map.keySet()) {
