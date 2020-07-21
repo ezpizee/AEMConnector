@@ -6,6 +6,7 @@ public class Endpoints {
 
     public static String install() {return "/api/install";}
     public static String token() {return "/api/user/token";}
+    public static String refreshToken() {return "/api/user/token/refresh/{token_uuid}/{user_id}";}
     public static String login() {return "/api/user/login";}
     public static String logout() {return "/api/user/logout";}
     public static String signup() {return "/api/user/add";}

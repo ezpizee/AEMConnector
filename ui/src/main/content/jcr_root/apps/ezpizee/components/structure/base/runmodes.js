@@ -1,6 +1,3 @@
-/**
- * Created by schan on 12/11/15.
- */
 var SlingSettingsService = Packages.org.apache.sling.settings.SlingSettingsService;
 
 use(function ()
@@ -15,6 +12,6 @@ use(function ()
     }
 
     return {
-        runmodes: runmodesObj
+        modes: runmodesObj
     }
 });

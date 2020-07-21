@@ -1,19 +1,18 @@
 package com.ezpizee.aem.models;
 
-import com.adobe.cq.sightly.WCMUsePojo;
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.HostName;
 
 import java.util.List;
 
-public class PageProperties extends WCMUsePojo {
+public class PageProperties extends BaseModel {
 
     private String cdnServer;
     private boolean validAppConfig;
 
     @Override
-    public void activate() throws Exception {
+    public void exec() {
         final AppConfig appConfig = getSlingScriptHelper().getService(AppConfig.class);
         if (appConfig != null) {
             appConfig.load(getRequest().getSession());

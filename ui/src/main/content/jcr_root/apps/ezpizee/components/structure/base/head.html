@@ -22,12 +22,6 @@
 <meta property="twitter:title" content="Ezpizee Commerce Admin" />
 <meta property="twitter:description" content="${description}" />
 <meta property="twitter:image" content="/etc/designs/ezpizee/images/default-logo.png" />
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
-    <sly data-sly-call="${clientLib.css @ categories='ezpizee'}"></sly>
-</sly>
+<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"><sly data-sly-call="${clientLib.css @ categories='ezpizee'}"></sly></sly>
 <title>${head.title}</title>
-<sly data-sly-test="${properties.gtm}">
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',"${properties.gtm @ context='unsafe'}");</script>
-    <!-- End Google Tag Manager -->
-</sly>
+<sly data-sly-test="${properties.gtm}"><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',"${properties.gtm @ context='unsafe'}");</script></sly>

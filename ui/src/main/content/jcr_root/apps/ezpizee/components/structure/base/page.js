@@ -5,7 +5,7 @@ use(function()
     function isErrorPage() {
         var isError = false;
         var templatePath = pageProperties.get("cq:template", "");
-        if (templatePath == "/apps/ezpizee/templates/errorpage") {
+        if (templatePath === "/apps/ezpizee/templates/errorpage") {
             isError = true;
         }
         return isError;

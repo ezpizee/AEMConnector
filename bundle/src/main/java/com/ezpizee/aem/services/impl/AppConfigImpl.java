@@ -3,6 +3,7 @@ package com.ezpizee.aem.services.impl;
 import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.http.Response;
+import com.ezpizee.aem.services.AdminService;
 import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.*;
 import com.google.gson.JsonObject;
@@ -12,7 +13,6 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,24 +28,19 @@ import static com.ezpizee.aem.Constants.KEY_ENV;
 @Component
 public class AppConfigImpl implements AppConfig {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
-    private static final String KEY_SESSION_ID = "Session-Id";
-    private static final String KEY_TOKEN_ID = "token_uuid";
-    private static final String KEY_TOKEN_PARAM_NAME = "token_param_name";
-    private static final String KEY_USER_ID = "user_id";
-    private static final String KEY_EXPIRE_IN = "expire_in";
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private static final String[] PROPS = new String[]{KEY_CLIENT_ID,KEY_CLIENT_SECRET,KEY_APP_NAME,KEY_ENV};
     private static Map<String, String> data;
     private static Token t;
 
     @Reference
-    private ResourceResolverFactory resolverFactory;
+    private AdminService adminService;
 
     public String toString() { return data != null ? data.toString() : "{}"; }
 
     public void load(HttpSession session) {
         if (!isValid()) {
-            ResourceResolver resolver = AdminServiceUtil.getResourceResolver(resolverFactory);
+            ResourceResolver resolver = adminService.getResourceResolver(EZPIZEE_SERVICE);
             data = new HashMap<>();
             Resource resource = resolver.getResource(Constants.APP_CONFIG_PATH);
             if (resource != null) {
@@ -77,6 +72,7 @@ public class AppConfigImpl implements AppConfig {
     public String getAppName() {return data.getOrDefault(KEY_APP_NAME, StringUtils.EMPTY);}
     public String getEnv() {return data.getOrDefault(KEY_ENV, DEFAULT_ENVIRONMENT);}
     public Map<String, String> getData() { return data; }
+    public Token getToken() {return t == null ? new Token() : t;}
 
     public boolean isValid() {
         if (data == null || data.isEmpty()) {return false;}
@@ -90,7 +86,7 @@ public class AppConfigImpl implements AppConfig {
 
     public void storeConfig() {
         if (isValid()) {
-            ResourceResolver resolver = AdminServiceUtil.getResourceResolver(resolverFactory);
+            ResourceResolver resolver = adminService.getResourceResolver(EZPIZEE_SERVICE);
             NodeUtil.addIfNotAlreadyExist(resolver, Constants.ETC_COMMERCE_PATH);
             NodeUtil.save(resolver, Constants.APP_CONFIG_PATH, data);
             if (resolver.isLive()) {
@@ -106,6 +102,48 @@ public class AppConfigImpl implements AppConfig {
         session.setAttribute(key, t.toString());
     }
 
+    public void loadAccessToken(HttpSession session) { loadAccessToken(KEY_ACCESS_TOKEN, session); }
+
+    public void loadAccessToken(String key, HttpSession session) {
+        loadToken(key, session);
+        if (isValid() && !hasBearerToken()) {
+            String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.token();
+            Client client = new Client(this);
+            Response response = client.getAccessToken(endpoint);
+            if (response.isNotError()) {
+                keepAccessTokenInSession(response.getDataAsJsonObject(), session);
+            }
+        }
+    }
+
+    public void clearAccessTokenSession(String key, HttpSession session) {
+        Object token = session.getAttribute(key);
+        if (token != null) {
+            session.removeAttribute(key);
+        }
+    }
+
+    public void refreshToken(String key, HttpSession session) {
+        loadToken(key, session);
+        if (t != null && t.expireIn10Minutes()) {
+            String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.refreshToken()
+                .replace("{token_uuid}", t.getTokenId())
+                .replace("{user_id}", t.getUserId());
+            Client client = new Client(this);
+            client.setRequiredAccessToken(false);
+            Response response = client.post(endpoint);
+            if (response.isNotError()) {
+                keepAccessTokenInSession(response.getDataAsJsonObject(), session);
+            }
+        }
+    }
+
+    public void logout(String key, HttpSession session) {
+        t = new Token();
+        data = new HashMap<>();
+        clearAccessTokenSession(key, session);
+    }
+
     private void loadData(ValueMap props) {
         for(String prop : PROPS) {
             if (props.containsKey(prop)) {
@@ -114,75 +152,19 @@ public class AppConfigImpl implements AppConfig {
         }
     }
 
-    public void loadAccessToken(HttpSession session) { loadAccessToken(KEY_ACCESS_TOKEN, session); }
-
-    public void loadAccessToken(String key, HttpSession session) {
-        if (isValid() && t == null) {
+    private void loadToken(String key, HttpSession session) {
+        if (isValid() && !hasBearerToken()) {
             Object token = session.getAttribute(key);
             if (token != null) {
                 t = new Token(token.toString());
                 if (t.isExpired()) {
                     t.destroy();
-                    t = null;
+                    t = new Token();
                 }
             }
-            if (t == null) {
-                String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.token();
-                Client client = new Client(this);
-                Response response = client.getAccessToken(endpoint);
-                if (response.isNotError()) {
-                    keepAccessTokenInSession(response.getDataAsJsonObject(), session);
-                }
+            else {
+                t = new Token();
             }
         }
-    }
-
-    private class Token {
-
-        private JsonObject jsonObject;
-        private String sessionId;
-        private String tokenId;
-        private String tokenParamName;
-        private String bearerToken;
-        private String userId;
-        private long expireIn;
-
-        Token(String token) { loadData(DataUtil.toJsonObject(token)); }
-
-        Token (JsonObject token) { loadData(token); }
-
-        void loadData(JsonObject token) {
-            jsonObject = token;
-            sessionId = token.has(KEY_SESSION_ID) ? token.get(KEY_SESSION_ID).getAsString() : StringUtils.EMPTY;
-            tokenId = token.has(KEY_TOKEN_ID) ? token.get(KEY_TOKEN_ID).getAsString() : StringUtils.EMPTY;
-            tokenParamName = token.has(KEY_TOKEN_PARAM_NAME) ? token.get(KEY_TOKEN_PARAM_NAME).getAsString() : StringUtils.EMPTY;
-            userId = token.has(KEY_USER_ID) ? token.get(KEY_USER_ID).getAsString() : StringUtils.EMPTY;
-            expireIn = DateFormatUtil.now() + (token.has(KEY_EXPIRE_IN) ? token.get(KEY_EXPIRE_IN).getAsInt() : 0);
-            bearerToken = token.has(tokenParamName) ? token.get(tokenParamName).getAsString() : StringUtils.EMPTY;
-        }
-
-        String getSessionId() {return sessionId;}
-        String getTokenId() {return tokenId;}
-        String getTokenParamName() {return tokenParamName;}
-        String getBearerToken() {return bearerToken;}
-        String getUserId() {return userId;}
-        long getExpireIn() {return expireIn;}
-
-        boolean isExpired() {
-            long now = DateFormatUtil.now();
-            return now > expireIn;
-        }
-
-        void destroy() {
-            jsonObject = null;
-            sessionId = null;
-            tokenId = null;
-            tokenParamName = null;
-            userId = null;
-            expireIn = 0;
-            bearerToken = null;
-        }
-
-        public String toString() { return jsonObject.toString(); }
     }
 }

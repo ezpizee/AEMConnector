@@ -31,6 +31,7 @@ public class Constants {
     public static final String KEY_APP_NAME = "app_name";
     public static final String KEY_ENV = "env";
     public static final String KEY_ACCESS_TOKEN = "access_token";
+    public static final String KEY_EZPZ_LOGIN = "ezpizee_login";
 
     public static final String NODE_JCR_CONTENT = "jcr:content";
     public static final String PROP_JCR_PRIMARYTYPE = "jcr:primaryType";

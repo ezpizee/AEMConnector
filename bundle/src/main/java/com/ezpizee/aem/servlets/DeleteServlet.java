@@ -32,20 +32,24 @@ public class DeleteServlet extends SlingAllMethodsServlet {
     @Override
     protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(Constants.HEADER_VALUE_JSON);
-        Response responseObject = new Response();
+        Response ezResponse = new Response();
         final String endpoint = request.getParameterMap().containsKey(Constants.KEY_ENDPOINT) ? request.getParameter(Constants.KEY_ENDPOINT) : StringUtils.EMPTY;
         appConfig.load(request.getSession());
         final Client client = new Client(appConfig);
         if (StringUtils.isNotEmpty(endpoint)) {
-            responseObject = client.delete(endpoint);
+            ezResponse = client.delete(endpoint);
         }
         else {
-            responseObject.setCode(500);
-            responseObject.setStatus("ERROR");
-            responseObject.setMessage("invalid_request");
+            ezResponse.setCode(500);
+            ezResponse.setStatus("ERROR");
+            ezResponse.setMessage("invalid_request");
             LOG.debug(request.getRequestParameterMap().toString());
         }
-        response.setStatus(responseObject.getCode());
-        response.getWriter().write(responseObject.toString());
+        if (ezResponse.getCode() != 200 && "INVALID_ACCESS_TOKEN".equals(ezResponse.getMessage())) {
+            appConfig.clearAccessTokenSession(Constants.KEY_EZPZ_LOGIN, request.getSession());
+            appConfig.clearAccessTokenSession(Constants.KEY_ACCESS_TOKEN, request.getSession());
+        }
+        response.setStatus(ezResponse.getCode());
+        response.getWriter().write(ezResponse.toString());
     }
 }

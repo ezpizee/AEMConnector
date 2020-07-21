@@ -1,6 +1,7 @@
 package com.ezpizee.aem.services;
 
 import aQute.bnd.annotation.ProviderType;
+import com.ezpizee.aem.utils.Token;
 import com.google.gson.JsonObject;
 
 import javax.servlet.http.HttpSession;
@@ -27,6 +28,8 @@ public interface AppConfig {
 
     Map<String, String> getData();
 
+    Token getToken();
+
     boolean isValid();
 
     void storeConfig();
@@ -38,4 +41,10 @@ public interface AppConfig {
     void loadAccessToken(HttpSession session);
 
     void loadAccessToken(String key, HttpSession session);
+
+    void clearAccessTokenSession(String key, HttpSession session);
+
+    void refreshToken(String key, HttpSession session);
+
+    void logout(String key, HttpSession session);
 }

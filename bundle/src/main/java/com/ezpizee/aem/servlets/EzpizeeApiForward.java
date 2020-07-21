@@ -29,7 +29,7 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(EzpizeeApiForward.class);
     private static final long serialVersionUID = 1L;
-    private Response responseObject;
+    private Response ezResponse;
 
     @Reference
     private AppConfig appConfig;
@@ -37,32 +37,32 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
     @Override
     protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         process(request, response, HttpConstants.METHOD_POST);
-        response.getWriter().write(responseObject.toString());
+        response.getWriter().write(ezResponse.toString());
     }
 
     @Override
     protected final void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         process(request, response, HttpConstants.METHOD_GET);
-        response.getWriter().write(responseObject.toString());
+        response.getWriter().write(ezResponse.toString());
     }
 
     @Override
     protected final void doPut(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         process(request, response, HttpConstants.METHOD_PUT);
-        response.getWriter().write(responseObject.toString());
+        response.getWriter().write(ezResponse.toString());
     }
 
     @Override
     protected final void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         process(request, response, HttpConstants.METHOD_DELETE);
-        response.getWriter().write(responseObject.toString());
+        response.getWriter().write(ezResponse.toString());
     }
 
     private void process(SlingHttpServletRequest request, SlingHttpServletResponse response, final String method) throws IOException {
 
         response.setContentType(Constants.HEADER_VALUE_JSON);
 
-        responseObject = new Response();
+        ezResponse = new Response();
         appConfig.load(request.getSession());
 
         final String endpoint = request.getParameterMap().containsKey(Constants.KEY_ENDPOINT)
@@ -100,29 +100,34 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
                             client.setBody(payload);
                         }
                     }
-                    responseObject = client.post(endpoint);
+                    ezResponse = client.post(endpoint);
                     break;
 
                 case HttpConstants.METHOD_GET:
-                    responseObject = client.get(endpoint);
+                    ezResponse = client.get(endpoint);
                     break;
 
                 case HttpConstants.METHOD_PUT:
-                    responseObject = client.put(endpoint);
+                    ezResponse = client.put(endpoint);
                     break;
 
                 case HttpConstants.METHOD_DELETE:
-                    responseObject = client.delete(endpoint);
+                    ezResponse = client.delete(endpoint);
                     break;
                     
                 default:
-                    responseObject.setCode(500);
-                    responseObject.setStatus("ERROR");
-                    responseObject.setMessage("invalid_request");
+                    ezResponse.setCode(500);
+                    ezResponse.setStatus("ERROR");
+                    ezResponse.setMessage("invalid_request");
                     LOG.debug(request.getRequestParameterMap().toString());
             }
 
-            response.setStatus(responseObject.getCode());
+            if (ezResponse.getCode() != 200 && "INVALID_ACCESS_TOKEN".equals(ezResponse.getMessage())) {
+                appConfig.clearAccessTokenSession(Constants.KEY_EZPZ_LOGIN, request.getSession());
+                appConfig.clearAccessTokenSession(Constants.KEY_ACCESS_TOKEN, request.getSession());
+            }
+
+            response.setStatus(ezResponse.getCode());
         }
     }
 }
