@@ -1,6 +1,5 @@
 package com.ezpizee.aem.models;
 
-import com.adobe.cq.sightly.WCMUsePojo;
 import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.http.Response;
 import com.ezpizee.aem.services.AppConfig;
@@ -8,19 +7,19 @@ import com.ezpizee.aem.utils.HostName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VueSPA extends WCMUsePojo {
+public class VueSPA extends BaseModel {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
     private static final String INSTALL_HTML = "/install/html/index.aem.html";
     private static final String ADMIN_HTML = "/adminui/html/index.aem.html";
     private String content;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void activate() throws Exception {
-
+        content = null;
         final AppConfig appConfig = getSlingScriptHelper().getService(AppConfig.class);
         if (appConfig != null) {
-            appConfig.load(getRequest().getSession());
+            appConfig.load(getAuthCookie(), getRequest().getSession());
             if (appConfig.isValid() && appConfig.hasBearerToken()) {
                 loadContent(appConfig.getEnv(), appConfig, ADMIN_HTML);
             }
@@ -41,7 +40,15 @@ public class VueSPA extends WCMUsePojo {
                     loadContent("dev", appConfig, uri);
                 }
                 else if ("dev".equals(appConfig.getEnv())) {
+                    loadContent("stage", appConfig, uri);
+                }
+                else if ("stage".equals(appConfig.getEnv())) {
                     loadContent("prod", appConfig, uri);
+                }
+                else {
+                    content = "<html><head><title>Connection Error</title></head><body>"+
+                        "<h1>Please make sure you are connected to the internet to be able to run Ezpizee application.</h1>"+
+                        "</body></html>";
                 }
             }
             else {

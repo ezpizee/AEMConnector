@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class Client
 {
-    private static final Logger LOG = LoggerFactory.getLogger(Client.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private Map<String, String> headers;
     private Map<String, Object> formParams, queries;
     private JSONObject body;
@@ -146,23 +146,23 @@ public class Client
                     request.headers(this.headers);
                 }
                 if (this.htmlResponse) {
-                    LOG.info("Request method & url: " + this.method + " " + this.uri);
+                    logger.info("Request method & url: " + this.method + " " + this.uri);
                     Response resp = new Response();
                     resp.setData(new String(request.asString().getBody().getBytes()));
                     return resp;
                 }
                 else {
                     HttpResponse<JsonNode> jsonResponse = request.asJson();
-                    LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
+                    logger.info("Commerce Admin API Call: " + this.method + " " + this.uri);
                     return new Response(jsonResponse.getBody().getObject().toString());
                 }
             }
             catch (UnirestException e) {
-                LOG.error(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
             }
         }
         else {
-            LOG.error("uri is missing");
+            logger.error("uri is missing");
         }
         return new Response();
     }
@@ -170,7 +170,7 @@ public class Client
     private Response request() {
         if (StringUtils.isNotEmpty(this.uri) && (this.appConfig.isValid() || this.bypassAppConfigValidation)) {
             try {
-                LOG.info("Commerce Admin API Call: " + this.method + " " + this.uri);
+                logger.info("Commerce Admin API Call: " + this.method + " " + this.uri);
                 // request with body
                 if (this.body != null && !this.body.isEmpty()) {
                     RequestBodyEntity request = Unirest.request(this.method, this.uri).body(this.body);
@@ -178,7 +178,7 @@ public class Client
                     if (this.headers != null && !this.headers.isEmpty()) { request.headers(this.headers); }
 
                     final HttpResponse<JsonNode> jsonResponse = request.asJson();
-                    if (jsonResponse.getStatus() != 200) { LOG.debug(jsonResponse.getBody().getObject().toString()); }
+                    if (jsonResponse.getStatus() != 200) { logger.debug(jsonResponse.getBody().getObject().toString()); }
                     this.body = null;
                     this.headers = null;
                     return new Response(jsonResponse.getBody().getObject().toString());
@@ -200,7 +200,7 @@ public class Client
                     }
 
                     final HttpResponse<JsonNode> jsonResponse = request.asJson();
-                    if (jsonResponse.getStatus() != 200) { LOG.debug(jsonResponse.getBody().getObject().toString()); }
+                    if (jsonResponse.getStatus() != 200) { logger.debug(jsonResponse.getBody().getObject().toString()); }
                     this.formParams = null;
                     this.inputStreamList = null;
                     this.files = null;
@@ -218,17 +218,17 @@ public class Client
                     }
                     else {
                         HttpResponse<JsonNode> jsonResponse = request.asJson();
-                        if (jsonResponse.getStatus() != 200) { LOG.debug(jsonResponse.getBody().getObject().toString()); }
+                        if (jsonResponse.getStatus() != 200) { logger.debug(jsonResponse.getBody().getObject().toString()); }
                         return new Response(jsonResponse.getBody().getObject().toString());
                     }
                 }
             }
             catch (UnirestException e) {
-                LOG.error(e.getMessage(), e);
+                logger.error(e.getMessage(), e);
             }
         }
         else {
-            LOG.error("uri is missing");
+            logger.error("uri is missing");
         }
         return new Response();
     }
@@ -243,8 +243,18 @@ public class Client
         if (!this.headers.containsKey(Constants.HEADER_PARAM_USER_AGENT)) {
             this.addHeader(Constants.HEADER_PARAM_USER_AGENT, Constants.HEADER_VALUE_USER_AGENT);
         }
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_VERSION)) {
+            this.addHeader(Constants.HEADER_PARAM_APP_VERSION, Constants.HEADER_VALUE_APP_VERSION);
+        }
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_PLATFORM)) {
+            this.addHeader(Constants.HEADER_PARAM_APP_PLATFORM, Constants.HEADER_VALUE_APP_PLATFORM);
+        }
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_OS_PLATFORM_VERSION)) {
+            this.addHeader(Constants.HEADER_PARAM_OS_PLATFORM_VERSION, Constants.HEADER_VALUE_OS_PLATFORM_VERSION);
+        }
         if (this.requiredAccessToken) {
             if (!this.headers.containsKey(Constants.HEADER_PARAM_ACCESS_TOKEN)) {
+                logger.debug("BearerToken: {}", appConfig.getBearerToken());
                 this.setBearerToken(appConfig.getBearerToken());
             }
         }

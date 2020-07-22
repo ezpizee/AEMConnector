@@ -1,6 +1,5 @@
 package com.ezpizee.aem.servlets;
 
-import com.ezpizee.aem.Constants;
 import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.http.Response;
 import com.ezpizee.aem.services.AppConfig;
@@ -14,7 +13,13 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.Cookie;
 import java.io.IOException;
+
+import static com.ezpizee.aem.Constants.HEADER_VALUE_JSON;
+import static com.ezpizee.aem.Constants.KEY_ACCESS_TOKEN;
+import static com.ezpizee.aem.Constants.KEY_ENDPOINT;
+import static com.ezpizee.aem.Constants.KEY_EZPZ_LOGIN;
 
 @SlingServlet(
     paths = {"/bin/ezpizee/delete"},
@@ -31,10 +36,11 @@ public class DeleteServlet extends SlingAllMethodsServlet {
 
     @Override
     protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
-        response.setContentType(Constants.HEADER_VALUE_JSON);
+        response.setContentType(HEADER_VALUE_JSON);
         Response ezResponse = new Response();
-        final String endpoint = request.getParameterMap().containsKey(Constants.KEY_ENDPOINT) ? request.getParameter(Constants.KEY_ENDPOINT) : StringUtils.EMPTY;
-        appConfig.load(request.getSession());
+        final String endpoint = request.getParameterMap().containsKey(KEY_ENDPOINT) ? request.getParameter(KEY_ENDPOINT) : StringUtils.EMPTY;
+        final String authCookie = getAuthCookie(request);
+        appConfig.load(authCookie,  request.getSession());
         final Client client = new Client(appConfig);
         if (StringUtils.isNotEmpty(endpoint)) {
             ezResponse = client.delete(endpoint);
@@ -46,10 +52,17 @@ public class DeleteServlet extends SlingAllMethodsServlet {
             LOG.debug(request.getRequestParameterMap().toString());
         }
         if (ezResponse.getCode() != 200 && "INVALID_ACCESS_TOKEN".equals(ezResponse.getMessage())) {
-            appConfig.clearAccessTokenSession(Constants.KEY_EZPZ_LOGIN, request.getSession());
-            appConfig.clearAccessTokenSession(Constants.KEY_ACCESS_TOKEN, request.getSession());
+            appConfig.clearAccessTokenSession(authCookie, request.getSession());
         }
         response.setStatus(ezResponse.getCode());
         response.getWriter().write(ezResponse.toString());
+    }
+
+    private String getAuthCookie(SlingHttpServletRequest request) {
+        Cookie cookie = request.getCookie(KEY_EZPZ_LOGIN);
+        if (cookie != null) {
+            return cookie.getValue();
+        }
+        return KEY_ACCESS_TOKEN;
     }
 }

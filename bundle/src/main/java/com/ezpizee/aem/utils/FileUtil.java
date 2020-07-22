@@ -17,7 +17,7 @@ import java.io.InputStream;
 
 public class FileUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(com.ezpizee.aem.utils.FileUtil.class);
 
     private FileUtil() {}
 
@@ -71,5 +71,7 @@ public class FileUtil {
 
     public static String getExtension(String filename) { return FilenameUtils.getExtension(filename); }
 
-    public static String getBasename(String filename) { return FilenameUtils.getName(filename); }
+    public static String getBasename(String filename) { return FilenameUtils.getBaseName(filename); }
+
+    public static String getFilename(String filename) { return FilenameUtils.getName(filename); }
 }

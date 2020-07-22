@@ -3,6 +3,7 @@ package com.ezpizee.aem.utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -77,7 +78,7 @@ public class HashUtil {
 
     public static String rawurlencode(String url) {
         try {
-            return URLEncoder.encode(StringHelper.convertToUTF8(url), UTF_8);
+            return URLEncoder.encode(convertToUTF8(url), UTF_8);
         }
         catch (UnsupportedEncodingException e) {
             return null;
@@ -86,7 +87,7 @@ public class HashUtil {
 
     public static String rawurldecode(String url) {
         try {
-            return URLDecoder.decode(StringHelper.convertToUTF8(url), UTF_8);
+            return URLDecoder.decode(convertToUTF8(url), UTF_8);
         }
         catch (UnsupportedEncodingException e) {
             return null;
@@ -147,5 +148,15 @@ public class HashUtil {
             list.add(value);
         }
         return list;
+    }
+
+    // convert from UTF-8 -> internal Java String format
+    public static String convertFromUTF8(String s) {
+        return new String(s.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+    }
+
+    // convert from internal Java String format -> UTF-8
+    public static String convertToUTF8(String s) {
+        return new String(s.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
     }
 }

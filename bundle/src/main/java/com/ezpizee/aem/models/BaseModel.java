@@ -8,6 +8,11 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.Cookie;
+
+import static com.ezpizee.aem.Constants.KEY_ACCESS_TOKEN;
+import static com.ezpizee.aem.Constants.KEY_EZPZ_LOGIN;
+
 public class BaseModel extends WCMUsePojo {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -23,4 +28,12 @@ public class BaseModel extends WCMUsePojo {
     }
 
     protected void exec() {}
+
+    protected String getAuthCookie() {
+        Cookie cookie = getRequest().getCookie(KEY_EZPZ_LOGIN);
+        if (cookie != null) {
+            return cookie.getValue();
+        }
+        return KEY_ACCESS_TOKEN;
+    }
 }

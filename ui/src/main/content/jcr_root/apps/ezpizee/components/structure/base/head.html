@@ -1,27 +1,16 @@
 <sly data-sly-use.head="head.js"></sly>
-<meta charset="utf-8">
+<title>${head.title}</title>
+<meta data-n-head="1" charset="utf-8">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<link rel="apple-touch-icon" sizes="180x180" href="/etc/designs/ezpizee/favicon/apple-touch-icon.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/etc/designs/ezpizee/favicon/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/etc/designs/ezpizee/favicon/favicon-16x16.png" />
-<link rel="shortcut icon" type="image/x-icon" href="/etc/designs/ezpizee/favicon/favicon.ico" />
-<link rel="mask-icon" href="/etc/designs/ezpizee/favicon/safari-pinned-tab.svg" color="#ffffff" />
-<meta name="msapplication-TileImage" content="/etc/designs/ezpizee/favicon/mstile-150x150.png" />
-<meta name="msapplication-TileColor" content="#ffffff" />
-<meta name="theme-color" content="#ffffff" />
-<meta name="application-name" content="Ezpizee" />
-<meta data-sly-test.keywords="${head.keywords}" name="keywords" content="${keywords}"/>
-<meta data-sly-test.description="${head.description}" name="description" content="${description}"/>
-<meta property="og:title" content="Ezpizee" />
-<meta property="og:type" content="website" />
-<meta property="og:description" content="${description}" />
-<meta property="og:image:url" content="/etc/designs/ezpizee/images/default-logo.png" />
-<meta property="og:site_name" content="Ezpizee Commerce Admin" />
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:title" content="Ezpizee Commerce Admin" />
-<meta property="twitter:description" content="${description}" />
-<meta property="twitter:image" content="/etc/designs/ezpizee/images/default-logo.png" />
-<sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"><sly data-sly-call="${clientLib.css @ categories='ezpizee'}"></sly></sly>
-<title>${head.title}</title>
-<sly data-sly-test="${properties.gtm}"><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!=='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',"${properties.gtm @ context='unsafe'}");</script></sly>
+<meta data-sly-test.keywords="${head.keywords}" data-n-head="1" data-hid="keywords" name="keywords" content="${keywords}">
+<meta data-sly-test.description="${head.description}"data-n-head="1" data-hid="description"  name="description" content="${description}">
+<meta data-n-head="1" name="msapplication-TileImage" content="https://cdn.ezpz.solutions/assets/favicon/mstile-150x150.png">
+<meta data-n-head="1" name="msapplication-TileColor" content="#ffffff"><meta data-n-head="1" name="theme-color" content="#ffffff">
+<meta data-n-head="1" name="application-name" content="Ezpizee">
+<link data-n-head="1" rel="apple-touch-icon" sizes="180x180" href="https://cdn.ezpz.solutions/assets/favicon/apple-touch-icon.png">
+<link data-n-head="1" rel="icon" type="image/png" sizes="32x32" href="https://cdn.ezpz.solutions/assets/favicon/favicon-32x32.png">
+<link data-n-head="1" rel="icon" type="image/png" sizes="16x16" href="https://cdn.ezpz.solutions/assets/favicon/favicon-16x16.png">
+<link data-n-head="1" rel="shortcut icon" type="image/x-icon" href="https://cdn.ezpz.solutions/assets/favicon/favicon.ico">
+<link data-n-head="1" rel="mask-icon" href="https://cdn.ezpz.solutions/assets/favicon/safari-pinned-tab.svg" color="#ffffff">
+<link data-n-head="1" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous|Saira:300,600&amp;amp;display=swap">

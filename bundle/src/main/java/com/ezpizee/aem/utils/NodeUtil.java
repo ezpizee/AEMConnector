@@ -1,6 +1,7 @@
 package com.ezpizee.aem.utils;
 
 import com.day.cq.commons.jcr.JcrUtil;
+import com.ezpizee.aem.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -17,7 +18,7 @@ import static com.ezpizee.aem.Constants.PROP_NT_UNSTRUCTURE;
 
 public class NodeUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NodeUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(com.ezpizee.aem.utils.NodeUtil.class);
 
     private NodeUtil() {}
 
@@ -94,6 +95,14 @@ public class NodeUtil {
             return node;
         }
         return getNode(resolver, path);
+    }
+
+    public static Node addSlingFolder(ResourceResolver resolver, String path) {
+        return addIfNotAlreadyExist(resolver, path, Constants.PROP_SLING_FOLDER);
+    }
+
+    public static Node addSlingOrderFolder(ResourceResolver resolver, String path) {
+        return addIfNotAlreadyExist(resolver, path, Constants.PROP_SLING_ORDER_FOLDER);
     }
 
     public static Node addIfNotAlreadyExist(ResourceResolver resolver, String path, String primaryType) {

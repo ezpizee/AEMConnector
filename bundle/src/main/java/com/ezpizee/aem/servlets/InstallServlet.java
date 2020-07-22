@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import static com.ezpizee.aem.Constants.KEY_ACCESS_TOKEN;
+
 @SlingServlet(
     paths = {"/bin/ezpizee/install"},
     methods = {HttpConstants.METHOD_POST},
@@ -25,7 +27,7 @@ import java.io.IOException;
 )
 public class InstallServlet extends SlingAllMethodsServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InstallServlet.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private static final long serialVersionUID = 1L;
 
     @Reference
@@ -46,7 +48,7 @@ public class InstallServlet extends SlingAllMethodsServlet {
                 resp = client.install(endpoint, data.toString());
                 if (resp.isNotError() && resp.hasData()) {
                     appConfig.storeConfig();
-                    appConfig.keepAccessTokenInSession(resp.getDataAsJsonObject(), request.getSession());
+                    appConfig.keepAccessTokenInSession(KEY_ACCESS_TOKEN, resp.getDataAsJsonObject(), request.getSession());
                 }
             }
             else {

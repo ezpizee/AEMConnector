@@ -38,22 +38,29 @@ public class AppConfigImpl implements AppConfig {
 
     public String toString() { return data != null ? data.toString() : "{}"; }
 
-    public void load(HttpSession session) {
+    public void load() {
+        t = new Token();
         if (!isValid()) {
-            ResourceResolver resolver = adminService.getResourceResolver(EZPIZEE_SERVICE);
             data = new HashMap<>();
+            ResourceResolver resolver = adminService.getResourceResolver(EZPIZEE_SERVICE);
             Resource resource = resolver.getResource(Constants.APP_CONFIG_PATH);
             if (resource != null) {
-                loadData(resource.getValueMap());
+                loadConfigDataFromCRX(resource.getValueMap());
             }
             if (resolver.isLive()) {
                 resolver.close();
             }
         }
-        loadAccessToken(session);
+    }
+
+    public void load(String key, HttpSession session) {
+        logger.debug("key: {}", key);
+        load();
+        loadAccessToken(key, session);
     }
 
     public void load(JsonObject props) {
+        t = new Token();
         if (!isValid()) {
             data = new HashMap<>();
             for(String prop : PROPS) {
@@ -95,65 +102,64 @@ public class AppConfigImpl implements AppConfig {
         }
     }
 
-    public void keepAccessTokenInSession(JsonObject token, HttpSession session) { keepAccessTokenInSession(KEY_ACCESS_TOKEN, token, session); }
-
     public void keepAccessTokenInSession(String key, JsonObject token, HttpSession session) {
-        t = new Token(token);
-        session.setAttribute(key, t.toString());
+        if (StringUtils.isNotEmpty(key)) {
+            t = new Token(token);
+            session.setAttribute(key, t.toString());
+        }
     }
 
-    public void loadAccessToken(HttpSession session) { loadAccessToken(KEY_ACCESS_TOKEN, session); }
-
     public void loadAccessToken(String key, HttpSession session) {
-        loadToken(key, session);
-        if (isValid() && !hasBearerToken()) {
-            String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.token();
-            Client client = new Client(this);
-            Response response = client.getAccessToken(endpoint);
-            if (response.isNotError()) {
-                keepAccessTokenInSession(response.getDataAsJsonObject(), session);
+        if (StringUtils.isNotEmpty(key)) {
+            loadToken(key, session);
+            if (isValid() && !hasBearerToken()) {
+                String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.token();
+                Client client = new Client(this);
+                Response response = client.getAccessToken(endpoint);
+                if (response.isNotError()) {
+                    keepAccessTokenInSession(key, response.getDataAsJsonObject(), session);
+                }
             }
         }
     }
 
     public void clearAccessTokenSession(String key, HttpSession session) {
-        Object token = session.getAttribute(key);
-        if (token != null) {
-            session.removeAttribute(key);
+        if (StringUtils.isNotEmpty(key)) {
+            Object token = session.getAttribute(key);
+            if (token != null) {
+                session.removeAttribute(key);
+            }
         }
     }
 
     public void refreshToken(String key, HttpSession session) {
-        loadToken(key, session);
-        if (t != null && t.expireIn10Minutes()) {
-            String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.refreshToken()
-                .replace("{token_uuid}", t.getTokenId())
-                .replace("{user_id}", t.getUserId());
-            Client client = new Client(this);
-            client.setRequiredAccessToken(false);
-            Response response = client.post(endpoint);
-            if (response.isNotError()) {
-                keepAccessTokenInSession(response.getDataAsJsonObject(), session);
+        if (StringUtils.isNotEmpty(key)) {
+            loadToken(key, session);
+            if (t != null && t.expireInFiveMinutes()) {
+                String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.refreshToken()
+                    .replace("{token_uuid}", t.getTokenId())
+                    .replace("{user_id}", t.getUserId());
+                Client client = new Client(this);
+                client.setRequiredAccessToken(false);
+                Response response = client.post(endpoint);
+                if (response.isNotError()) {
+                    keepAccessTokenInSession(key, response.getDataAsJsonObject(), session);
+                }
             }
         }
     }
 
     public void logout(String key, HttpSession session) {
-        t = new Token();
-        data = new HashMap<>();
-        clearAccessTokenSession(key, session);
-    }
-
-    private void loadData(ValueMap props) {
-        for(String prop : PROPS) {
-            if (props.containsKey(prop)) {
-                data.put(prop, props.get(prop, StringUtils.EMPTY));
-            }
+        if (StringUtils.isNotEmpty(key)) {
+            t = new Token();
+            data = new HashMap<>();
+            clearAccessTokenSession(key, session);
+            this.load(KEY_ACCESS_TOKEN, session);
         }
     }
 
     private void loadToken(String key, HttpSession session) {
-        if (isValid() && !hasBearerToken()) {
+        if (StringUtils.isNotEmpty(key) && isValid() && !hasBearerToken()) {
             Object token = session.getAttribute(key);
             if (token != null) {
                 t = new Token(token.toString());
@@ -164,6 +170,14 @@ public class AppConfigImpl implements AppConfig {
             }
             else {
                 t = new Token();
+            }
+        }
+    }
+
+    private void loadConfigDataFromCRX(ValueMap props) {
+        for(String prop : PROPS) {
+            if (props.containsKey(prop)) {
+                data.put(prop, props.get(prop, StringUtils.EMPTY));
             }
         }
     }

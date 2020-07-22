@@ -20,8 +20,14 @@ public class Constants {
     public static final String HEADER_PARAM_ACCESS_TOKEN = "Authorization";
     public static final String HEADER_PARAM_USER_AGENT = "User-Agent";
     public static final String HEADER_VALUE_JSON = "application/json";
-    public static final String HEADER_VALUE_USER_AGENT = "Ezpizee/1.0";
+    public static final String HEADER_VALUE_USER_AGENT = "Ezpizee Web/1.0";
     public static final String HEADER_PARAM_APP_NAME = "App-Name";
+    public static final String HEADER_PARAM_APP_VERSION = "App-Version";
+    public static final String HEADER_VALUE_APP_VERSION = "0.0.1";
+    public static final String HEADER_PARAM_APP_PLATFORM = "App-Platform";
+    public static final String HEADER_VALUE_APP_PLATFORM = "android | ios | windows | mac | linux | raspberrypi"; // TODO: detect and set the right value
+    public static final String HEADER_PARAM_OS_PLATFORM_VERSION = "OS-Platform-Version";
+    public static final String HEADER_VALUE_OS_PLATFORM_VERSION = "macOS Mojave 10.14.6"; // TODO: detect and set the right value
     public static final String HEADER_LANGUAGE_TAG = "Language-Tag";
 
     public static final String KEY_ENDPOINT = "endpoint";

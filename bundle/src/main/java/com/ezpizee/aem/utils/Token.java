@@ -37,8 +37,8 @@ public class Token {
         return now > getExpireIn();
     }
 
-    public boolean expireIn10Minutes() {
-        long in10Minutes = DateFormatUtil.now() + (10*60*100);
+    public boolean expireInFiveMinutes() {
+        long in10Minutes = DateFormatUtil.now() + (5*60*100);
         return in10Minutes > getExpireIn();
     }
 
