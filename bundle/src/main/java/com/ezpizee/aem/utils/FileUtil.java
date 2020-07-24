@@ -17,7 +17,7 @@ import java.io.InputStream;
 
 public class FileUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(com.ezpizee.aem.utils.FileUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
     private FileUtil() {}
 

@@ -4,6 +4,8 @@ import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.http.Response;
 import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.HostName;
+import com.ezpizee.aem.utils.RunModesUtil;
+import org.apache.sling.settings.SlingSettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +23,17 @@ public class VueSPA extends BaseModel {
         if (appConfig != null) {
             appConfig.load(getAuthCookie(), getRequest().getSession());
             if (appConfig.isValid() && appConfig.hasBearerToken()) {
-                loadContent(appConfig.getEnv(), appConfig, ADMIN_HTML);
+                if (appConfig.getToken().getUser() == null || !appConfig.getToken().getUser().has("id")) {
+                    if (RunModesUtil.isAuthor(getSlingScriptHelper().getService(SlingSettingsService.class))) {
+                        loadContent(appConfig.getEnv(), appConfig, ADMIN_HTML);
+                    }
+                    else {
+                        content = restrictedAreaContent();
+                    }
+                }
+                else {
+                    loadContent(appConfig.getEnv(), appConfig, ADMIN_HTML);
+                }
             }
             else {
                 loadContent(appConfig.getEnv(), appConfig, INSTALL_HTML);
@@ -46,9 +58,7 @@ public class VueSPA extends BaseModel {
                     loadContent("prod", appConfig, uri);
                 }
                 else {
-                    content = "<html><head><title>Connection Error</title></head><body>"+
-                        "<h1>Please make sure you are connected to the internet to be able to run Ezpizee application.</h1>"+
-                        "</body></html>";
+                    content = failedToLoadContent();
                 }
             }
             else {
@@ -58,4 +68,16 @@ public class VueSPA extends BaseModel {
     }
 
     public String getContent() { return content; }
+
+    private String failedToLoadContent() {
+        return "<html><head><title>Connection Error</title></head><body>"+
+            "<h1>Please make sure you are connected to the internet to be able to run Ezpizee application.</h1>"+
+            "</body></html>";
+    }
+
+    private String restrictedAreaContent() {
+        return "<html><head><title>Restricted Area</title></head><body>"+
+            "<h1>You are at a restricted area of the website.</h1>"+
+            "</body></html>";
+    }
 }
