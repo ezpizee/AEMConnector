@@ -4,7 +4,7 @@
     <groupId>com.ezpizee.aem</groupId>
     <artifactId>ezpizee-app</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>Ezpizee Connector</name>
     <description>Ezpizee is a SaaS based, micro-service ecommerce platform. Ezpizee Web Application Connector</description>
     <!-- start: for maven central repo -->
@@ -23,7 +23,7 @@
         <connection>scm:git:git@github.com:ezpizee/AEMConnector.git</connection>
         <developerConnection>scm:git:git@github.com:ezpizee/AEMConnector.git</developerConnection>
         <url>https://github.com/ezpizee/AEMConnector</url>
-        <tag>ezpizee-app-0.0.1</tag>
+        <tag>HEAD</tag>
     </scm>
     <!-- end: for maven central repo -->
     <licenses>
