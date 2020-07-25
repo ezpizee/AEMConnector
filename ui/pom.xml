@@ -84,15 +84,6 @@
                             <target>${ezpizeeAppInstallSuffix}</target>
                         </embedded>
                     </embeddeds>
-                    <!--
-                    <subPackages>
-                        <subPackage>
-                            <groupId>com.adobe.acs</groupId>
-                            <artifactId>acs-aem-commons-content</artifactId>
-                            <filter>true</filter>
-                        </subPackage>
-                    </subPackages>
-                    -->
                     <targetURL>${slingServer}/crx/packmgr/service.jsp</targetURL>
                 </configuration>
             </plugin>
@@ -121,73 +112,6 @@
             <artifactId>uber-jar</artifactId>
             <classifier>apis</classifier>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-        </dependency>
-        -->
-        <!--
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-        </dependency>
-        -->
-        <!--
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.day.commons</groupId>
-            <artifactId>day-commons-jstl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.jcr</groupId>
-            <artifactId>jcr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-taglib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.scripting.jsp.taglib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
-        -->
-        <!-- Adobe -->
-        <!--
-        <dependency>
-            <groupId>com.adobe.acs</groupId>
-            <artifactId>acs-aem-commons-bundle</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.acs</groupId>
-            <artifactId>acs-aem-commons-content</artifactId>
-            <type>content-package</type>
-            <classifier>min</classifier>
-        </dependency>
-        -->
     </dependencies>
     <!-- ====================================================================== -->
     <!-- P R O F I L E S                                                -->

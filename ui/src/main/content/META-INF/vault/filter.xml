@@ -5,6 +5,7 @@
     </filter>
     <filter root="/apps/cq/core/content/nav/commerce/ezpizee"/>
     <filter root="/content/ezpizee"/>
+    <filter root="/etc/clientlibs/ezpizee"/>
     <filter root="/etc/designs/ezpizee"/>
     <filter root="/etc/commerce/ezpizee">
         <exclude pattern="/etc/commerce/ezpizee/config" />
