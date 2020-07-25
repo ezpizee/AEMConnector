@@ -6,14 +6,6 @@ Deploy AEM Application
 
 	mvn clean install -Pdeploy-aem-app
 
-Deploy only AEM Bundle
-
-	mvn clean install -Pdeploy-aem-bundle
-
-Deploy ACS Common
-
-	mvn clean install -Pdeploy-acs-commons
-
 To deploy it to a publish instance, run
 
 	mvn clean install -P{profile-name} -Daem.server={protocol://host:port} -Daem.user={username} -Daem.password={password}
