@@ -83,7 +83,7 @@ public class AppConfigImpl implements AppConfig {
         appName = null;
     }
 
-    public String toString() { return data != null ? data.toString() : "{}"; }
+    public String toString() { return data != null ? DataUtil.map2JsonObject(data).toString() : "{}"; }
 
     public void load() {
         t = new Token();
