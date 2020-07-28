@@ -174,11 +174,12 @@ public class AppConfigImpl implements AppConfig {
                     logger.debug("Install app if get INVALID_API_CREDENTIAL: {} {}", "POST", endpoint);
                     response = client.install(endpoint, data.toString());
                     if (response.isNotError() && response.hasData()) {
+                        logger.debug("Install app success: {}", response.getDataAsJsonObject().toString());
                         this.storeConfig();
                         this.keepAccessTokenInSession(key, response.getDataAsJsonObject(), session);
                     }
                     else {
-                        logger.debug("Install app: {}", response.getMessage());
+                        logger.debug("Install app failed: {}", response.getMessage());
                     }
                 }
             }
