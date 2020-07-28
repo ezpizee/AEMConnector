@@ -8,12 +8,12 @@ import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.*;
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.commons.osgi.PropertiesUtil;
+import org.apache.sling.settings.SlingSettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,13 +28,40 @@ import static com.ezpizee.aem.Constants.KEY_ENV;
 @Component
 public class AppConfigImpl implements AppConfig {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
     private static final String[] PROPS = new String[]{KEY_CLIENT_ID,KEY_CLIENT_SECRET,KEY_APP_NAME,KEY_ENV};
+
+    @Property(
+        value = "local",
+        unbounded = PropertyUnbounded.DEFAULT,
+        label = "Environment",
+        cardinality = 50,
+        description = "Configuration for Region details. Please ensure you put in the value in the following format country|redirecturl|latitude|longitude"
+    )
+    private static final String PROP_ENV = "env";
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private static Map<String, String> data;
     private static Token t;
+    private String env;
 
     @Reference
     private AdminService adminService;
+
+    @Reference
+    private SlingSettingsService sss;
+
+    @Activate
+    protected void activate(final Map<String, Object> props) {
+        env = PropertiesUtil.toString(props.get(PROP_ENV), RunModesUtil.env(sss));
+    }
+
+    @Deactivate
+    protected void deactivate() {
+        adminService = null;
+        sss = null;
+        t = null;
+        env = null;
+    }
 
     public String toString() { return data != null ? data.toString() : "{}"; }
 
@@ -77,7 +104,7 @@ public class AppConfigImpl implements AppConfig {
     public String getClientId() {return data.getOrDefault(KEY_CLIENT_ID, StringUtils.EMPTY);}
     public String getClientSecret() {return data.getOrDefault(KEY_CLIENT_SECRET, StringUtils.EMPTY);}
     public String getAppName() {return data.getOrDefault(KEY_APP_NAME, StringUtils.EMPTY);}
-    public String getEnv() {return data.getOrDefault(KEY_ENV, DEFAULT_ENVIRONMENT);}
+    public String getEnv() {return data.getOrDefault(KEY_ENV, env);}
     public Map<String, String> getData() { return data; }
     public Token getToken() {return t == null ? new Token() : t;}
 

@@ -21,10 +21,10 @@ public class RunModesUtil {
     public static boolean isProd(SlingSettingsService slingSettingsService) { return isRunMode(slingSettingsService, "prod"); }
 
     public static String env(SlingSettingsService sss) {
+        if (isProd(sss)) {return "prod";}
         if (isDev(sss)) {return "dev";}
         if (isQA(sss)) {return "qa";}
         if (isStage(sss)) {return "stage";}
-        if (isProd(sss)) {return "prod";}
         return "local";
     }
 

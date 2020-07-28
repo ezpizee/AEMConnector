@@ -166,6 +166,10 @@ public class Client
             }
             catch (UnirestException e) {
                 logger.error(e.getMessage(), e);
+                Response response = new Response();
+                response.setCode(500);
+                response.setMessage(e.getMessage());
+                return response;
             }
         }
         else {
@@ -232,6 +236,10 @@ public class Client
             }
             catch (UnirestException e) {
                 logger.error(e.getMessage(), e);
+                Response response = new Response();
+                response.setCode(500);
+                response.setMessage(e.getMessage());
+                return response;
             }
         }
         else {
