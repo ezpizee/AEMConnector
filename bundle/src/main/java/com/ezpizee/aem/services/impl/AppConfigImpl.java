@@ -177,6 +177,9 @@ public class AppConfigImpl implements AppConfig {
                         this.storeConfig();
                         this.keepAccessTokenInSession(key, response.getDataAsJsonObject(), session);
                     }
+                    else {
+                        logger.debug("Install app: {}", response.getMessage());
+                    }
                 }
             }
         }
