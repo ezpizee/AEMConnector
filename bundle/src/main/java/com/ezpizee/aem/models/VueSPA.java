@@ -62,7 +62,12 @@ public class VueSPA extends BaseModel {
                 }
             }
             else {
-                content = response.getDataAsString();
+                SlingSettingsService sss = getSlingScriptHelper().getService(SlingSettingsService.class);
+                String instance = "publish";
+                if (RunModesUtil.isAuthor(sss)) {
+                    instance = "author";
+                }
+                content = response.getDataAsString().replace("<body", "<body data-run-mode='"+instance+"'");
             }
         }
     }
