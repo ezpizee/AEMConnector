@@ -64,6 +64,7 @@ public class AppConfigImpl implements AppConfig {
         clientSecret = PropertiesUtil.toString(props.get(PROP_CLIENT_SECRET), RunModesUtil.env(sss));
         appName = PropertiesUtil.toString(props.get(PROP_APP_NAME), RunModesUtil.env(sss));
         if (StringUtils.isNotEmpty(env) && StringUtils.isNotEmpty(clientId) && StringUtils.isNotEmpty(clientSecret) && StringUtils.isNotEmpty(appName)) {
+            data = new HashMap<>();
             data.put(PROP_ENV, env);
             data.put(PROP_CLIENT_ID, clientId);
             data.put(PROP_CLIENT_SECRET, clientSecret);
