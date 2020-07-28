@@ -5,14 +5,14 @@ import com.adobe.cq.sightly.WCMUsePojo;
 
 public class AppConfig extends WCMUsePojo {
 
-    private AppConfig config;
+    private com.ezpizee.aem.services.AppConfig config;
 
     @Override
     public void activate() throws Exception {
-        config = getSlingScriptHelper().getService(AppConfig.class);
+        config = getSlingScriptHelper().getService(com.ezpizee.aem.services.AppConfig.class);
     }
 
     public String getData() {return config.toString();}
 
-    public AppConfig getConfig() {return config;}
+    public com.ezpizee.aem.services.AppConfig getConfig() {return config;}
 }
