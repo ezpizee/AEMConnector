@@ -35,16 +35,16 @@ public class AppConfigImpl implements AppConfig {
     private static final String[] PROPS = new String[]{KEY_CLIENT_ID,KEY_CLIENT_SECRET,KEY_APP_NAME,KEY_ENV};
 
     @Property(value = "local", label = "Environment", description = "Ezpizee environment")
-    private static final String PROP_ENV = "env";
+    private static final String PROP_ENV = KEY_ENV;
     private String env;
     @Property(value = "", label = "Client ID", description = "Ezpizee Client ID")
-    private static final String PROP_CLIENT_ID = "client_id";
+    private static final String PROP_CLIENT_ID = KEY_CLIENT_ID;
     private String clientId;
     @Property(value = "", label = "Client Secret", description = "Ezpizee Client Secret")
-    private static final String PROP_CLIENT_SECRET = "client_secret";
+    private static final String PROP_CLIENT_SECRET = KEY_CLIENT_SECRET;
     private String clientSecret;
     @Property(value = "", label = "App Name", description = "Name of your Ezpizee App installing on this environment")
-    private static final String PROP_APP_NAME = "app_name";
+    private static final String PROP_APP_NAME = KEY_APP_NAME;
     private String appName;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -60,9 +60,9 @@ public class AppConfigImpl implements AppConfig {
     @Activate
     protected void activate(final Map<String, Object> props) {
         env = PropertiesUtil.toString(props.get(PROP_ENV), RunModesUtil.env(sss));
-        clientId = PropertiesUtil.toString(props.get(PROP_CLIENT_ID), RunModesUtil.env(sss));
-        clientSecret = PropertiesUtil.toString(props.get(PROP_CLIENT_SECRET), RunModesUtil.env(sss));
-        appName = PropertiesUtil.toString(props.get(PROP_APP_NAME), RunModesUtil.env(sss));
+        clientId = PropertiesUtil.toString(props.get(PROP_CLIENT_ID), StringUtils.EMPTY);
+        clientSecret = PropertiesUtil.toString(props.get(PROP_CLIENT_SECRET), StringUtils.EMPTY);
+        appName = PropertiesUtil.toString(props.get(PROP_APP_NAME), StringUtils.EMPTY);
         if (StringUtils.isNotEmpty(env) && StringUtils.isNotEmpty(clientId) && StringUtils.isNotEmpty(clientSecret) && StringUtils.isNotEmpty(appName)) {
             data = new HashMap<>();
             data.put(PROP_ENV, env);
