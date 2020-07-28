@@ -50,6 +50,7 @@ public class AppConfigImpl implements AppConfig {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static Map<String, String> data;
     private static Token t;
+    private boolean appDataInConfigProperties;
 
     @Reference
     private AdminService adminService;
@@ -59,6 +60,7 @@ public class AppConfigImpl implements AppConfig {
 
     @Activate
     protected void activate(final Map<String, Object> props) {
+        appDataInConfigProperties = false;
         env = PropertiesUtil.toString(props.get(PROP_ENV), RunModesUtil.env(sss));
         clientId = PropertiesUtil.toString(props.get(PROP_CLIENT_ID), StringUtils.EMPTY);
         clientSecret = PropertiesUtil.toString(props.get(PROP_CLIENT_SECRET), StringUtils.EMPTY);
@@ -69,6 +71,7 @@ public class AppConfigImpl implements AppConfig {
             data.put(PROP_CLIENT_ID, clientId);
             data.put(PROP_CLIENT_SECRET, clientSecret);
             data.put(PROP_APP_NAME, appName);
+            appDataInConfigProperties = true;
         }
     }
 
@@ -164,7 +167,14 @@ public class AppConfigImpl implements AppConfig {
                 Client client = new Client(this);
                 Response response = client.getAccessToken(endpoint);
                 if (response.isNotError()) {
-                    keepAccessTokenInSession(key, response.getDataAsJsonObject(), session);
+                    this.keepAccessTokenInSession(key, response.getDataAsJsonObject(), session);
+                }
+                else if (appDataInConfigProperties && "INVALID_API_CREDENTIAL".equals(response.getMessage())) {
+                    response = client.install(endpoint, data.toString());
+                    if (response.isNotError() && response.hasData()) {
+                        this.storeConfig();
+                        this.keepAccessTokenInSession(key, response.getDataAsJsonObject(), session);
+                    }
                 }
             }
         }
