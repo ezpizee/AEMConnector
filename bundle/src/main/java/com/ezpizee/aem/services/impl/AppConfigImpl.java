@@ -25,24 +25,31 @@ import static com.ezpizee.aem.Constants.*;
 import static com.ezpizee.aem.Constants.KEY_ENV;
 
 @Service
-@Component
+@Component(
+    metatype = true,
+    label = "Ezpizee App Configuration Service",
+    description = "This config can be used to execute Ezpizee App"
+)
 public class AppConfigImpl implements AppConfig {
 
     private static final String[] PROPS = new String[]{KEY_CLIENT_ID,KEY_CLIENT_SECRET,KEY_APP_NAME,KEY_ENV};
 
-    @Property(
-        value = "local",
-        unbounded = PropertyUnbounded.DEFAULT,
-        label = "Environment",
-        cardinality = 50,
-        description = "Configuration for Region details. Please ensure you put in the value in the following format country|redirecturl|latitude|longitude"
-    )
+    @Property(value = "local", label = "Environment", description = "Ezpizee environment")
     private static final String PROP_ENV = "env";
+    private String env;
+    @Property(value = "", label = "Client ID", description = "Ezpizee Client ID")
+    private static final String PROP_CLIENT_ID = "client_id";
+    private String clientId;
+    @Property(value = "", label = "Client Secret", description = "Ezpizee Client Secret")
+    private static final String PROP_CLIENT_SECRET = "client_secret";
+    private String clientSecret;
+    @Property(value = "", label = "App Name", description = "Name of your Ezpizee App installing on this environment")
+    private static final String PROP_APP_NAME = "app_name";
+    private String appName;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static Map<String, String> data;
     private static Token t;
-    private String env;
 
     @Reference
     private AdminService adminService;
@@ -53,6 +60,9 @@ public class AppConfigImpl implements AppConfig {
     @Activate
     protected void activate(final Map<String, Object> props) {
         env = PropertiesUtil.toString(props.get(PROP_ENV), RunModesUtil.env(sss));
+        clientId = PropertiesUtil.toString(props.get(PROP_CLIENT_ID), RunModesUtil.env(sss));
+        clientSecret = PropertiesUtil.toString(props.get(PROP_CLIENT_SECRET), RunModesUtil.env(sss));
+        appName = PropertiesUtil.toString(props.get(PROP_APP_NAME), RunModesUtil.env(sss));
     }
 
     @Deactivate
@@ -61,6 +71,9 @@ public class AppConfigImpl implements AppConfig {
         sss = null;
         t = null;
         env = null;
+        clientId = null;
+        clientSecret = null;
+        appName = null;
     }
 
     public String toString() { return data != null ? data.toString() : "{}"; }
@@ -101,9 +114,9 @@ public class AppConfigImpl implements AppConfig {
     public boolean hasBearerToken() {return t != null && StringUtils.isNotEmpty(t.getBearerToken());}
 
     public String getBearerToken() {return t != null ? t.getBearerToken() : StringUtils.EMPTY;}
-    public String getClientId() {return data.getOrDefault(KEY_CLIENT_ID, StringUtils.EMPTY);}
-    public String getClientSecret() {return data.getOrDefault(KEY_CLIENT_SECRET, StringUtils.EMPTY);}
-    public String getAppName() {return data.getOrDefault(KEY_APP_NAME, StringUtils.EMPTY);}
+    public String getClientId() {return data.getOrDefault(KEY_CLIENT_ID, clientId);}
+    public String getClientSecret() {return data.getOrDefault(KEY_CLIENT_SECRET, clientSecret);}
+    public String getAppName() {return data.getOrDefault(KEY_APP_NAME, appName);}
     public String getEnv() {return data.getOrDefault(KEY_ENV, env);}
     public Map<String, String> getData() { return data; }
     public Token getToken() {return t == null ? new Token() : t;}
