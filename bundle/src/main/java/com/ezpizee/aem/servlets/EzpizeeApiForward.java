@@ -32,7 +32,7 @@ import static com.ezpizee.aem.Constants.KEY_EZPZ_LOGIN;
 )
 public class EzpizeeApiForward extends SlingAllMethodsServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EzpizeeApiForward.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private static final long serialVersionUID = 1L;
     private Response ezResponse;
 
@@ -96,7 +96,7 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
                                 }
                             }
                             catch (IOException e) {
-                                LOG.error(e.getMessage(), e);
+                                logger.error(e.getMessage(), e);
                             }
                         }
                     }
@@ -125,7 +125,7 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
                     ezResponse.setCode(500);
                     ezResponse.setStatus("ERROR");
                     ezResponse.setMessage("invalid_request");
-                    LOG.debug(request.getRequestParameterMap().toString());
+                    logger.debug(request.getRequestParameterMap().toString());
             }
 
             if (ezResponse.getCode() != 200 && "INVALID_ACCESS_TOKEN".equals(ezResponse.getMessage())) {

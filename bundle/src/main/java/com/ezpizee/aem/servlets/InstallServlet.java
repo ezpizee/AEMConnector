@@ -13,8 +13,6 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -27,7 +25,6 @@ import static com.ezpizee.aem.Constants.KEY_ACCESS_TOKEN;
 )
 public class InstallServlet extends SlingAllMethodsServlet {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
     private static final long serialVersionUID = 1L;
 
     @Reference

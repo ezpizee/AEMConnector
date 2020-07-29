@@ -14,8 +14,6 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import java.io.IOException;
@@ -29,7 +27,6 @@ import static com.ezpizee.aem.Constants.*;
 )
 public class RefreshToken extends SlingAllMethodsServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RefreshToken.class);
     private static final long serialVersionUID = 1L;
 
     @Reference

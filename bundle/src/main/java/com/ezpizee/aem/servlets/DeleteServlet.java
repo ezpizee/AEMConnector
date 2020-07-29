@@ -28,7 +28,7 @@ import static com.ezpizee.aem.Constants.KEY_EZPZ_LOGIN;
 )
 public class DeleteServlet extends SlingAllMethodsServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DeleteServlet.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private static final long serialVersionUID = 1L;
 
     @Reference
@@ -49,7 +49,7 @@ public class DeleteServlet extends SlingAllMethodsServlet {
             ezResponse.setCode(500);
             ezResponse.setStatus("ERROR");
             ezResponse.setMessage("invalid_request");
-            LOG.debug(request.getRequestParameterMap().toString());
+            logger.debug(request.getRequestParameterMap().toString());
         }
         if (ezResponse.getCode() != 200 && "INVALID_ACCESS_TOKEN".equals(ezResponse.getMessage())) {
             appConfig.clearAccessTokenSession(authCookie, request.getSession());
