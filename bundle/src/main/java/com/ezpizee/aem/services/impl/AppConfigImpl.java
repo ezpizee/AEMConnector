@@ -194,7 +194,7 @@ public class AppConfigImpl implements AppConfig {
     public void refreshToken(String key, HttpSession session) {
         if (StringUtils.isNotEmpty(key)) {
             loadToken(key, session);
-            if (t != null && t.expireInFiveMinutes()) {
+            if (t != null && t.timeToRefresh()) {
                 String endpoint = HostName.getAPIServer(this.getEnv()) + Endpoints.refreshToken()
                     .replace("{token_uuid}", t.getTokenId())
                     .replace("{user_id}", t.getUserId());
