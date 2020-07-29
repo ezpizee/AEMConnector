@@ -1,6 +1,7 @@
 package com.ezpizee.aem.http;
 
 import com.ezpizee.aem.Constants;
+import com.ezpizee.aem.services.AccessToken;
 import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.Endpoints;
 import com.ezpizee.aem.utils.HashUtil;
@@ -31,34 +32,24 @@ public class Client
 {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private Map<String, String> headers;
-    private Map<String, Object> formParams, queries;
+    private Map<String, Object> formParams;
     private JSONObject body;
     private Map<String, File> files;
     private List<Map<String, Object>> inputStreamList;
     private String uri, method;
-    private boolean requiredAccessToken = true, bypassAppConfigValidation = false, htmlResponse = false, isMultipart = false;
+    private boolean isMultipart = false;
     private AppConfig appConfig;
 
-    public Client(AppConfig config, boolean htmlResponse, boolean bypassAppConfigValidation) {
-        this.htmlResponse = htmlResponse;
-        this.bypassAppConfigValidation = bypassAppConfigValidation;
-        if (this.bypassAppConfigValidation) {
-            this.requiredAccessToken = false;
-        }
-        setConfig(config);
-    }
+    public Client() {headers = new HashMap<>();}
 
-    public Client(AppConfig config, boolean htmlResponse) {
-        this.htmlResponse = htmlResponse;
-        setConfig(config);
-    }
-
-    public Client(AppConfig config) { setConfig(config); }
-
-    private void setConfig(AppConfig config) {
+    public Client(AppConfig config) {
         headers = new HashMap<>();
         appConfig = config;
-        method = HttpConstants.METHOD_GET;
+    }
+
+    public Client(AppConfig config, String token) {
+        this(config);
+        setBearerToken(token);
     }
 
     public void setBasicAuth(String username, String password) {
@@ -77,39 +68,59 @@ public class Client
         o.put("fileName", fileName);
         this.inputStreamList.add(o);
     }
-    public void setRequiredAccessToken(boolean b) { requiredAccessToken = b; }
-    public void setHeaders(Map<String, String> headers) { this.headers = headers; }
-    public void setFiles(Map<String, File> files) { this.files = files; }
-    public void setQueries(Map<String, Object> params) { queries = params; }
+
+    public String getContent(String url) {
+        try {
+            GetRequest request = Unirest.get(url);
+            return new String(request.asString().getBody().getBytes());
+        }
+        catch (UnirestException e) {
+            logger.error(e.getMessage(), e);
+            return StringUtils.EMPTY;
+        }
+    }
 
     public Response install(String uri, String jsonStr) {
         this.body = new JSONObject(jsonStr);
-        this.requiredAccessToken = false;
         this.uri = uri;
         this.method = HttpConstants.METHOD_POST;
         return this.request();
     }
 
     public Response logout() {
-        addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
-        this.uri = HostName.getAPIServer(appConfig.getEnv())+ Endpoints.logout();
-        this.method = HttpConstants.METHOD_POST;
-        return this.request();
+        Response response = new Response();
+        if (appConfig != null) {
+            this.uri = HostName.getAPIServer(appConfig.getEnv())+ Endpoints.logout();
+            this.method = HttpConstants.METHOD_POST;
+            response = this.request();
+        }
+        else {
+            response.setStatus("ERROR");
+            response.setCode(500);
+            response.setMessage("APP_CONFIG_MISSING");
+        }
+        return response;
     }
 
     public Response login(String user, String pwd) {
-        setBasicAuth(user, pwd);
-        addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
-        this.requiredAccessToken = false;
-        this.uri = HostName.getAPIServer(appConfig.getEnv())+ Endpoints.login();
-        this.method = HttpConstants.METHOD_POST;
-        return this.request();
+        if (appConfig != null) {
+            setBasicAuth(user, pwd);
+            this.uri = HostName.getAPIServer(appConfig.getEnv()) + Endpoints.login();
+            this.method = HttpConstants.METHOD_POST;
+            return this.request();
+        }
+        else {
+            Response response = new Response();
+            response.setStatus("ERROR");
+            response.setCode(500);
+            response.setMessage("APP_CONFIG_MISSING");
+            return response;
+        }
     }
 
     public Response getAccessToken(String uri) {
         setBasicAuth(appConfig.getClientId(), appConfig.getClientSecret());
         addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
-        this.requiredAccessToken = false;
         this.uri = uri;
         this.method = HttpConstants.METHOD_POST;
         return this.request();
@@ -140,29 +151,14 @@ public class Client
     }
 
     private Response getRequest() {
-        if (StringUtils.isNotEmpty(this.uri) && (this.appConfig.isValid() || this.bypassAppConfigValidation)) {
-            if (!this.htmlResponse) {
-                this.defaultHeaders();
-            }
+        if (StringUtils.isNotEmpty(this.uri) && this.appConfig != null && this.appConfig.isValid()) {
+            this.defaultHeaders();
             try {
                 GetRequest request = Unirest.get(this.uri);
-                if (this.queries != null && !this.queries.isEmpty()) {
-                    request.queryString(this.queries);
-                }
-                if (!this.headers.isEmpty()) {
-                    request.headers(this.headers);
-                }
-                if (this.htmlResponse) {
-                    logger.info("Request method & url: " + this.method + " " + this.uri);
-                    Response resp = new Response();
-                    resp.setData(new String(request.asString().getBody().getBytes()));
-                    return resp;
-                }
-                else {
-                    HttpResponse<JsonNode> jsonResponse = request.asJson();
-                    logger.info("Commerce Admin API Call: " + this.method + " " + this.uri);
-                    return new Response(jsonResponse.getBody().getObject().toString());
-                }
+                if (!this.headers.isEmpty()) { request.headers(this.headers); }
+                HttpResponse<JsonNode> jsonResponse = request.asJson();
+                logger.info("Commerce Admin API Call: " + this.method + " " + this.uri);
+                return new Response(jsonResponse.getBody().getObject().toString());
             }
             catch (UnirestException e) {
                 logger.error(e.getMessage(), e);
@@ -173,13 +169,22 @@ public class Client
             }
         }
         else {
-            logger.error("uri is missing");
+            Response response = new Response();
+            if (StringUtils.isEmpty(this.uri)) {
+                logger.error("uri is missing");
+                response.setData("uri is missing");
+            }
+            else if (this.appConfig == null || !this.appConfig.isValid()) {
+                logger.error("appConfig is not valid");
+                response.setData("appConfig is not valid");
+            }
+            response.setCode(500);
+            return response;
         }
-        return new Response();
     }
 
     private Response request() {
-        if (StringUtils.isNotEmpty(this.uri) && (this.appConfig.isValid() || this.bypassAppConfigValidation)) {
+        if (StringUtils.isNotEmpty(this.uri) && this.appConfig != null && this.appConfig.isValid()) {
             try {
                 logger.info("Commerce Admin API Call: " + this.method + " " + this.uri);
                 // request with body
@@ -220,18 +225,11 @@ public class Client
                 }
                 else {
                     HttpRequestWithBody request = Unirest.request(this.method, this.uri);
-                    if (!this.htmlResponse) { this.defaultHeaders(); }
+                    this.defaultHeaders();
                     if (this.headers != null && !this.headers.isEmpty()) { request.headers(this.headers); this.headers = null; }
-                    if (this.htmlResponse) {
-                        Response resp = new Response();
-                        resp.setData(new String(request.asString().getBody().getBytes()));
-                        return resp;
-                    }
-                    else {
-                        HttpResponse<JsonNode> jsonResponse = request.asJson();
-                        if (jsonResponse.getStatus() != 200) { logger.debug(jsonResponse.getBody().getObject().toString()); }
-                        return new Response(jsonResponse.getBody().getObject().toString());
-                    }
+                    HttpResponse<JsonNode> jsonResponse = request.asJson();
+                    if (jsonResponse.getStatus() != 200) { logger.debug(jsonResponse.getBody().getObject().toString()); }
+                    return new Response(jsonResponse.getBody().getObject().toString());
                 }
             }
             catch (UnirestException e) {
@@ -243,9 +241,18 @@ public class Client
             }
         }
         else {
-            logger.error("uri is missing");
+            Response response = new Response();
+            if (StringUtils.isEmpty(this.uri)) {
+                logger.error("uri is missing");
+                response.setData("uri is missing");
+            }
+            else if (this.appConfig == null || !this.appConfig.isValid()) {
+                logger.error("appConfig is not valid");
+                response.setData("appConfig is not valid");
+            }
+            response.setCode(500);
+            return response;
         }
-        return new Response();
     }
 
     private void defaultHeaders() {
@@ -267,15 +274,7 @@ public class Client
         if (!this.headers.containsKey(Constants.HEADER_PARAM_OS_PLATFORM_VERSION)) {
             this.addHeader(Constants.HEADER_PARAM_OS_PLATFORM_VERSION, Constants.HEADER_VALUE_OS_PLATFORM_VERSION);
         }
-        if (this.requiredAccessToken) {
-            if (!this.headers.containsKey(Constants.HEADER_PARAM_ACCESS_TOKEN)) {
-                logger.debug("BearerToken: {}", appConfig.getBearerToken());
-                this.setBearerToken(appConfig.getBearerToken());
-            }
-        }
-        if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_NAME) &&
-            appConfig != null &&
-            StringUtils.isNotEmpty(appConfig.getAppName())) {
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_NAME) && appConfig != null && appConfig.isValid()) {
             this.addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
         }
     }

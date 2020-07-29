@@ -12,7 +12,5 @@ public class AppConfig extends WCMUsePojo {
         config = getSlingScriptHelper().getService(com.ezpizee.aem.services.AppConfig.class);
     }
 
-    public String getData() {return config.toString();}
-
     public com.ezpizee.aem.services.AppConfig getConfig() {return config;}
 }

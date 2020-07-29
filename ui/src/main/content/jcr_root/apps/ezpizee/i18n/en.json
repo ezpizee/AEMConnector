@@ -1,3 +1,6 @@
 {
-  "INVALID_PAYLOAD": "Invalid request data"
+  "INVALID_PAYLOAD": "Invalid request data",
+  "REQUIRED_FIELD_MISSING": "Required field missing",
+  "FAILED_TO_VALIDATE_APP_EXISTENCE": "Failed to validate app existence",
+  "APP_ALREADY_EXISTS": "App already exists"
 }

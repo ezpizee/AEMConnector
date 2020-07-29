@@ -1,6 +1,7 @@
 package com.ezpizee.aem.servlets;
 
 import com.ezpizee.aem.http.Response;
+import com.ezpizee.aem.services.AccessToken;
 import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.CookieUtil;
 import com.google.gson.JsonElement;
@@ -15,7 +16,6 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 
-import javax.servlet.http.Cookie;
 import java.io.IOException;
 
 import static com.ezpizee.aem.Constants.*;
@@ -32,13 +32,16 @@ public class RefreshToken extends SlingSafeMethodsServlet {
     @Reference
     private AppConfig appConfig;
 
+    @Reference
+    private AccessToken accessToken;
+
     @Override
     protected final void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(HEADER_VALUE_JSON);
         Response ezResponse = new Response();
 
         if (appConfig != null && isLogin(request, response)) {
-            appConfig.refreshToken(getAuthCookie(request), request.getSession());
+            accessToken.refresh(CookieUtil.getAuthCookie(request), request.getSession());
             ezResponse.setStatus("OK");
             ezResponse.setCode(200);
         }
@@ -48,7 +51,7 @@ public class RefreshToken extends SlingSafeMethodsServlet {
     }
 
     private boolean isLogin(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-        String cookieVal = getAuthCookie(request);
+        String cookieVal = CookieUtil.getAuthCookie(request);
         if (StringUtils.isNotEmpty(cookieVal)) {
             Object sessionVal = request.getSession().getAttribute(cookieVal);
             if (sessionVal != null) {
@@ -60,14 +63,6 @@ public class RefreshToken extends SlingSafeMethodsServlet {
             }
         }
         return false;
-    }
-
-    private String getAuthCookie(SlingHttpServletRequest request) {
-        Cookie cookie = request.getCookie(KEY_EZPZ_LOGIN);
-        if (cookie != null) {
-            return cookie.getValue();
-        }
-        return KEY_ACCESS_TOKEN;
     }
 
     private static JsonObject getUserObject(String jsonStr) {
