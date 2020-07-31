@@ -12,10 +12,11 @@ public class Response
     private static final String KEY_CODE = "code";
     private static final String KEY_MESSAGE = "message";
     private static final String KEY_DATA = "data";
+    private static final String KEY_TOTAL = "total";
     private JsonObject jsonObjectData;
     private JsonArray jsonArrayData;
     private String htmlData, status = "OK", message = "SUCCESS";
-    private int code = 200;
+    private int code = 200, total = 0;
     private boolean noData = true, dataIsJsonObject = false, dataIsJsonArray = false, dataAsString = false;
 
     public Response(String content) {
@@ -37,6 +38,9 @@ public class Response
                         this.setData((JsonArray) jsonData.get(KEY_DATA));
                         this.noData = this.getDataAsJsonArray().size() == 0;
                     }
+                }
+                if (jsonData.has(KEY_TOTAL)) {
+                    total = jsonData.get(KEY_TOTAL).getAsInt();
                 }
             }
             else {
@@ -83,6 +87,7 @@ public class Response
     public boolean isDataIsJsonArray() {return this.dataIsJsonArray;}
     public boolean isDataAsString() {return this.dataAsString;}
     public Object getData(String key) {return this.getDataAsJsonObject().get(key);}
+    public int getTotal() {return total;}
 
     public JsonObject getDataAsJsonObject() { return this.jsonObjectData; }
     public JsonArray getDataAsJsonArray() { return this.jsonArrayData; }
@@ -97,6 +102,9 @@ public class Response
         else if (this.dataIsJsonObject) {object.add(KEY_DATA, this.jsonObjectData);}
         else if (this.dataIsJsonArray) {object.add(KEY_DATA, this.jsonArrayData);}
         else {object.add(KEY_DATA, null);}
+        if (total > 0) {
+            object.add(KEY_TOTAL, new JsonPrimitive(total));
+        }
         return object.toString();
     }
 

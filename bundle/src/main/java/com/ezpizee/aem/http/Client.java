@@ -1,7 +1,6 @@
 package com.ezpizee.aem.http;
 
 import com.ezpizee.aem.Constants;
-import com.ezpizee.aem.services.AccessToken;
 import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.utils.Endpoints;
 import com.ezpizee.aem.utils.HashUtil;
