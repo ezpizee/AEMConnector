@@ -78,10 +78,10 @@ public class NodeUtil {
     }
 
     public static Node addIfNotAlreadyExist(ResourceResolver resolver, String path, String primaryType, Map<String, String> props) {
-        if (!exists(resolver, path)) {
-            final Node node = addIfNotAlreadyExist(resolver, path, primaryType);
+        Node node = addIfNotAlreadyExist(resolver, path, primaryType);
+        if (node != null && !props.isEmpty()) {
             final Session session = resolver.adaptTo(Session.class);
-            if (node != null && !props.isEmpty() && session != null) {
+            if (session != null) {
                 try {
                     for (String key : props.keySet()) {
                         node.setProperty(key, props.get(key));
@@ -92,9 +92,8 @@ public class NodeUtil {
                     LOG.error(e.getMessage(), e);
                 }
             }
-            return node;
         }
-        return getNode(resolver, path);
+        return node;
     }
 
     public static Node addSlingFolder(ResourceResolver resolver, String path) {
