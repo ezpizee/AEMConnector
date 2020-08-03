@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 public interface AccessToken {
 
     String get();
+    long expireIn();
     void load(String key, HttpSession httpSession);
     void destroy();
     void refresh(String key, HttpSession httpSession);

@@ -56,7 +56,11 @@ public class Response
         }
     }
 
-    public Response() {}
+    public Response() {
+        this.htmlData = StringUtils.EMPTY;
+        this.jsonObjectData = new JsonObject();
+        this.jsonArrayData = new JsonArray();
+    }
 
     public void setStatus(String a) {this.status =a;}
     public void setCode(int a) {this.code =a;}

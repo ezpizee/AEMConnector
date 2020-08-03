@@ -60,7 +60,7 @@ public class Token {
             sessionId = token.has(KEY_SESSION_ID) ? token.get(KEY_SESSION_ID).getAsString() : StringUtils.EMPTY;
             tokenId = token.has(KEY_TOKEN_ID) ? token.get(KEY_TOKEN_ID).getAsString() : StringUtils.EMPTY;
             userId = token.has(KEY_USER_ID) ? token.get(KEY_USER_ID).getAsString() : StringUtils.EMPTY;
-            expireIn = DateFormatUtil.now() + (token.has(KEY_EXPIRE_IN) ? token.get(KEY_EXPIRE_IN).getAsInt() : 0);
+            expireIn = token.has(KEY_EXPIRE_IN) ? token.get(KEY_EXPIRE_IN).getAsInt() : 0;
             bearerToken = token.has(tokenParamName) ? token.get(tokenParamName).getAsString() : StringUtils.EMPTY;
             if(token.has("user")) {
                 user = token.getAsJsonObject("user");

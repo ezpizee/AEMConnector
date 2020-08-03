@@ -13,7 +13,6 @@ public class Constants {
     public static final String APP_CONFIG_PATH = ETC_COMMERCE_PATH + "/config";
     public static final String EZPIZEE_SERVICE = "ezpizee-service";
     public static final String UTF_8 = "UTF-8";
-    public static final String EXT_HTML = ".html";
 
     public static final String HEADER_PARAM_ACCEPT = HttpConstants.HEADER_ACCEPT;
     public static final String HEADER_PARAM_CTYPE = "Content-Type";
@@ -38,18 +37,12 @@ public class Constants {
     public static final String KEY_ENV = "env";
     public static final String KEY_ACCESS_TOKEN = "access_token";
     public static final String KEY_EZPZ_LOGIN = "ezpizee_login";
+    public static final String KEY_EXPIRE_IN = "expire_in";
 
-    public static final String NODE_JCR_CONTENT = "jcr:content";
-    public static final String PROP_JCR_PRIMARYTYPE = "jcr:primaryType";
     public static final String PROP_SLING_FOLDER = "sling:Folder";
     public static final String PROP_SLING_ORDER_FOLDER = "sling:OrderedFolder";
-    public static final String PROP_NT_FOLDER = "nt:folder";
     public static final String PROP_NT_UNSTRUCTURE = "nt:unstructured";
-    public static final String PROP_DAMASSET = "dam:Asset";
-    public static final String PROP_CQPAGE = "cq:Page";
-    public static final String AUTHENTICATION_INFO_SESSION = "user.jcr.session";
 
-    public static final String DEFAULT_ENVIRONMENT = "local";
     public static final List<String> ENVIRONMENTS = new ArrayList<>();
 
     static {

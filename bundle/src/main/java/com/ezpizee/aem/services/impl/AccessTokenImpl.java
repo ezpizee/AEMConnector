@@ -28,8 +28,13 @@ public class AccessTokenImpl implements AccessToken {
 
     public String get() {return token != null ? token.getBearerToken() : StringUtils.EMPTY;}
 
+    public long expireIn() {return token != null ? token.getExpireIn() : 0;}
+
     public void refresh(String key, HttpSession httpSession) {
-        if (appConfig != null && appConfig.isValid() && token != null && token.timeToRefresh()) {
+        if (token == null) {
+            loadTokenFromSession(key, httpSession);
+        }
+        if (appConfig != null && appConfig.isValid() && token != null) {
             String endpoint = HostName.getAPIServer(appConfig.getEnv()) + Endpoints.refreshToken(token.getTokenId(), token.getUserId());
             Client client = new Client(appConfig);
             Response response = client.post(endpoint);
@@ -39,11 +44,8 @@ public class AccessTokenImpl implements AccessToken {
 
     public void load(String key, HttpSession httpSession) {
         if (appConfig != null && appConfig.isValid() && StringUtils.isNotEmpty(key)) {
-            Object val = httpSession.getAttribute(key);
-            if (val != null) {
-                token = new Token(val.toString());
-            }
-            if (token == null || token.isExpired()) {
+            loadTokenFromSession(key, httpSession);
+            if (token == null) {
                 Client client = new Client(appConfig);
                 Response response = client.getAccessToken(HostName.getAPIServer(appConfig.getEnv()) + Endpoints.token());
                 keepToken(response, key, httpSession);
@@ -60,6 +62,13 @@ public class AccessTokenImpl implements AccessToken {
         }
         else {
             logger.debug(response.toString());
+        }
+    }
+
+    private void loadTokenFromSession(String key, HttpSession httpSession) {
+        Object val = httpSession.getAttribute(key);
+        if (val != null) {
+            token = new Token(val.toString());
         }
     }
 }
