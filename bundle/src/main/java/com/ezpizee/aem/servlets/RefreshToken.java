@@ -13,7 +13,7 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.HttpConstants;
-import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ import static com.ezpizee.aem.Constants.*;
     methods = {HttpConstants.METHOD_POST},
     extensions = {"json"}
 )
-public class RefreshToken extends SlingSafeMethodsServlet {
+public class RefreshToken extends SlingAllMethodsServlet {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class RefreshToken extends SlingSafeMethodsServlet {
     private AccessToken accessToken;
 
     @Override
-    protected final void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
+    protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(HEADER_VALUE_JSON);
         final Response ezResponse = new Response();
         final JsonObject user = AuthUtil.getUser(request, response);
