@@ -7,6 +7,7 @@ public class Token {
 
     private static final String KEY_SESSION_ID = "Session-Id";
     private static final String KEY_TOKEN_ID = "token_uuid";
+    private static final String KEY_GRANT_TYPE = "grant_type";
     private static final String KEY_TOKEN_PARAM_NAME = "token_param_name";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_EXPIRE_IN = "expire_in";
@@ -15,6 +16,7 @@ public class Token {
     private JsonObject user;
     private String sessionId;
     private String tokenId;
+    private String grantType;
     private String bearerToken;
     private String userId;
     private long expireIn;
@@ -27,6 +29,7 @@ public class Token {
 
     public JsonObject getUser() {return user;}
     public String getTokenId() {return tokenId;}
+    public String getGrantType() {return grantType;}
     public String getBearerToken() {return bearerToken;}
     public String getUserId() {return userId;}
     public long getExpireIn() {return expireIn;}
@@ -48,6 +51,7 @@ public class Token {
         user = new JsonObject();
         sessionId = StringUtils.EMPTY;
         tokenId = StringUtils.EMPTY;
+        grantType = StringUtils.EMPTY;
         bearerToken = StringUtils.EMPTY;
         userId = StringUtils.EMPTY;
         expireIn = 0;
@@ -59,6 +63,7 @@ public class Token {
             jsonObject = token;
             sessionId = token.has(KEY_SESSION_ID) ? token.get(KEY_SESSION_ID).getAsString() : StringUtils.EMPTY;
             tokenId = token.has(KEY_TOKEN_ID) ? token.get(KEY_TOKEN_ID).getAsString() : StringUtils.EMPTY;
+            grantType = token.has(KEY_GRANT_TYPE) ? token.get(KEY_GRANT_TYPE).getAsString() : StringUtils.EMPTY;
             userId = token.has(KEY_USER_ID) ? token.get(KEY_USER_ID).getAsString() : StringUtils.EMPTY;
             expireIn = token.has(KEY_EXPIRE_IN) ? token.get(KEY_EXPIRE_IN).getAsInt() : 0;
             bearerToken = token.has(tokenParamName) ? token.get(tokenParamName).getAsString() : StringUtils.EMPTY;
