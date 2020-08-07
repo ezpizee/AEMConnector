@@ -49,8 +49,10 @@ public class RefreshToken extends SlingAllMethodsServlet {
             ezResponse.setCode(200);
         }
         else {
-            ezResponse.setStatus("ERROR");
-            ezResponse.setCode(500);
+            JsonObject object = new JsonObject();
+            object.add("appConfig", new JsonPrimitive("appConfig is null - "+(appConfig == null)));
+            object.add("accessToken", new JsonPrimitive("accessToken is null"+(accessToken == null)));
+            ezResponse.setData(object);
             ezResponse.setMessage("USER_IS_NOT_LOGGED_IN");
         }
 
