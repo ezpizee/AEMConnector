@@ -32,7 +32,7 @@ public class ExpireIn extends SlingSafeMethodsServlet {
     @Override
     protected final void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(HEADER_VALUE_JSON);
-        Response ezResponse = new Response();
+        final Response ezResponse = new Response();
         final JsonObject object = new JsonObject();
 
         if (accessToken != null) {

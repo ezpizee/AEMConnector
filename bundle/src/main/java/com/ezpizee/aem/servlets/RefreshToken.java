@@ -51,8 +51,8 @@ public class RefreshToken extends SlingAllMethodsServlet {
             }
         }
         else {
-            object.add("app_config", new JsonPrimitive("null"));
-            object.add("access_token", new JsonPrimitive("null"));
+            object.add("app_config", new JsonPrimitive((appConfig == null ? "null" : "")));
+            object.add("access_token", new JsonPrimitive((accessToken == null ? "null" : "")));
         }
 
         ezResponse.setData(object);
