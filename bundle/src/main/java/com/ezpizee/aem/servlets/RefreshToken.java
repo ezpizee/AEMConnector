@@ -39,23 +39,23 @@ public class RefreshToken extends SlingAllMethodsServlet {
         response.setContentType(HEADER_VALUE_JSON);
         final Response ezResponse = new Response();
         final JsonObject user = AuthUtil.getUser(request, response);
+        final JsonObject object = new JsonObject();
 
-        if (appConfig != null && accessToken != null && user.size() > 0 && user.has("id")) {
-            accessToken.refresh(CookieUtil.getAuthCookie(request), request.getSession());
-            JsonObject object = new JsonObject();
-            object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(accessToken.expireIn()));
-            ezResponse.setData(object);
-            ezResponse.setStatus("OK");
-            ezResponse.setCode(200);
+        if (appConfig != null && accessToken != null) {
+            if (user.size() > 0 && user.has("id")) {
+                accessToken.refresh(CookieUtil.getAuthCookie(request), request.getSession());
+                object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(accessToken.expireIn()));
+            }
+            else {
+                object.add("message", new JsonPrimitive("USER_IS_NOT_LOGGED_IN"));
+            }
         }
         else {
-            JsonObject object = new JsonObject();
-            object.add("app_config", new JsonPrimitive("appConfig is null - "+(appConfig == null)));
-            object.add("access_token", new JsonPrimitive("accessToken is null - "+(accessToken == null)));
-            ezResponse.setData(object);
-            ezResponse.setMessage("USER_IS_NOT_LOGGED_IN");
+            object.add("app_config", new JsonPrimitive("null"));
+            object.add("access_token", new JsonPrimitive("null"));
         }
 
+        ezResponse.setData(object);
         response.setStatus(ezResponse.getCode());
         response.getWriter().write(ezResponse.getDataAsJsonObject().toString());
     }

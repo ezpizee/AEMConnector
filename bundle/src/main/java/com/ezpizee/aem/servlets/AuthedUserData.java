@@ -37,27 +37,22 @@ public class AuthedUserData extends SlingSafeMethodsServlet {
     protected final void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(HEADER_VALUE_JSON);
         final Response ezResponse = new Response();
+        final JsonObject object = new JsonObject();
 
         if (appConfig != null && accessToken != null) {
-            JsonObject object = new JsonObject();
             object.add("validAppConfig", new JsonPrimitive(appConfig.isValid()));
             final JsonObject user = AuthUtil.getUser(request, response);
             if (appConfig.isValid() && user.size() > 0 && user.has("id")) {
                 object.add("isAuthed", new JsonPrimitive(true));
                 object.add("user", user);
             }
-            ezResponse.setData(object);
-            ezResponse.setStatus("OK");
-            ezResponse.setCode(200);
         }
         else {
-            JsonObject object = new JsonObject();
-            object.add("app_config", new JsonPrimitive("appConfig is null - "+(appConfig == null)));
-            object.add("access_token", new JsonPrimitive("accessToken is null - "+(accessToken == null)));
-            ezResponse.setData(object);
-            ezResponse.setMessage("USER_IS_NOT_LOGGED_IN");
+            object.add("app_config", new JsonPrimitive((appConfig == null ? "null" : "")));
+            object.add("access_token", new JsonPrimitive((accessToken == null ? "null" : "")));
         }
 
+        ezResponse.setData(object);
         response.setStatus(ezResponse.getCode());
         response.getWriter().write(ezResponse.getDataAsJsonObject().toString());
     }

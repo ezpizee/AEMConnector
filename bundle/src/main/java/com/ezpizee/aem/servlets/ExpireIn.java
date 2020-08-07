@@ -33,21 +33,17 @@ public class ExpireIn extends SlingSafeMethodsServlet {
     protected final void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(HEADER_VALUE_JSON);
         Response ezResponse = new Response();
+        final JsonObject object = new JsonObject();
 
         if (accessToken != null) {
             accessToken.load(CookieUtil.getAuthCookie(request), request.getSession());
-            JsonObject object = new JsonObject();
             object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(accessToken.expireIn()));
-            ezResponse.setData(object);
-            ezResponse.setStatus("OK");
-            ezResponse.setCode(200);
         }
         else {
-            JsonObject object = new JsonObject();
-            object.add("access_token", new JsonPrimitive("accessToken is null"));
-            ezResponse.setMessage("USER_IS_NOT_LOGGED_IN");
+            object.add("access_token", new JsonPrimitive("null"));
         }
 
+        ezResponse.setData(object);
         response.setStatus(ezResponse.getCode());
         response.getWriter().write(ezResponse.getDataAsJsonObject().toString());
     }
