@@ -44,7 +44,7 @@ public class ExpireIn extends SlingSafeMethodsServlet {
         }
         else {
             JsonObject object = new JsonObject();
-            object.add("accessToken", new JsonPrimitive("accessToken is null"));
+            object.add("access_token", new JsonPrimitive("accessToken is null"));
             ezResponse.setMessage("USER_IS_NOT_LOGGED_IN");
         }
 
