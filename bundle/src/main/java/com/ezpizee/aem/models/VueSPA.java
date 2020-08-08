@@ -3,6 +3,7 @@ package com.ezpizee.aem.models;
 import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.services.AccessToken;
 import com.ezpizee.aem.utils.CookieUtil;
+import com.ezpizee.aem.utils.FileUtil;
 import com.ezpizee.aem.utils.HostName;
 import com.ezpizee.aem.utils.RunModesUtil;
 import org.apache.sling.settings.SlingSettingsService;
@@ -32,7 +33,7 @@ public class VueSPA extends BaseModel {
 
                 htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+ADMIN_HTML)
                     .replace(replace1, replaceBodyStr(replace1, sss))
-                    .replace(replace2, replacePlatformJSStr(replace2, sss));
+                    .replace(replace2, replacePlatformJSStr(replace2));
             }
             else {
                 htmlContent = installHtmContent;
@@ -47,15 +48,11 @@ public class VueSPA extends BaseModel {
         return pattern+" data-run-mode='"+(RunModesUtil.isAuthor(sss)?"author":"publish")+"'";
     }
 
-    private String replacePlatformJSStr(String pattern, SlingSettingsService sss) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(pattern);
-        if (RunModesUtil.isPublish(sss)) {
-            sb.append("<script>")
-                .append("window.EzpizeeOverrideEndpoints={};")
-                .append("window.EzpizeeOverrideEndpoints.csrfToken=\"/libs/granite/csrf/token.json\";")
-                .append("</script>");
-        }
-        return sb.toString();
+    private String replacePlatformJSStr(String pattern) {
+        return pattern +
+            FileUtil.getContentAsStringFromFileOnCRX(
+                resolver,
+                "/apps/ezpizee/components/structure/base/ezpz-override-endpoints.html"
+            );
     }
 }
