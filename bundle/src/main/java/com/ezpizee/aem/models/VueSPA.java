@@ -6,6 +6,8 @@ import com.ezpizee.aem.utils.CookieUtil;
 import com.ezpizee.aem.utils.FileUtil;
 import com.ezpizee.aem.utils.HostName;
 import com.ezpizee.aem.utils.RunModesUtil;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.apache.sling.settings.SlingSettingsService;
 
 public class VueSPA extends BaseModel {
@@ -15,7 +17,7 @@ public class VueSPA extends BaseModel {
     private String htmlContent, installHtmContent;
 
     @Override
-    public void activate() throws Exception {
+    public void exec() {
         com.ezpizee.aem.services.AppConfig appConfig = getSlingScriptHelper().getService(com.ezpizee.aem.services.AppConfig.class);
         SlingSettingsService sss = getSlingScriptHelper().getService(SlingSettingsService.class);
         String env = RunModesUtil.env(sss);
@@ -27,17 +29,16 @@ public class VueSPA extends BaseModel {
                 if (accessToken != null) {
                     accessToken.load(CookieUtil.getAuthCookie(getRequest()), getRequest().getSession());
                 }
-
-                String replace1 = "<body";
-                String replace2 = "<head>";
-
-                htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+ADMIN_HTML)
-                    .replace(replace1, replaceBodyStr(replace1, sss))
-                    .replace(replace2, replacePlatformJSStr(replace2));
+                htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+ADMIN_HTML);
             }
             else {
                 htmlContent = installHtmContent;
             }
+
+            String replace1 = "<body";
+            String replace2 = "<head>";
+            htmlContent = htmlContent.replace(replace1, replaceBodyStr(replace1, sss)).replace(replace2, replacePlatformJSStr(replace2));
+            installHtmContent = installHtmContent.replace(replace2, replaceEzpzOverrideData(replace2, appConfig));
         }
     }
 
@@ -54,5 +55,22 @@ public class VueSPA extends BaseModel {
                 resolver,
                 "/apps/ezpizee/components/structure/base/ezpz-override-endpoints.html"
             );
+    }
+
+    private String replaceEzpzOverrideData(String pattern, com.ezpizee.aem.services.AppConfig appConfig) {
+        JsonObject object = new JsonObject();
+        object.add("app_name", new JsonPrimitive(appConfig.getAppName()));
+        object.add("", new JsonPrimitive(appConfig.getClientSecret()));
+        object.add("", new JsonPrimitive(appConfig.getClientId()));
+        object.add("", new JsonPrimitive(appConfig.getEnv()));
+        return pattern +
+            "<script>" +
+            "window.EzpzOverrideData={"+
+            "app_name:\""+appConfig.getAppName()+"\","+
+            "client_secret:\""+appConfig.getClientSecret()+"\","+
+            "client_id:\""+appConfig.getClientId()+"\","+
+            "env:\""+appConfig.getEnv()+"\""+
+            "}"+
+            "</script>";
     }
 }

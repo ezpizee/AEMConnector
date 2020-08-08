@@ -2,10 +2,10 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:template="/apps/ezpizee/templates/admin"
+        cq:template="/apps/ezpizee/templates/install"
         jcr:language="en"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Ezpizee Admin - English"
-        sling:resourceType="ezpizee/components/structure/admin"/>
+        jcr:title="Ezpizee Admin - Install"
+        sling:resourceType="ezpizee/components/structure/install"/>
 </jcr:root>
