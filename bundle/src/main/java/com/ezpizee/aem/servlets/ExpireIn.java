@@ -40,7 +40,7 @@ public class ExpireIn extends SlingSafeMethodsServlet {
             object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(accessToken.expireIn()));
         }
         else {
-            object.add("access_token", new JsonPrimitive("null"));
+            object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(0));
         }
 
         ezResponse.setData(object);

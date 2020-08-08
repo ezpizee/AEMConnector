@@ -47,12 +47,11 @@ public class RefreshToken extends SlingAllMethodsServlet {
                 object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(accessToken.expireIn()));
             }
             else {
-                object.add("message", new JsonPrimitive("USER_IS_NOT_LOGGED_IN"));
+                object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(0));
             }
         }
         else {
-            object.add("app_config", new JsonPrimitive((appConfig == null ? "null" : "")));
-            object.add("access_token", new JsonPrimitive((accessToken == null ? "null" : "")));
+            object.add(Constants.KEY_EXPIRE_IN, new JsonPrimitive(0));
         }
 
         ezResponse.setData(object);

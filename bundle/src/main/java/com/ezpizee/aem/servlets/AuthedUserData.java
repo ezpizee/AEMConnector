@@ -42,14 +42,15 @@ public class AuthedUserData extends SlingSafeMethodsServlet {
         if (appConfig != null && accessToken != null) {
             object.add("validAppConfig", new JsonPrimitive(appConfig.isValid()));
             final JsonObject user = AuthUtil.getUser(request, response);
-            if (appConfig.isValid() && user.size() > 0 && user.has("id")) {
-                object.add("isAuthed", new JsonPrimitive(true));
+            final boolean isAuthed = user.size() > 0 && user.has("id");
+            if (appConfig.isValid() && isAuthed) {
                 object.add("user", user);
             }
+            object.add("isAuthed", new JsonPrimitive(isAuthed));
         }
         else {
-            object.add("app_config", new JsonPrimitive((appConfig == null ? "null" : "")));
-            object.add("access_token", new JsonPrimitive((accessToken == null ? "null" : "")));
+            object.add("validAppConfig", new JsonPrimitive(false));
+            object.add("isAuthed", new JsonPrimitive(false));
         }
 
         ezResponse.setData(object);
