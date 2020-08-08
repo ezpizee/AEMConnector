@@ -26,8 +26,13 @@ public class VueSPA extends BaseModel {
                 if (accessToken != null) {
                     accessToken.load(CookieUtil.getAuthCookie(getRequest()), getRequest().getSession());
                 }
+
+                String replace1 = "<body";
+                String replace2 = "<head>";
+
                 htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+ADMIN_HTML)
-                    .replace("<body", "<body data-run-mode='"+(RunModesUtil.isAuthor(sss)?"author":"publish")+"'");
+                    .replace(replace1, replaceBodyStr(replace1, sss))
+                    .replace(replace2, replacePlatformJSStr(replace2, sss));
             }
             else {
                 htmlContent = installHtmContent;
@@ -37,4 +42,20 @@ public class VueSPA extends BaseModel {
 
     public String getHtmlContent() {return htmlContent;}
     public String getInstallHtmContent() {return installHtmContent;}
+
+    private String replaceBodyStr(String pattern, SlingSettingsService sss) {
+        return pattern+" data-run-mode='"+(RunModesUtil.isAuthor(sss)?"author":"publish")+"'";
+    }
+
+    private String replacePlatformJSStr(String pattern, SlingSettingsService sss) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(pattern);
+        if (RunModesUtil.isPublish(sss)) {
+            sb.append("<script>")
+                .append("window.EzpizeeOverrideEndpoints={};")
+                .append("window.EzpizeeOverrideEndpoints.csrfToken=\"/libs/granite/csrf/token.json\";")
+                .append("</script>");
+        }
+        return sb.toString();
+    }
 }
