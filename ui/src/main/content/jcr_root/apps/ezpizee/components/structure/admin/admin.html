@@ -1,8 +1,1 @@
-<sly data-sly-use.runmode="runmodes.js">
-    <sly data-sly-test="${runmode.modes.author}">
-        <sly data-sly-use.veuSPA="com.ezpizee.aem.models.VueSPA">${veuSPA.htmlContent @ context='unsafe'}</sly>
-    </sly>
-    <sly data-sly-test="${runmode.modes.publish}">
-        <html><head><title>Ezpizee Admin</title></head><body>This section of the site only available in the author instance of AEM</body></html>
-    </sly>
-</sly>
+<sly data-sly-use.veuSPA="com.ezpizee.aem.models.VueSPA">${veuSPA.htmlContent @ context='unsafe'}</sly>

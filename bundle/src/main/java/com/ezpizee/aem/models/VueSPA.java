@@ -26,7 +26,7 @@ public class VueSPA extends BaseModel {
                 if (accessToken != null) {
                     accessToken.load(CookieUtil.getAuthCookie(getRequest()), getRequest().getSession());
                 }
-                htmlContent = client.getContent(HostName.getCDNServer(env)+ADMIN_HTML)
+                htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+ADMIN_HTML)
                     .replace("<body", "<body data-run-mode='"+(RunModesUtil.isAuthor(sss)?"author":"publish")+"'");
             }
             else {
