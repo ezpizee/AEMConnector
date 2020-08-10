@@ -28,7 +28,7 @@ import java.util.Hashtable;
 @SlingServlet(
     paths = {"/bin/ezpizee/install"},
     methods = {HttpConstants.METHOD_POST},
-    extensions = {"html"}
+    extensions = {"json"}
 )
 public class InstallServlet extends SlingAllMethodsServlet {
 

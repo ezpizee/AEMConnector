@@ -41,7 +41,7 @@ public class AuthedUserData extends SlingSafeMethodsServlet {
 
         if (appConfig != null && accessToken != null) {
             object.add("validAppConfig", new JsonPrimitive(appConfig.isValid()));
-            final JsonObject user = AuthUtil.getUser(request, response);
+            final JsonObject user = AuthUtil.getUser(request);
             final boolean isAuthed = user.size() > 0 && user.has("id");
             if (appConfig.isValid() && isAuthed) {
                 object.add("user", user);

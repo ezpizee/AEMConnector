@@ -4,10 +4,8 @@ import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.http.Response;
 import com.ezpizee.aem.services.AccessToken;
 import com.ezpizee.aem.services.AppConfig;
-import com.ezpizee.aem.utils.CookieUtil;
-import com.ezpizee.aem.utils.DataUtil;
-import com.ezpizee.aem.utils.FileUtil;
-import com.ezpizee.aem.utils.HostName;
+import com.ezpizee.aem.utils.*;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -16,13 +14,13 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.apache.sling.settings.SlingSettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-import static com.ezpizee.aem.Constants.HEADER_VALUE_JSON;
-import static com.ezpizee.aem.Constants.KEY_ENDPOINT;
+import static com.ezpizee.aem.Constants.*;
 
 @SlingServlet(
     paths = {"/bin/ezpizee/api"},
@@ -40,6 +38,9 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
 
     @Reference
     private AccessToken accessToken;
+
+    @Reference
+    private SlingSettingsService sss;
 
     @Override
     protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
@@ -69,12 +70,23 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
 
         response.setContentType(HEADER_VALUE_JSON);
 
-        String authCookie = CookieUtil.getAuthCookie(request);
+        JsonObject userObj = new JsonObject();
+        String authCookie = StringUtils.EMPTY, endpoint = StringUtils.EMPTY;
         ezResponse = new Response();
 
-        final String endpoint = request.getParameterMap().containsKey(KEY_ENDPOINT)
-            ? HostName.getAPIServer(appConfig.getEnv()) + request.getParameter(KEY_ENDPOINT)
-            : StringUtils.EMPTY;
+        if (RunModesUtil.isPublish(sss)) {
+            authCookie = CookieUtil.getAuthCookie(KEY_EZPZ_LOGIN, request);
+            userObj = AuthUtil.getUser(KEY_ACCESS_TOKEN, request);
+        }
+        else if(RunModesUtil.isAuthor(sss)) {
+            authCookie = CookieUtil.getAuthCookie(request);
+            AuthUtil.getUser(KEY_ACCESS_TOKEN, request);
+            userObj = AuthUtil.getUser(request);
+        }
+
+        if (userObj.has("id") && StringUtils.isNotEmpty(authCookie) && request.getParameterMap().containsKey(KEY_ENDPOINT)) {
+            endpoint = HostName.getAPIServer(appConfig.getEnv()) + request.getParameter(KEY_ENDPOINT);
+        }
 
         if (StringUtils.isNotEmpty(endpoint))
         {
@@ -133,6 +145,13 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
                 accessToken.destroy();
             }
 
+            response.setStatus(ezResponse.getCode());
+        }
+        else
+        {
+            ezResponse.setStatus("ERROR");
+            ezResponse.setCode(403);
+            ezResponse.setMessage("INVALID_REQUEST");
             response.setStatus(ezResponse.getCode());
         }
     }

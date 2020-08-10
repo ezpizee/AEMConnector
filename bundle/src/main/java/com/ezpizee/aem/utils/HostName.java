@@ -1,10 +1,10 @@
 package com.ezpizee.aem.utils;
 
 import com.ezpizee.aem.Constants;
-import org.apache.commons.lang3.StringUtils;
 
 public class HostName
 {
+    private static final String HTTPS_SCHEMA = "https://", HTTP_SCHEMA = "https://";
     private static final String EZPIZEE_SFX = ".ezpizee.com";
     private static final String EZPZ_SFX = ".ezpz.solutions";
 
@@ -24,34 +24,34 @@ public class HostName
     public static String getAPIServer(String env) {
         if (isEnv(env)) {
             if (Constants.ENVIRONMENTS.get(4).equals(env)) {
-                return "https://api" + EZPIZEE_SFX;
+                return HTTPS_SCHEMA + "api" + EZPIZEE_SFX;
             }
             else if (Constants.ENVIRONMENTS.get(0).equals(env)) {
-                return "http://local-api" + EZPIZEE_SFX;
+                return HTTP_SCHEMA + "local-api" + EZPIZEE_SFX;
             }
             else if (Constants.ENVIRONMENTS.get(1).equals(env)) {
-                return "https://dev-api" + EZPZ_SFX;
+                return HTTPS_SCHEMA + "dev-api" + EZPZ_SFX;
             }
             else {
-                return "https://"+env+EZPIZEE_SFX;
+                return HTTPS_SCHEMA + env + EZPIZEE_SFX;
             }
         }
-        return StringUtils.EMPTY;
+        return HTTPS_SCHEMA + "api" + EZPIZEE_SFX;
     }
 
     public static String getCDNServer(String env) {
         if (isEnv(env)) {
             if (Constants.ENVIRONMENTS.get(4).equals(env)) {
-                return "https://cdn"+EZPZ_SFX;
+                return HTTPS_SCHEMA + "cdn" + EZPZ_SFX;
             }
             else if (Constants.ENVIRONMENTS.get(0).equals(env)) {
-                return "http://local-cdn"+EZPZ_SFX;
+                return HTTP_SCHEMA + "local-cdn" + EZPZ_SFX;
             }
             else {
-                return "https://"+env+"-cdn"+EZPZ_SFX;
+                return HTTPS_SCHEMA + env + "-cdn" + EZPZ_SFX;
             }
         }
-        return StringUtils.EMPTY;
+        return HTTPS_SCHEMA + "cdn" + EZPZ_SFX;
     }
 
     private static boolean isEnv(String env) { return Constants.ENVIRONMENTS.contains(env); }

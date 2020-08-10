@@ -1,5 +1,6 @@
 package com.ezpizee.aem.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 
@@ -72,5 +73,12 @@ public class CookieUtil {
             return cookie.getValue();
         }
         return KEY_ACCESS_TOKEN;
+    }
+    public static String getAuthCookie(String key, SlingHttpServletRequest request) {
+        Cookie cookie = request.getCookie(key);
+        if (cookie != null) {
+            return cookie.getValue();
+        }
+        return StringUtils.EMPTY;
     }
 }

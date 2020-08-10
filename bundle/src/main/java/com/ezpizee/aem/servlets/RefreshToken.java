@@ -38,7 +38,7 @@ public class RefreshToken extends SlingAllMethodsServlet {
     protected final void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         response.setContentType(HEADER_VALUE_JSON);
         final Response ezResponse = new Response();
-        final JsonObject user = AuthUtil.getUser(request, response);
+        final JsonObject user = AuthUtil.getUser(request);
         final JsonObject object = new JsonObject();
 
         if (appConfig != null && accessToken != null) {
