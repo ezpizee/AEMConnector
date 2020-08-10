@@ -19,8 +19,10 @@ public class VueSPAInstall extends BaseModel {
         Client client = new Client();
         if (appConfig != null && appConfig.isValid()) {
             htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+INSTALL_HTML);
-            String replace2 = "<head>";
-            htmlContent = htmlContent.replace(replace2, replaceEzpzOverrideData(replace2, appConfig));
+            if (RunModesUtil.isAuthor(sss)) {
+                String replace2 = "<head>";
+                htmlContent = htmlContent.replace(replace2, replaceEzpzOverrideData(replace2, appConfig));
+            }
         }
         else {
             htmlContent = client.getContent(HostName.getCDNServer(RunModesUtil.env(sss))+INSTALL_HTML);
