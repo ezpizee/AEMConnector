@@ -76,11 +76,11 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
 
         if (RunModesUtil.isPublish(sss)) {
             authCookie = CookieUtil.getAuthCookie(KEY_EZPZ_LOGIN, request);
-            userObj = AuthUtil.getUser(KEY_ACCESS_TOKEN, request);
+            userObj = AuthUtil.getUser(KEY_EZPZ_LOGIN, request);
         }
         else if(RunModesUtil.isAuthor(sss)) {
             authCookie = CookieUtil.getAuthCookie(request);
-            AuthUtil.getUser(KEY_ACCESS_TOKEN, request);
+            AuthUtil.getUser(request);
             userObj = AuthUtil.getUser(request);
         }
 
