@@ -23,17 +23,17 @@ public class HostName
 
     public static String getAPIServer(String env) {
         if (isEnv(env)) {
-            if (Constants.ENVIRONMENTS.get(4).equals(env)) {
-                return HTTPS_SCHEMA + "api" + EZPIZEE_SFX;
-            }
-            else if (Constants.ENVIRONMENTS.get(0).equals(env)) {
-                return HTTP_SCHEMA + "local-api" + EZPIZEE_SFX;
+            if (Constants.ENVIRONMENTS.get(0).equals(env)) {
+                return HTTP_SCHEMA + env + "-api" + EZPIZEE_SFX;
             }
             else if (Constants.ENVIRONMENTS.get(1).equals(env)) {
-                return HTTPS_SCHEMA + "dev-api" + EZPZ_SFX;
+                return HTTP_SCHEMA + env + "-api" + EZPZ_SFX;
             }
-            else {
-                return HTTPS_SCHEMA + env + EZPIZEE_SFX;
+            else if (Constants.ENVIRONMENTS.get(2).equals(env)) {
+                return HTTP_SCHEMA + env + "-api" + EZPZ_SFX;
+            }
+            else if (Constants.ENVIRONMENTS.get(3).equals(env)) {
+                return HTTP_SCHEMA + env + "-api" + EZPIZEE_SFX;
             }
         }
         return HTTPS_SCHEMA + "api" + EZPIZEE_SFX;
@@ -41,13 +41,16 @@ public class HostName
 
     public static String getCDNServer(String env) {
         if (isEnv(env)) {
-            if (Constants.ENVIRONMENTS.get(4).equals(env)) {
-                return HTTPS_SCHEMA + "cdn" + EZPZ_SFX;
+            if (Constants.ENVIRONMENTS.get(0).equals(env)) {
+                return HTTP_SCHEMA + env + "-cdn" + EZPZ_SFX;
             }
-            else if (Constants.ENVIRONMENTS.get(0).equals(env)) {
-                return HTTP_SCHEMA + "local-cdn" + EZPZ_SFX;
+            else if (Constants.ENVIRONMENTS.get(1).equals(env)) {
+                return HTTPS_SCHEMA + env + "-cdn" + EZPZ_SFX;
             }
-            else {
+            else if (Constants.ENVIRONMENTS.get(2).equals(env)) {
+                return HTTPS_SCHEMA + env + "-cdn" + EZPZ_SFX;
+            }
+            else if (Constants.ENVIRONMENTS.get(3).equals(env)) {
                 return HTTPS_SCHEMA + env + "-cdn" + EZPZ_SFX;
             }
         }

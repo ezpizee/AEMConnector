@@ -8,8 +8,7 @@ import org.apache.sling.api.resource.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Sothea Nim
@@ -158,4 +157,62 @@ public class DataUtil {
         }
         return data;
     }
+
+    public static Map<String, Object> jsonToMap(String jsonString) {
+        if (DataUtil.isJsonArrayString(jsonString) || DataUtil.isJsonObjectString(jsonString)) {
+            JsonParser parser = new JsonParser();
+            JsonElement jsonElement = parser.parse(jsonString);
+            if (jsonElement.isJsonObject()) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                return jsonToMap(jsonObject);
+            }
+        }
+        return null;
+    }
+
+    public static Map<String, Object> jsonToMap(JsonObject json) {
+        Map<String, Object> retMap = new HashMap<>();
+        if(json != null) {
+            retMap = toMap(json);
+        }
+        return retMap;
+    }
+
+    public static Map<String, Object> toMap(JsonObject object) {
+        Map<String, Object> map = new HashMap<>();
+
+        for (String key : object.keySet()) {
+            Object value = object.get(key);
+
+            if(value instanceof JsonArray) {
+                value = toList((JsonArray) value);
+            }
+
+            else if(value instanceof JsonObject) {
+                value = toMap((JsonObject) value);
+            }
+
+            map.put(key, value);
+        }
+
+        return map;
+    }
+
+    public static List<Object> toList(JsonArray array) {
+        List<Object> list = new ArrayList<>();
+        for(int i = 0; i < array.size(); i++) {
+            Object value = array.get(i);
+            if(value instanceof JsonArray) {
+                value = toList((JsonArray) value);
+            }
+
+            else if(value instanceof JsonObject) {
+                value = toMap((JsonObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
+
+    public static List<String> toList(String[] array) {return new ArrayList<>(Arrays.asList(array));}
 }

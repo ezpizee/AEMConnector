@@ -18,7 +18,7 @@ import static com.ezpizee.aem.Constants.PROP_NT_UNSTRUCTURE;
 
 public class NodeUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(com.ezpizee.aem.utils.NodeUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NodeUtil.class);
 
     private NodeUtil() {}
 

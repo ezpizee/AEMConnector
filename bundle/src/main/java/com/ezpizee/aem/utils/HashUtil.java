@@ -11,10 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ezpizee.aem.Constants;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -92,62 +88,6 @@ public class HashUtil {
         catch (UnsupportedEncodingException e) {
             return null;
         }
-    }
-
-    public static Map<String, Object> jsonToMap(String jsonString) {
-        if (DataUtil.isJsonArrayString(jsonString) || DataUtil.isJsonObjectString(jsonString)) {
-            JsonParser parser = new JsonParser();
-            JsonElement jsonElement = parser.parse(jsonString);
-            if (jsonElement.isJsonObject()) {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                return jsonToMap(jsonObject);
-            }
-        }
-        return null;
-    }
-
-    public static Map<String, Object> jsonToMap(JsonObject json) {
-        Map<String, Object> retMap = new HashMap<>();
-        if(json != null) {
-            retMap = toMap(json);
-        }
-        return retMap;
-    }
-
-    public static Map<String, Object> toMap(JsonObject object) {
-        Map<String, Object> map = new HashMap<>();
-
-        for (String key : object.keySet()) {
-            Object value = object.get(key);
-
-            if(value instanceof JsonArray) {
-                value = toList((JsonArray) value);
-            }
-
-            else if(value instanceof JsonObject) {
-                value = toMap((JsonObject) value);
-            }
-
-            map.put(key, value);
-        }
-
-        return map;
-    }
-
-    public static List<Object> toList(JsonArray array) {
-        List<Object> list = new ArrayList<>();
-        for(int i = 0; i < array.size(); i++) {
-            Object value = array.get(i);
-            if(value instanceof JsonArray) {
-                value = toList((JsonArray) value);
-            }
-
-            else if(value instanceof JsonObject) {
-                value = toMap((JsonObject) value);
-            }
-            list.add(value);
-        }
-        return list;
     }
 
     // convert from UTF-8 -> internal Java String format
