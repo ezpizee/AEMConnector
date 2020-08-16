@@ -4,7 +4,7 @@ import com.ezpizee.aem.Constants;
 
 public class HostName
 {
-    private static final String HTTPS_SCHEMA = "https://", HTTP_SCHEMA = "https://";
+    private static final String HTTPS_SCHEMA = "https://", HTTP_SCHEMA = "http://";
     private static final String EZPIZEE_SFX = ".ezpizee.com";
     private static final String EZPZ_SFX = ".ezpz.solutions";
 
