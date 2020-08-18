@@ -18,7 +18,6 @@ public class VueSPAAdmin extends BaseModel {
     public void exec() {
         com.ezpizee.aem.services.AppConfig appConfig = getSlingScriptHelper().getService(com.ezpizee.aem.services.AppConfig.class);
         SlingSettingsService sss = getSlingScriptHelper().getService(SlingSettingsService.class);
-        String env = RunModesUtil.env(sss);
         Client client = new Client();
         if (appConfig != null && appConfig.isValid()) {
             AccessToken accessToken = getSlingScriptHelper().getService(AccessToken.class);
@@ -31,7 +30,7 @@ public class VueSPAAdmin extends BaseModel {
             htmlContent = htmlContent.replace(replace1, replaceBodyStr(replace1, sss)).replace(replace2, replacePlatformJSStr(replace2));
         }
         else {
-            htmlContent = client.getContent(HostName.getCDNServer(env)+ADMIN_HTML.replace("{version}", getVersion(client)));
+            htmlContent = client.getContent(HostName.getProdCDNServer()+ADMIN_HTML.replace("{version}", getVersion(client)));
         }
     }
 
