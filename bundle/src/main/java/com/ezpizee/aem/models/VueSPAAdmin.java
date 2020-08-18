@@ -2,15 +2,16 @@ package com.ezpizee.aem.models;
 
 import com.ezpizee.aem.http.Client;
 import com.ezpizee.aem.services.AccessToken;
-import com.ezpizee.aem.utils.CookieUtil;
-import com.ezpizee.aem.utils.FileUtil;
-import com.ezpizee.aem.utils.HostName;
-import com.ezpizee.aem.utils.RunModesUtil;
+import com.ezpizee.aem.utils.*;
+import com.google.gson.JsonArray;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.settings.SlingSettingsService;
+
+import static com.ezpizee.aem.Constants.URL_ADMINUI_VERSION;
 
 public class VueSPAAdmin extends BaseModel {
 
-    private static final String ADMIN_HTML = "/adminui/html/index.aem.html";
+    private static final String ADMIN_HTML = "/adminui/{version}/index.aem.html";
     private String htmlContent;
 
     @Override
@@ -24,13 +25,13 @@ public class VueSPAAdmin extends BaseModel {
             if (accessToken != null) {
                 accessToken.load(CookieUtil.getAuthCookie(getRequest()), getRequest().getSession());
             }
-            htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+ADMIN_HTML);
+            htmlContent = client.getContent(HostName.getCDNServer(appConfig.getEnv())+ADMIN_HTML.replace("{version}", getVersion(client)));
             String replace1 = "<body";
             String replace2 = "<head>";
             htmlContent = htmlContent.replace(replace1, replaceBodyStr(replace1, sss)).replace(replace2, replacePlatformJSStr(replace2));
         }
         else {
-            htmlContent = client.getContent(HostName.getCDNServer(env)+ADMIN_HTML);
+            htmlContent = client.getContent(HostName.getCDNServer(env)+ADMIN_HTML.replace("{version}", getVersion(client)));
         }
     }
 
@@ -46,5 +47,17 @@ public class VueSPAAdmin extends BaseModel {
                 resolver,
                 "/apps/ezpizee/components/structure/base/ezpz-override-endpoints.html"
             );
+    }
+
+    private String getVersion(Client client) {
+        String verion = getResource().getValueMap().get("version", String.class);
+        if (StringUtils.isEmpty(verion)) {
+            String data = client.getContent(URL_ADMINUI_VERSION);
+            if (DataUtil.isJsonString(data)) {
+                JsonArray array = DataUtil.toJsonArray(data);
+                verion = array.get(array.size()-1).getAsJsonObject().get("value").getAsString();
+            }
+        }
+        return verion;
     }
 }

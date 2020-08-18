@@ -13,6 +13,7 @@ public class Constants {
     public static final String APP_CONFIG_PATH = ETC_COMMERCE_PATH + "/config";
     public static final String EZPIZEE_SERVICE = "ezpizee-service";
     public static final String UTF_8 = "UTF-8";
+    public static final String EXT_HTML = ".html";
 
     public static final String HEADER_PARAM_ACCEPT = HttpConstants.HEADER_ACCEPT;
     public static final String HEADER_PARAM_CTYPE = "Content-Type";
@@ -28,6 +29,8 @@ public class Constants {
     public static final String HEADER_PARAM_OS_PLATFORM_VERSION = "OS-Platform-Version";
     public static final String HEADER_VALUE_OS_PLATFORM_VERSION = "macOS Mojave 10.14.6"; // TODO: detect and set the right value
     public static final String HEADER_LANGUAGE_TAG = "Language-Tag";
+
+    public static final String URL_ADMINUI_VERSION = "https://cdn.ezpz.solutions/adminui/versions.json";
 
     public static final String KEY_ENDPOINT = "endpoint";
 

@@ -71,6 +71,7 @@ public class Client
     public String getContent(String url) {
         try {
             GetRequest request = Unirest.get(url);
+            logger.debug("GET request: {}", url);
             return new String(request.asString().getBody().getBytes());
         }
         catch (UnirestException e) {
