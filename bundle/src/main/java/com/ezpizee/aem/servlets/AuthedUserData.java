@@ -17,6 +17,7 @@ import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import java.io.IOException;
 
 import static com.ezpizee.aem.Constants.HEADER_VALUE_JSON;
+import static com.ezpizee.aem.Constants.KEY_ACCESS_TOKEN;
 
 @SlingServlet(
     paths = {"/bin/ezpizee/user/auth/data"},
@@ -40,6 +41,7 @@ public class AuthedUserData extends SlingSafeMethodsServlet {
         final JsonObject object = new JsonObject();
 
         if (appConfig != null && accessToken != null) {
+            accessToken.load(KEY_ACCESS_TOKEN, request.getSession());
             object.add("validAppConfig", new JsonPrimitive(appConfig.isValid()));
             final JsonObject user = AuthUtil.getUser(request);
             final boolean isAuthed = user.size() > 0 && user.has("id");
