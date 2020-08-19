@@ -8,6 +8,8 @@ import com.ezpizee.aem.services.AccessToken;
 import com.ezpizee.aem.services.AppConfig;
 import com.ezpizee.aem.services.impl.AppConfigImpl;
 import com.ezpizee.aem.utils.*;
+import com.ezpizee.aem.utils.detection.UserAgentDetectionResult;
+import com.ezpizee.aem.utils.detection.UserAgentDetector;
 import com.google.gson.JsonObject;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
@@ -24,6 +26,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
+
+import static com.ezpizee.aem.Constants.*;
 
 @SlingServlet(
     paths = {"/bin/ezpizee/install"},
@@ -60,6 +64,12 @@ public class InstallServlet extends SlingAllMethodsServlet {
             appConfig.setData(DataUtil.jsonObject2MapString(data));
             if (data.has(Constants.KEY_ENV) && appConfig.isValid()) {
                 final Client client = new Client(appConfig);
+
+                final UserAgentDetector uaDetector = new UserAgentDetector();
+                final UserAgentDetectionResult userAgentDetectionResult = uaDetector.parseUserAgent(request.getHeader(HEADER_PARAM_USER_AGENT));
+                client.addHeader(HEADER_PARAM_APP_PLATFORM, userAgentDetectionResult.getOperatingSystem().getFamily().getLabel());
+                client.addHeader(HEADER_PARAM_OS_PLATFORM_VERSION, userAgentDetectionResult.getOperatingSystem().getVersion());
+
                 final String existsEndpoint = HostName.getAPIServer(data.get(Constants.KEY_ENV).getAsString()) +
                     Endpoints.appExists(appConfig.getClientId(), HashUtil.md5(appConfig.getAppName()));
                 resp = client.get(existsEndpoint);
