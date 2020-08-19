@@ -94,10 +94,7 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
         {
             accessToken.load(authCookie, request.getSession());
             final Client client = new Client(appConfig, accessToken.get());
-            final UserAgentDetector uaDetector = new UserAgentDetector();
-            final UserAgentDetectionResult userAgentDetectionResult = uaDetector.parseUserAgent(request.getHeader(HEADER_PARAM_USER_AGENT));
-            client.addHeader(HEADER_PARAM_APP_PLATFORM, userAgentDetectionResult.getOperatingSystem().getFamily().getLabel());
-            client.addHeader(HEADER_PARAM_OS_PLATFORM_VERSION, userAgentDetectionResult.getOperatingSystem().getVersion());
+            setRequestHeaders(client, request);
 
             switch (method)
             {
@@ -160,5 +157,13 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
             ezResponse.setMessage("INVALID_REQUEST");
             response.setStatus(ezResponse.getCode());
         }
+    }
+
+    private void setRequestHeaders(Client client, SlingHttpServletRequest request) {
+        final UserAgentDetector uaDetector = new UserAgentDetector();
+        final UserAgentDetectionResult userAgentDetectionResult = uaDetector.parseUserAgent(request.getHeader(HEADER_PARAM_USER_AGENT));
+        client.addHeader(HEADER_PARAM_APP_PLATFORM, userAgentDetectionResult.getOperatingSystem().getFamily().getLabel());
+        client.addHeader(HEADER_PARAM_OS_PLATFORM_VERSION, userAgentDetectionResult.getOperatingSystem().getVersion());
+        client.addHeader(HEADER_LANGUAGE_TAG, request.getLocale().toLanguageTag());
     }
 }
