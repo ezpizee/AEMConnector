@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ezpizee.aem.Constants.EZPIZEE_SERVICE;
-
 public class DataSource extends WCMUsePojo {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -36,7 +34,7 @@ public class DataSource extends WCMUsePojo {
     protected void exec() throws Exception {
 
         final AdminService adminService = getSlingScriptHelper().getService(AdminService.class);
-        final ResourceResolver resolver = adminService != null ? adminService.getResourceResolver(getSubServer()) : null;
+        final ResourceResolver resolver = adminService != null ? adminService.getResourceResolver(getSubService()) : null;
         final Config dsCfg = new Config(getResource().getChild("datasource"));
         final List<Map<String, Object>> options = new ArrayList<>();
 
@@ -66,5 +64,5 @@ public class DataSource extends WCMUsePojo {
         getRequest().setAttribute(com.adobe.granite.ui.components.ds.DataSource.class.getName(), ds);
     }
 
-    protected String getSubServer() {return EZPIZEE_SERVICE;}
+    protected String getSubService() {return com.ezpizee.aem.Constants.EZPIZEE_SERVICE;}
 }
