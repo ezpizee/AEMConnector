@@ -72,27 +72,17 @@ public class EzpizeeApiForward extends SlingAllMethodsServlet {
 
         response.setContentType(HEADER_VALUE_JSON);
 
-        JsonObject userObj = new JsonObject();
-        String authCookie = StringUtils.EMPTY, endpoint = StringUtils.EMPTY;
         ezResponse = new Response();
 
-        if (RunModesUtil.isPublish(sss)) {
-            authCookie = CookieUtil.getAuthCookie(KEY_EZPZ_LOGIN, request);
-            userObj = AuthUtil.getUser(KEY_EZPZ_LOGIN, request);
-        }
-        else if(RunModesUtil.isAuthor(sss)) {
-            authCookie = CookieUtil.getAuthCookie(request);
-            AuthUtil.getUser(request);
-            userObj = AuthUtil.getUser(request);
-        }
+        String endpoint = StringUtils.EMPTY;
 
-        if (userObj.has("id") && StringUtils.isNotEmpty(authCookie) && request.getParameterMap().containsKey(KEY_ENDPOINT)) {
+        if (request.getParameterMap().containsKey(KEY_ENDPOINT)) {
             endpoint = HostName.getAPIServer(appConfig.getEnv()) + request.getParameter(KEY_ENDPOINT);
         }
 
         if (StringUtils.isNotEmpty(endpoint))
         {
-            accessToken.load(authCookie, request.getSession());
+            accessToken.load(CookieUtil.getAuthCookie(request), request.getSession());
             final Client client = new Client(appConfig, accessToken.get());
             setRequestHeaders(client, request);
 

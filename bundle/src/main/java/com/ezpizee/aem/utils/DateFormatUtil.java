@@ -86,6 +86,13 @@ public class DateFormatUtil {
         return -1;
     }
 
+    public static long strToTimestamp(Calendar calendar) {
+        if (calendar != null) {
+            return calendar.getTimeInMillis();
+        }
+        return -1;
+    }
+
     public static String yyyymmddFormat(Date date) {
         return date != null ? YYYYMMDD_FORMAT.format(new Date(getStandardTimezone(date.getTime()))) : "";
     }

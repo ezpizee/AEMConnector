@@ -69,6 +69,27 @@ public class FileUtil {
         return result;
     }
 
+    public static InputStream getContentAsInputStreamFromFileOnCRX(ResourceResolver resolver, String path) {
+        InputStream is = null;
+        try {
+            Session session = resolver.adaptTo(Session.class);
+            if (session != null && resolver.getResource(path) != null) {
+                Node fileNode = session.getNode(path);
+                if (fileNode != null && fileNode.hasNode(JcrConstants.JCR_CONTENT)) {
+                    Node jcrNode = fileNode.getNode(JcrConstants.JCR_CONTENT);
+                    if (jcrNode != null && jcrNode.hasProperty(JcrConstants.JCR_DATA)) {
+                        is = jcrNode.getProperty(JcrConstants.JCR_DATA).getBinary().getStream();
+                    }
+                }
+            }
+        }
+        catch (RepositoryException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        return is;
+    }
+
     public static String getExtension(String filename) { return FilenameUtils.getExtension(filename); }
 
     public static String getBasename(String filename) { return FilenameUtils.getBaseName(filename); }

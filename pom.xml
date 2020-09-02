@@ -49,7 +49,7 @@
         <aem.host>localhost</aem.host>
         <aem.port>4502</aem.port>
         <aem.username>admin</aem.username>
-        <aem.password>123ABC@abc</aem.password>
+        <aem.password>admin</aem.password>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

@@ -35,19 +35,23 @@ public class Client
     private JSONObject body;
     private Map<String, File> files;
     private List<Map<String, Object>> inputStreamList;
-    private String uri, method;
+    private String uri, method, bearerToken;
     private boolean isMultipart = false;
     private AppConfig appConfig;
 
-    public Client() {headers = new HashMap<>();}
+    public Client() {
+        this.headers = new HashMap<>();
+    }
 
     public Client(AppConfig config) {
-        headers = new HashMap<>();
-        appConfig = config;
+        this.headers = new HashMap<>();
+        this.appConfig = config;
     }
 
     public Client(AppConfig config, String token) {
-        this(config);
+        this.headers = new HashMap<>();
+        this.appConfig = config;
+        this.bearerToken = token;
         setBearerToken(token);
     }
 
@@ -84,6 +88,7 @@ public class Client
         this.body = new JSONObject(jsonStr);
         this.uri = uri;
         this.method = HttpConstants.METHOD_POST;
+        if (this.formParams != null && !this.formParams.isEmpty()) {this.isMultipart=true;}
         return this.request();
     }
 
@@ -107,6 +112,7 @@ public class Client
             setBasicAuth(user, pwd);
             this.uri = HostName.getAPIServer(appConfig.getEnv()) + Endpoints.login();
             this.method = HttpConstants.METHOD_POST;
+            if (this.formParams != null && !this.formParams.isEmpty()) {this.isMultipart=true;}
             return this.request();
         }
         else {
@@ -135,18 +141,21 @@ public class Client
     public Response post(String uri) {
         this.uri = uri;
         this.method = HttpConstants.METHOD_POST;
+        if (this.formParams != null && !this.formParams.isEmpty()) {this.isMultipart=true;}
         return this.request();
     }
 
     public Response delete(String uri) {
         this.uri = uri;
         this.method = HttpConstants.METHOD_DELETE;
+        if (this.formParams != null && !this.formParams.isEmpty()) {this.isMultipart=true;}
         return this.request();
     }
 
     public Response put(String uri) {
         this.uri = uri;
         this.method = HttpConstants.METHOD_PUT;
+        if (this.formParams != null && !this.formParams.isEmpty()) {this.isMultipart=true;}
         return this.request();
     }
 
@@ -217,6 +226,7 @@ public class Client
 
                     final HttpResponse<JsonNode> jsonResponse = request.asJson();
                     if (jsonResponse.getStatus() != 200) { logger.debug(jsonResponse.getBody().getObject().toString()); }
+                    this.isMultipart = false;
                     this.formParams = null;
                     this.inputStreamList = null;
                     this.files = null;
@@ -256,6 +266,9 @@ public class Client
     }
 
     private void defaultHeaders() {
+        if (this.headers == null) {
+            this.headers = new HashMap<>();
+        }
         if (!this.isMultipart && !this.headers.containsKey(Constants.HEADER_PARAM_CTYPE)) {
             this.addHeader(Constants.HEADER_PARAM_CTYPE, Constants.HEADER_VALUE_JSON);
         }
@@ -276,6 +289,9 @@ public class Client
         }
         if (!this.headers.containsKey(Constants.HEADER_PARAM_APP_NAME) && appConfig != null && appConfig.isValid()) {
             this.addHeader(Constants.HEADER_PARAM_APP_NAME, appConfig.getAppName());
+        }
+        if (!this.headers.containsKey(Constants.HEADER_PARAM_ACCESS_TOKEN) && StringUtils.isNotEmpty(this.bearerToken)) {
+            this.setBearerToken(this.bearerToken);
         }
     }
 }
