@@ -7,6 +7,6 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Ezpizee Admin - English"
-        version="beta"
+        version="0.0.1"
         sling:resourceType="ezpizee/components/structure/admin"/>
 </jcr:root>
