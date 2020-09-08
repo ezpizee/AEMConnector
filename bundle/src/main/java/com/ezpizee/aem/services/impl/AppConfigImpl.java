@@ -46,6 +46,7 @@ public class AppConfigImpl implements AppConfig {
 
     @Activate
     protected void activate(final Map<String, Object> props) {
+        logger.debug("{} Activated.", this.getClass().getName());
         data = new HashMap<>();
         String env = PropertiesUtil.toString(props.get(PROP_ENV), StringUtils.EMPTY);
         String clientId = PropertiesUtil.toString(props.get(PROP_CLIENT_ID), StringUtils.EMPTY);
@@ -66,7 +67,10 @@ public class AppConfigImpl implements AppConfig {
     }
 
     @Deactivate
-    protected void deactivate() {data = null;}
+    protected void deactivate() {
+        logger.debug("{} Deactivated.", this.getClass().getName());
+        data = null;
+    }
 
     public void setData(Map<String, String> data) {
         if (isValid(data)) {
