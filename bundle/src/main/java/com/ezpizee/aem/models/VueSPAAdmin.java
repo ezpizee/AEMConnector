@@ -30,7 +30,11 @@ public class VueSPAAdmin extends BaseModel {
             htmlContent = htmlContent.replace(replace1, replaceBodyStr(replace1, sss)).replace(replace2, replacePlatformJSStr(replace2));
         }
         else {
-            htmlContent = client.getContent(HostName.getProdCDNServer()+ADMIN_HTML.replace("{version}", getVersion(client)));
+            String host = HostName.getProdCDNServer();
+            htmlContent = client.getContent(host+ADMIN_HTML.replace("{version}", getVersion(client)));
+            String replace1 = "<body";
+            String replace2 = "<head>";
+            htmlContent = htmlContent.replace(replace1, replaceBodyStr(replace1, sss)).replace(replace2, replacePlatformJSStr(replace2));
         }
     }
 
