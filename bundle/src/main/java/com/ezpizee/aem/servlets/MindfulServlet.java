@@ -72,20 +72,20 @@ public class MindfulServlet extends SlingAllMethodsServlet {
                     this.storeEngagementWithMCIDAPICall(request);
                     break;
 
-                case "genCDMID":
-                    this.genCDMIDAPICall(request);
+                case "getMCID":
+                    this.getMCIDAPICall(request);
+                    break;
+
+                case "genMCID":
+                    this.genMCIDAPICall(request);
                     break;
 
                 case "getCDMID":
                     this.getCDMIDAPICall(request);
                     break;
 
-                case "getMCID":
-                    this.genMCIDAPICall(request);
-                    break;
-
-                case "getMCDI":
-                    this.getMCIDAPICall(request);
+                case "genCDMID":
+                    this.genCDMIDAPICall(request);
                     break;
 
                 case "registerUser":
