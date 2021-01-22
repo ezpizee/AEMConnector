@@ -1,0 +1,41 @@
+<div class="cards bg-tilt p-4"
+     data-tips-root="${properties.fragmentRootPath}"
+     data-disclaimer-path="${properties.disclaimerPath}">
+    <h3>${properties.heading}</h3>
+    <div class="pl-5 pr-5">
+        <div class="p-4 mt-4 bg-white">
+            <div class="card-tips" id="cardTips">${'Loading...' @ i18n, context='unsafe'}</div>
+            <script type="text/x-handlebars" data-hbs="cardTips">
+                {{#each cards}}
+                <div class="card" data-card="{{@index}}" data-card-uuid="{{uuid}}">
+                    <img src="{{cardImgSerc}}" class="card-img-top" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    <img src="{{cardImgSercMobile}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    <div class="card-body">
+                        <h5 class="card-title">{{title}}</h5>
+                        <p class="card-text">{{description}}</p>
+                        <div class="disclaimer text-justify mt-4 mb-2">{{disclaimer}}</div>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" class="btn btn-outline-info col-6 mr-1"
+                               data-btn-card="{{@index}}" data-btn-card-uuid="{{uuid}}" data-trigger="skip">
+                                <i class="fas fa-chevron-left"></i> ${'Skip' @ i18n, context='unsafe'}
+                            </a>
+                            <a href="#" class="btn btn-outline-info col-6 ml-1"
+                               data-btn-card="{{@index}}" data-btn-card-uuid="{{uuid}}" data-trigger="like">
+                                <i class="far fa-heart"></i> ${'Like' @ i18n, context='unsafe'}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </script>
+        </div>
+        <div class="btnPrevious d-none">
+            <div class="d-flex flex-column mt-4 pr-5 pl-5">
+                <a href="${properties.seeLikedTips}" class="btn btn-like-tip">${'See liked tips' @ i18n, context='unsafe'}</a>
+                <a href="javascript:void(0)" class="previous mt-2" data-trigger="previousTip">
+                    <i class="fas fa-chevron-left"></i> ${'Previous tip' @ i18n, context='unsafe'}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
