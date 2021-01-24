@@ -19,8 +19,12 @@
         <div class="row">
             <div class="col-md-5">
                 <div class="position-relative">
-                    <img src="{{listImgSercMobile}}" class="card-img-top" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    <img src="{{listImgSerc}}" class="card-img-top" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    {{#if listImgSercMobile}}
                     <img src="{{listImgSercMobile}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    {{else}}
+                    <img src="{{listImgSerc}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    {{/if}}
                     <div class="image-title">
                         {{title}}
                         <h3>{{mindFul.isRegistered}}</h3>

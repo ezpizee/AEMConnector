@@ -9,7 +9,11 @@
                 {{#each cards}}
                 <div class="card" data-card="{{@index}}" data-card-uuid="{{uuid}}">
                     <img src="{{cardImgSerc}}" class="card-img-top" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    {{#if cardImgSercMobile}}
                     <img src="{{cardImgSercMobile}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    {{else}}
+                    <img src="{{cardImgSerc}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                    {{/if}}
                     <div class="card-body">
                         <h5 class="card-title">{{title}}</h5>
                         <p class="card-text">{{description}}</p>
@@ -31,7 +35,8 @@
         </div>
         <div class="btnPrevious d-none">
             <div class="d-flex flex-column mt-4 pr-5 pl-5">
-                <a href="${properties.seeLikedTips}" class="btn btn-like-tip">${'See liked tips' @ i18n, context='unsafe'}</a>
+                <a href="javascript:void(0)" data-target="#userCardsList" data-trigger="seeLikedTips"
+                   class="btn btn-like-tip">${'See liked tips' @ i18n, context='unsafe'}</a>
                 <a href="javascript:void(0)" class="previous mt-2" data-trigger="previousTip">
                     <i class="fas fa-chevron-left"></i> ${'Previous tip' @ i18n, context='unsafe'}
                 </a>

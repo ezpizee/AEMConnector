@@ -7,7 +7,7 @@
           data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"/>
     <meta name="description" content="${currentPage.meta.description}" />
     <meta name="keywords" content="${currentPage.meta.keywords}" />
-    <sly data-sly-call="${clientLib.css @ categories='trinellix-patient'}"></sly>
+    <sly data-sly-call="${clientLib.css @ categories='trintellix-patient'}"></sly>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
                         <div class="p-5" style="background:#ddd;">Placeholder</div>
                     </div>
                     <div class="col-6">
-                        <sly data-sly-resource="${'cards' @ resourceType='/apps/ezpizee/components/content/cards'}" data-model="card"></sly>
+                        <sly data-sly-resource="${'cards' @ resourceType='/apps/trintellix-patient/components/content/cards'}" data-model="card"></sly>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-usertips" role="tabpanel" aria-labelledby="nav-usertips-tab">
                         <div class="p-3">
-                            <sly data-sly-resource="${'cardslist' @ resourceType='/apps/ezpizee/components/content/cardslist'}" data-model="list"></sly>
+                            <sly data-sly-resource="${'cardslist' @ resourceType='/apps/trintellix-patient/components/content/cardslist'}" data-model="list"></sly>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-moretips" role="tabpanel" aria-labelledby="nav-moretips-tab">
@@ -56,7 +56,7 @@
     </div>
 </div>
 <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
-    <sly data-sly-call="${clientLib.js @ categories='trinellix-patient'}"></sly>
+    <sly data-sly-call="${clientLib.js @ categories='trintellix-patient'}"></sly>
 </sly>
 </body>
 </html>

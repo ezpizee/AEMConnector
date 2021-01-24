@@ -30,7 +30,7 @@ let Mindful = (function ($) {
       //csrfTokenPath = "",
       csrfTokenPath = "/libs/granite/csrf/token.json",
       servicePath = "/bin/takeda/mindful",
-      //servicePath = "/takeda-trinellix-patient/structures?layout=render&servlet=com.takeda.trintellix.patient.core.servlets.MindfulServlet",
+      //servicePath = "/takeda-trintellix-patient/structures?layout=render&servlet=com.takeda.trintellix.patient.core.servlets.MindfulServlet",
       cookieMaxLife = 365,
       mindfulTipCookieName = "mindful_tip_",
       mindfulCDMIDCookieName = "mindful_cdmid",
@@ -675,7 +675,7 @@ let Mindful = (function ($) {
             if (resp.uuid) {
               _private.views.moreTipsList();
               _private.cookie.delete(cName);
-              thisCardEle.remove();
+              $('#'+containerIds.userCardsList+' ['+attrs.dataCardUUID+'="'+thisCardEle.attr(attrs.dataCardUUID)+'"]').remove();
               _private.views.togglePrevTipBtn();
               _private.views.userCardsList();
             }
@@ -725,6 +725,13 @@ let Mindful = (function ($) {
       if (e && e.length && e.prev().length) {
         _private.views.toggleCard(elements.cardTips, e.prev());
         _private.views.togglePrevTipBtn(parseInt(e.attr(attrs.dataCard)));
+      }
+    };
+
+    action.seeLikedTips = function(ele) {
+      ele = document.getElementById(ele.attr('data-target').replace('#', ''));
+      if (ele) {
+        ele.scrollIntoView(true);
       }
     };
 
@@ -784,6 +791,10 @@ let Mindful = (function ($) {
           elements.previousBtn.click(function (e) {
             e.preventDefault();
             _private.actions.previousTip();
+          });
+          elements.previousBtnContainer.find('['+attrs.dataTrigger+'="seeLikedTips"]').click(function (e) {
+            e.preventDefault();
+            _private.actions.seeLikedTips($(this));
           });
           _private.views.togglePrevTipBtn();
         }

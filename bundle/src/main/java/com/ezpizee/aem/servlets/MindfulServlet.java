@@ -10,13 +10,23 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameterMap;
 import org.apache.sling.api.servlets.HttpConstants;
+//import org.apache.sling.api.servlets.ServletResolverConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+//import org.osgi.service.component.annotations.Component;
 
+//import javax.servlet.Servlet;
 import java.io.IOException;
 
+/*@Component(service = Servlet.class, property = {
+        "process.label=Servlet for Mindful",
+        "service.description=" + "Mindful Servlet",
+        ServletResolverConstants.SLING_SERVLET_METHODS + "={"+ HttpConstants.METHOD_GET+","+ HttpConstants.METHOD_POST +"}",
+        ServletResolverConstants.SLING_SERVLET_PATHS + "=" + "/bin/takeda/mindful",
+        ServletResolverConstants.SLING_SERVLET_EXTENSIONS + "=" + "json"
+})*/
 @SlingServlet(
         paths = {"/bin/takeda/mindful"},
-        methods = {HttpConstants.METHOD_POST},
+        methods = {HttpConstants.METHOD_GET, HttpConstants.METHOD_POST},
         extensions = {"json"}
 )
 public class MindfulServlet extends SlingAllMethodsServlet {
