@@ -1,0 +1,18 @@
+<section class="section ${properties.pt}  ${properties.pb} ${properties.bgcolor}">
+    <div class="container">
+        <sly data-sly-use.grid="com.ezpizee.aem.models.Grid">
+            <sly data-sly-test="${grid.data}" data-sly-list.item="${grid.data}">
+                <div class="row justify-content-center">
+                    <sly data-sly-test="${item}" data-sly-list.col="${item}">
+                        <div class="col-lg-${col.span}">
+                            <sly data-sly-resource="${@path=col.resPath, resourceType='trintellix-patient/components/content/par'}"></sly>
+                        </div>
+                    </sly>
+                </div>
+            </sly>
+            <div class="row" data-sly-test="${!grid.data}">
+                <div class="col-lg-12">Setup your grid.</div>
+            </div>
+        </sly>
+    </div>
+</section>

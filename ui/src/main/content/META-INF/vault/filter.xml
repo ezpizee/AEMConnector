@@ -11,4 +11,5 @@
     <filter root="/etc/commerce/ezpizee">
         <exclude pattern="/etc/commerce/ezpizee/config" />
     </filter>
+    <filter root="/conf/trintellix-patient"/>
 </workspaceFilter>

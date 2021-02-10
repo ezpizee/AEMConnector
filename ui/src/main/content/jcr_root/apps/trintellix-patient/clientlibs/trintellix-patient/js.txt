@@ -1,4 +1,5 @@
 js/handlebars.min.js
 js/jquery-3.5.1.min.js
+js/jquery.form.min.js
 js/bootstrap.bundle.min.js
 js/custom.js

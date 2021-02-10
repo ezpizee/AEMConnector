@@ -7,56 +7,58 @@
           data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html"/>
     <meta name="description" content="${currentPage.meta.description}" />
     <meta name="keywords" content="${currentPage.meta.keywords}" />
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.js @ categories=clientLibModel.dependencyClientLib}"></sly>
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientLib.css @ categories=clientLibModel.baseClientLib}"></sly>
+    <sly data-sly-test="${wcmmode.preview || wcmmode.edit}" data-sly-call="${clientLib.all @ categories=clientLibModel.authorClientLib}"></sly>
+    <!--/* Include Adobe Dynamic Tag Management libraries for the header */-->
+    <sly data-sly-include="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"></sly>
+    <!--/* Initializes the Experience Manager authoring UI */-->
+    <sly data-sly-include="/libs/wcm/core/components/init/init.jsp"></sly>
     <sly data-sly-call="${clientLib.css @ categories='trintellix-patient'}"></sly>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
 </head>
 <body>
-<div class="container">
-    <div class="pb-2"></div>
+<div class="clearfix">
+    <sly data-sly-resource="${'header' @ resourceType='wcm/foundation/components/parsys'}"></sly>
+</div>
+<sly data-sly-use.templatedContainer="com.day.cq.wcm.foundation.TemplatedContainer"
+     data-sly-repeat.child="${templatedContainer.structureResources}"
+     data-sly-resource="${child.path @ resourceType=child.resourceType, decorationTagName='div'}">
+</sly>
+<!--/*
+<sly data-sly-resource="${'header' @ resourceType='/section/header'}"></sly>
+<sly data-sly-resource="${'herobanner' @ resourceType='/section/hero-banner'}"></sly>
+<sly data-sly-resource="${'cards' @ resourceType='/section/cards'}"></sly>
+<div class="container mt-5">
     <div class="row">
         <div class="col-12">
-            <div class="pl-5 pr-5">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="p-5" style="background:#ddd;">Placeholder</div>
-                    </div>
-                    <div class="col-6">
-                        <sly data-sly-resource="${'cards' @ resourceType='/apps/trintellix-patient/components/content/cards'}" data-model="card"></sly>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="pb-5"></div>
-    <div class="row">
-        <div class="col-12">
-            <div class="pl-5 pr-5">
-                <nav>
-                    <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-                        <a class="nav-link active" id="nav-usertips-tab" data-bs-toggle="tab" href="#nav-usertips" role="tab"
-                           aria-controls="nav-usertips" aria-selected="true">Liked Tips</a>
-                        <a class="nav-link" id="nav-moretips-tab" data-bs-toggle="tab" href="#nav-moretips" role="tab"
-                           aria-controls="nav-moretips" aria-selected="false">More Tips</a>
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-usertips" role="tabpanel" aria-labelledby="nav-usertips-tab">
-                        <div class="p-3">
-                            <sly data-sly-resource="${'cardslist' @ resourceType='/apps/trintellix-patient/components/content/cardslist'}" data-model="list"></sly>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-moretips" role="tabpanel" aria-labelledby="nav-moretips-tab">
-                        <div class="p-3">
-                            <div class="card-lists" id="moreTipsList">Placeholder</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <sly data-sly-resource="${'cardslist' @ resourceType='/section/cardslist'}"></sly>
         </div>
     </div>
 </div>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <sly
+                    data-sly-resource="${'emailsignup' @ resourceType='/section/email_signup'}"
+            ></sly>
+        </div>
+    </div>
+</div>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <sly
+                    data-sly-resource="${'content' @ resourceType='/section/isi'}"
+            ></sly>
+        </div>
+    </div>
+</div>
+<sly data-sly-resource="${'footer' @ resourceType='/section/footer'}"></sly>
+*/-->
 <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html">
     <sly data-sly-call="${clientLib.js @ categories='trintellix-patient'}"></sly>
+    <script>Mindful.init();</script>
 </sly>
 </body>
 </html>

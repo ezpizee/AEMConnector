@@ -1,9 +1,35 @@
-<div class="card-lists" id="userCardsList"
-     data-tips-root="${properties.fragmentRootPath}"
-     data-disclaimer-path="${properties.disclaimerPath}">
-    ${'Loading...' @ i18n, context='unsafe'}
+<ul class="nav nav-tabs justify-content-center" data-tabs="nav" role="tablist">
+    <sly data-sly-list="${properties.tabs}">
+        <li class="nav-item" role="presentation">
+            <a
+                    class="nav-link"
+                    id="tab-item-${item.rand}-${itemList.index}"
+                    data-bs-toggle="tab"
+                    href="#tab-${item.rand}-${itemList.index}"
+                    role="tab"
+                    aria-controls="cardslist-tab-${itemList.index}"
+                    aria-selected="true"><span>${item.name}</span></a>
+        </li>
+    </sly>
+</ul>
+<div class="tab-content" data-tabs="content">
+    <sly data-sly-list="${properties.tabs}">
+        <div
+                class="tab-pane"
+                id="tab-${item.rand}-${itemList.index}"
+                role="tabpanel"
+                aria-labelledby="tab-item-${item.rand}-${itemList.index}">
+            <div
+                    class="card-lists bg-white pt-3 pr-lg-3 pb-lg-2 pl-lg-3"
+                    data-cards="${item.id}"
+                    data-tips-root="${properties.fragmentRootPath}"
+                    data-disclaimer-path="${properties.disclaimerPath}">
+                ${'Loading...' @ i18n, context='unsafe'}
+            </div>
+        </div>
+    </sly>
 </div>
-<script type="text/x-handlebars" data-hbs="userCardsList">
+<script type="text/x-handlebars" data-hbs="likedTips">
     {{#if isRegistered}}
     {{#unless cards}}
     {{#if moreTips}}
@@ -13,43 +39,47 @@
     {{/if}}
     {{/unless}}
     {{#each cards}}
-    <div class="card mb-3"
-         data-card="{{@index}}"
-         data-card-uuid="{{uuid}}">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="position-relative">
-                    <img src="{{listImgSerc}}" class="card-img-top" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
-                    {{#if listImgSercMobile}}
-                    <img src="{{listImgSercMobile}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
-                    {{else}}
-                    <img src="{{listImgSerc}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
-                    {{/if}}
-                    <div class="image-title">
-                        {{title}}
-                        <h3>{{mindFul.isRegistered}}</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card-body">
-                    <h5 class="card-title">{{#if listTitle}}{{listTitle}}{{else}}{{title}}{{/if}}</h5>
-                    <p class="card-text">{{#if listDescription}}{{listDescription}}{{else}}{{description}}{{/if}}</p>
-                    <div class="disclaimer text-justify mt-4 mb-2">{{disclaimer}}</div>
-                    <div class="d-flex justify-content-between">
-                        <a href="#" data-btn-card="{{@index}}" data-btn-card-uuid="{{uuid}}" data-trigger="dismiss">
-                            <i class="fas fa-times mr-2"></i> ${'Dismiss' @ i18n, context='unsafe'}
-                        </a>
-                        <a href="#" data-btn-card="{{@index}}" data-btn-card-uuid="{{uuid}}" data-trigger="addReminder">
-                            ${'Add reminder' @ i18n, context='unsafe'} <i class="far fa-calendar-alt ml-2"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="card mb-3 cards-list-item"
+       data-card="{{@index}}"
+       data-card-uuid="{{uuid}}">
+      <div class="row">
+          <div class="col-md-5">
+              <div class="position-relative">
+                  <img src="{{listImgSerc}}" class="card-img-top" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                  {{#if listImgSercMobile}}
+                  <img src="{{listImgSercMobile}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                  {{else}}
+                  <img src="{{listImgSerc}}" class="card-img-top show-on-mobile" alt="{{#if altText}}{{altText}}{{else}}{{title}}{{/if}}"/>
+                  {{/if}}
+                  <div class="image-title">
+                      {{title}}
+                      <h3>{{mindFul.isRegistered}}</h3>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="card-body">
+                  <h5 class="card-title">{{#if listTitle}}{{listTitle}}{{else}}{{title}}{{/if}}</h5>
+                  <p class="card-text">{{#if listDescription}}{{listDescription}}{{else}}{{description}}{{/if}}</p>
+                  <div class="disclaimer text-justify mt-2 mb-3">{{disclaimer}}</div>
+                  <div class="d-flex justify-content-between">
+                      <a href="javascript:void(0)" data-btn-card="{{@index}}" data-btn-card-uuid="{{uuid}}" data-trigger="dismiss">
+                          <i class="fas fa-times mr-2"></i> ${'Dismiss' @ i18n, context='unsafe'}
+                      </a>
+                      <a href="javascript:void(0)"
+                         data-toggle="modal" data-target="#addReminderModal"
+                         data-btn-card="{{@index}}" data-btn-card-uuid="{{uuid}}" data-trigger="addReminder">
+                          ${'Add reminder' @ i18n, context='unsafe'} <i class="far fa-calendar ml-2"></i>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+    {{#unless @last}}<hr/>{{/unless}}
     {{/each}}
     {{else}}
     <p>${'Please signin or signup.' @ i18n, context='unsafe'}</p>
     {{/if}}
 </script>
+<sly data-sly-resource="${'calendarpopup' @ resourceType='/section/calendar-popup'}"></sly>

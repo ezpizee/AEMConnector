@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+          jcr:primaryType="nt:unstructured">
+    <default
+            jcr:primaryType="nt:unstructured"
+            text="None"
+            value=""/>
+    <blue
+            jcr:primaryType="nt:unstructured"
+            text="Blue"
+            value="bg-blue"/>
+    <bgdark
+            jcr:primaryType="nt:unstructured"
+            text="Dark"
+            value="bg-dark"/>
+    <bggraylightest
+            jcr:primaryType="nt:unstructured"
+            text="Gray lightest"
+            value="bg-gray-lightest"/>
+    <bgbluelight
+            jcr:primaryType="nt:unstructured"
+            text="Blue light"
+            value="bg-blue-light"/>
+</jcr:root>

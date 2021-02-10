@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+          jcr:primaryType="nt:unstructured">
+    <en
+            jcr:primaryType="nt:unstructured"
+            code="EN"
+            country="*"
+            defaultCountry="en"
+            value="en"
+            text="English"
+            language="English"/>
+    <fr
+            jcr:primaryType="nt:unstructured"
+            code="FR"
+            country="*"
+            defaultCountry="fr"
+            value="fr"
+            text="Français"
+            language="Français"/>
+    <it
+            jcr:primaryType="nt:unstructured"
+            code="KH"
+            country="កម្ពុជា"
+            defaultCountry="kh"
+            value="kh"
+            text="ខ្មែរ"
+            language="ខ្មែរ"/>
+</jcr:root>

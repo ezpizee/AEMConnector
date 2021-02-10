@@ -2,50 +2,52 @@
 
 let Mindful = (function ($) {
   let _ = {},
-      _private = {},
-      allCardTips = [],
-      containerIds = {
-        cardTips: "cardTips",
-        userCardsList: "userCardsList",
-        moreTipsList: "moreTipsList",
-      },
-      attrs = {
-        dataHbs: "data-hbs",
-        dataCard: "data-card",
-        dataCardUUID: "data-card-uuid",
-        dataTrigger: "data-trigger",
-        dataBtnCard: "data-btn-card",
-        dataBtnCardUUID: "data-btn-card-uuid",
-      },
-      hbsTemplates = { cardTips: null, userCardsList: null },
-      elements = {
-        cardTips: [],
-        userCardsList: [],
-        previousBtn: [],
-        previousBtnContainer: [],
-      },
-      fragmentRootPath = "",
-      disclaimerPath = "",
-      csrfToken = "",
-      //csrfTokenPath = "",
-      csrfTokenPath = "/libs/granite/csrf/token.json",
-      servicePath = "/bin/takeda/mindful",
-      //servicePath = "/takeda-trintellix-patient/structures?layout=render&servlet=com.takeda.trintellix.patient.core.servlets.MindfulServlet",
-      cookieMaxLife = 365,
-      mindfulTipCookieName = "mindful_tip_",
-      mindfulCDMIDCookieName = "mindful_cdmid",
-      mindfulMCIDCookieName = "mindful_mcid",
-      mindfulUserCookieName = "mindful_user_engagement",
-      mindfulVisitedUserCookieName = "mindful_user_visited",
-      userData = {mcid: "", cdmid: "", userId: "", channel: "web", engagement: {}},
-      logic = {isRegistered: false, hasCDMID: false, hasMCID: false, state: "", isReturnedUser: false},
-      states = {firstTimePageVisit: "first_time_page_visit", visitMM: "visit_mm", personalizedMMPage: "personalized_mm_page"};
+    _private = {},
+    allCardTips = [],
+    containerIds = {
+      cardTips: "cardTips",
+      likedTips: "likedTips",
+      moreTips: "moreTips",
+    },
+    attrs = {
+      dataHbs: "data-hbs",
+      dataCard: "data-card",
+      dataCardUUID: "data-card-uuid",
+      dataTrigger: "data-trigger",
+      dataBtnCard: "data-btn-card",
+      dataBtnCardUUID: "data-btn-card-uuid",
+    },
+    hbsTemplates = {},
+    elements = {
+      cardTips: [],
+      likedTips: [],
+      previousBtn: [],
+      previousBtnContainer: [],
+    },
+    fragmentRootPath = "",
+    disclaimerPath = "",
+    csrfToken = "",
+    //csrfTokenPath = "",
+    csrfTokenPath = "/libs/granite/csrf/token.json",
+    servicePath = "/bin/takeda/mindful",
+    //servicePath = "/takeda-trinellix-patient/structures?layout=render&servlet=com.takeda.trintellix.patient.core.servlets.MindfulServlet",
+    cookieMaxLife = 365,
+    mindfulTipCookieName = "mindful_tip_",
+    mindfulCDMIDCookieName = "mindful_cdmid",
+    mindfulMCIDCookieName = "mindful_mcid",
+    mindfulUserCookieName = "mindful_user_engagement",
+    mindfulVisitedUserCookieName = "mindful_user_visited",
+    mindfulRegisteredCookieName = "mindful_user_registered",
+    userData = {mcid: "", cdmid: "", userId: "", firstname: '', lastname: '', email: '', channel: "web", engagement: {}},
+    logic = {isRegistered: false, hasCDMID: false, hasMCID: false, state: "", isReturnedUser: false},
+    states = {firstTimePageVisit: "first_time_page_visit", visitMM: "visit_mm", personalizedMMPage: "personalized_mm_page"};
 
   _.init = function () {
     $(document).ready(function () {
-      _private.collapsible();
+      _private.views.collapsible();
       fragmentRootPath = $("[data-tips-root]").attr("data-tips-root");
       disclaimerPath = $("[data-disclaimer-path]").attr("data-disclaimer-path");
+      _private.hbs.scan();
       $.ajax({
         type: "GET",
         url: servicePath,
@@ -56,6 +58,7 @@ let Mindful = (function ($) {
         },
         success: function (resp) {
           if (resp && resp.hasOwnProperty("cards") && resp.hasOwnProperty("isRegistered")) {
+            _private.views.signUpForm();
             userData.userId = resp.hasOwnProperty("userId") ? resp.userId : userData.userId;
             allCardTips = resp.cards && resp.cards.length ? resp.cards : [];
             logic.isRegistered = resp.isRegistered;
@@ -74,7 +77,7 @@ let Mindful = (function ($) {
                   userData.channel = _private.uri.getQueryString('channel');
                 }
                 userData.mcid = mcid;
-                logic.hasCDMID = true;
+                logic.hasMCID = true;
                 logic.state = states.visitMM;
                 logic.isReturnedUser = true;
                 _private.cookie.set({name: mindfulMCIDCookieName, value: mcid, days: cookieMaxLife});
@@ -121,7 +124,7 @@ let Mindful = (function ($) {
   _private.checkUser = function () {
     // 1) if return user
     if (logic.isReturnedUser) {
-      // 1.1) if both cdmid and cdid exist
+      // 1.1) if both cdmid and mcid exist
       if (logic.hasMCID && logic.hasCDMID) {
         _private.actions.associateMCIDAndCDMID(userData.cdmid, userData.mcid, function(resp){
           _private.actions.retrieveEngagementByCDMID(userData.cdmid, function(resp){
@@ -197,10 +200,10 @@ let Mindful = (function ($) {
       // 2.1) API Call - CDM ID Generated
       _private.actions.getCDMID(function({cdmid}){
         if (cdmid) {
-          _private.cookie.set({name: mindfulCDMIDCookieName, value: userData.cdmid, days: cookieMaxLife});
-          _private.setUserDataCookie();
           userData.cdmid = cdmid;
           logic.hasCDMID = true;
+          _private.cookie.set({name: mindfulCDMIDCookieName, value: userData.cdmid, days: cookieMaxLife});
+          _private.setUserDataCookie();
           // 2.2) MM first time Page Visit
           logic.state = states.firstTimePageVisit;
           // 2.3) API Call - MC ID Generated
@@ -240,6 +243,9 @@ let Mindful = (function ($) {
 
   _private.actions = (function () {
     let action = {};
+
+    action.signUpFormData = [];
+    action.validateFields = ['firstname', 'lastname', 'email', 'consent'];
 
     action.associateMCIDAndCDMID = function(cdmid, mcid, callback) {
       cdmid = cdmid||userData.cdmid;
@@ -549,7 +555,7 @@ let Mindful = (function ($) {
       }
     };
 
-    action.registerUser = function (callback) {
+    action.registerUser = function (formEle, callback) {
       if (csrfTokenPath && !csrfToken) {
         _private.getCSRFToken(function (resp) {
           if (resp && resp.token) {
@@ -561,25 +567,50 @@ let Mindful = (function ($) {
         post();
       }
       function post() {
-        $.ajax({
-          type: "POST",
+        formEle.ajaxSubmit({
+          target: formEle,
           url: servicePath,
-          data: {
-            scope: "registerUser",
-            formData: {'todo':'todo'},
-            fragmentRootPath: fragmentRootPath,
-            disclaimerPath: disclaimerPath,
+          dataType: 'json',
+          beforeSubmit: function(formData, $form, options) {
+            action.signUpFormData = formData;
+            if (typeof formData.fragmentRootPath === "undefined") {
+              $form.append('<input type="hidden" name="fragmentRootPath" value="'+fragmentRootPath+'" />');
+            }
+            if (typeof formData.disclaimerPath === "undefined") {
+              $form.append('<input type="hidden" name="disclaimerPath" value="'+disclaimerPath+'" />');
+            }
+            if (typeof formData.scope === "undefined") {
+              $form.append('<input type="hidden" name="scope" value="registerUser" />');
+            }
+            let consentMissing = true;
+            let passed = true;
+            for (let i=0; i < formData.length; i++) {
+              if (action.validateFields.indexOf(formData[i].name) !== -1 && !formData[i].value) {
+                $form.find('[name="'+formData[i].name+'"]').addClass('error');
+                passed = false;
+              }
+              else if (formData[i].name === 'consent') {
+                consentMissing = false;
+              }
+              else {
+                $form.find('[name="'+formData[i].name+'"]').removeClass('error');
+              }
+            }
+            if (consentMissing === true) {
+              $form.find('[name="consent"]').addClass('error');
+            }
+            else {
+              $form.find('[name="consent"]').removeClass('error');
+            }
+            return passed;
           },
           beforeSend: _private.beforeSend,
-          success: function (resp) {
-            if (resp.hasOwnProperty("isRegistered")) {
-              logic.isRegistered = resp.isRegistered;
+          success: function() {
+            let resp = arguments[0];
+            if (typeof callback === 'function') {
+              callback(resp);
             }
-            if (resp.hasOwnProperty("userId")) {
-              userData.userId = resp.userId;
-            }
-            callback(resp);
-          },
+          }
         });
       }
     };
@@ -587,7 +618,7 @@ let Mindful = (function ($) {
     action.like = function (uuid, nextCardEle, toggleCard, cardPosition) {
       // look for next element and the uuid of the current element
       if (toggleCard !== false) {
-        if (nextCardEle.length) {
+        if (nextCardEle.length && nextCardEle.hasClass('cards-item')) {
           _private.views.toggleCard(elements.cardTips, nextCardEle);
         }
       }
@@ -637,7 +668,7 @@ let Mindful = (function ($) {
                   ctaid: resp.uuid,
                 });
               }
-              _private.views.userCardsList();
+              _private.views.likedTips();
               // check card at least 3 to display button
               _private.views.togglePrevTipBtn(cardPosition);
             }
@@ -673,11 +704,11 @@ let Mindful = (function ($) {
           beforeSend: _private.beforeSend,
           success: function (resp) {
             if (resp.uuid) {
-              _private.views.moreTipsList();
+              _private.views.moreTips();
               _private.cookie.delete(cName);
-              $('#'+containerIds.userCardsList+' ['+attrs.dataCardUUID+'="'+thisCardEle.attr(attrs.dataCardUUID)+'"]').remove();
+              $('#'+containerIds.likedTips+' ['+attrs.dataCardUUID+'="'+thisCardEle.attr(attrs.dataCardUUID)+'"]').remove();
               _private.views.togglePrevTipBtn();
-              _private.views.userCardsList();
+              _private.views.likedTips();
             }
           }
         });
@@ -708,9 +739,6 @@ let Mindful = (function ($) {
             },
             beforeSend: _private.beforeSend,
             success: function (resp) {
-              if (resp.uuid) {
-                alert("reminder sucess with uuid " + uuid);
-              }
               if (resp.hasOwnProperty("isRegistered")) {
                 logic.isRegistered = resp.isRegistered;
               }
@@ -729,7 +757,7 @@ let Mindful = (function ($) {
     };
 
     action.seeLikedTips = function(ele) {
-      ele = document.getElementById(ele.attr('data-target').replace('#', ''));
+      ele = document.querySelector('[data-cards="'+ele.attr('data-target')+'"]');
       if (ele) {
         ele.scrollIntoView(true);
       }
@@ -737,7 +765,7 @@ let Mindful = (function ($) {
 
     action.skip = function (uuid, nextCardEle, toggleCard, cardPosition) {
       _private.views.togglePrevTipBtn(cardPosition);
-      if (nextCardEle.length) {
+      if (nextCardEle.length && nextCardEle.hasClass('cards-item')) {
         _private.views.toggleCard(elements.cardTips, nextCardEle);
       }
     };
@@ -747,16 +775,16 @@ let Mindful = (function ($) {
         e.find("[" + attrs.dataTrigger + "]").click(function (e) {
           e.preventDefault();
           let t = $(this),
-              uuid = t.attr(attrs.dataBtnCardUUID),
-              action = t.attr(attrs.dataTrigger),
-              thisCard = $("[" + attrs.dataCardUUID + '="' + uuid + '"]'),
-              ele = action === "dismiss" ? thisCard : thisCard.next();
+            uuid = t.attr(attrs.dataBtnCardUUID),
+            action = t.attr(attrs.dataTrigger),
+            thisCard = $("[" + attrs.dataCardUUID + '="' + uuid + '"]'),
+            ele = action === "dismiss" ? thisCard : thisCard.next();
           if (typeof _private.actions[action] !== "undefined") {
             _private.actions[action](
-                uuid,
-                ele,
-                true,
-                parseInt(t.attr(attrs.dataBtnCard))
+              uuid,
+              ele,
+              true,
+              parseInt(t.attr(attrs.dataBtnCard))
             );
           }
         });
@@ -764,12 +792,12 @@ let Mindful = (function ($) {
     };
 
     action.bindClickOnMoreTipsLikeBtns = function () {
-      let container = $("#" + containerIds.moreTipsList);
+      let container = $('[data-cards="' + containerIds.moreTips + '"]');
       if (container.length) {
         container.find("[" + attrs.dataTrigger + '="like"]').click(function () {
           let t = $(this),
-              uuid = t.attr(attrs.dataBtnCardUUID),
-              nextCard = $("[" + attrs.dataCardUUID + '="' + uuid + '"]').next();
+            uuid = t.attr(attrs.dataBtnCardUUID),
+            nextCard = $("[" + attrs.dataCardUUID + '="' + uuid + '"]').next();
           action.like(uuid, nextCard, false);
         });
       }
@@ -783,7 +811,7 @@ let Mindful = (function ($) {
     view.cards = function () {
       // bind click to previous Btn if exists
       elements.previousBtn = $(
-          ".cards [" + attrs.dataTrigger + '="previousTip"]'
+        ".cards [" + attrs.dataTrigger + '="previousTip"]'
       );
       if (elements.previousBtn.length) {
         elements.previousBtnContainer = elements.previousBtn.parent().parent();
@@ -799,69 +827,69 @@ let Mindful = (function ($) {
           _private.views.togglePrevTipBtn();
         }
       }
-      _private.views.userCardsList();
+      _private.views.likedTips();
       _private.views.cardTips();
     };
-    view.moreTipsList = function () {
-      let container = $("#" + containerIds.moreTipsList);
+    view.moreTips = function () {
+      let key = containerIds.likedTips;
+      let container = $('[data-cards="' + containerIds.moreTips + '"]');
       if (container.length) {
-        container.html(
-            hbsTemplates["userCardsList"]({
-              moreTips: true,
-              cards: _private.getMoreTipCards(),
-              isRegistered: logic.isRegistered
-            })
-        );
-        if (container.find("[" + attrs.dataTrigger + '="dismiss"]').length) {
-          container
-              .find("[" + attrs.dataTrigger + '="dismiss"]')
-              .each(function () {
-                let t = $(this);
-                t.attr(attrs.dataTrigger, "like");
-                t.attr("class", "btn btn-outline-info");
-                t.attr("href", "javascript:void(0)");
-                t.html('<i class="far fa-heart"></i> Like');
-              });
-          container.find("[" + attrs.dataTrigger + '="addReminder"]').remove();
-          _private.actions.bindClickOnMoreTipsLikeBtns();
+        if (typeof hbsTemplates[key] === "undefined" && _private.hbs.exists(key)) {
+          hbsTemplates[key] = _private.hbs.get(key);
+        }
+        if (typeof hbsTemplates[key] !== "undefined" && hbsTemplates[key]) {
+          container.html(
+              _private.hbs.compile(hbsTemplates[key], {
+                moreTips: true,
+                cards: _private.getMoreTipCards(),
+                isRegistered: logic.isRegistered
+              })
+          );
+          if (container.find("[" + attrs.dataTrigger + '="dismiss"]').length) {
+            container
+                .find("[" + attrs.dataTrigger + '="dismiss"]')
+                .each(function () {
+                  let t = $(this);
+                  t.attr(attrs.dataTrigger, "like");
+                  t.attr("href", "javascript:void(0)");
+                  t.html('<i class="far fa-heart mr-2"></i> Like');
+                });
+            container.find("[" + attrs.dataTrigger + '="addReminder"]').remove();
+            _private.actions.bindClickOnMoreTipsLikeBtns();
+          }
         }
       }
     };
-    view.userCardsList = function (key) {
+    view.likedTips = function (key) {
       if (allCardTips.length) {
-        key = key || containerIds.userCardsList;
-        if (!hbsTemplates[key]) {
-          hbsTemplates[key] = Handlebars.compile(
-              $("script[" + attrs.dataHbs + '="' + key + '"]').html()
-          );
+        key = key || containerIds.likedTips;
+        if (typeof hbsTemplates[key] === "undefined" && _private.hbs.exists(key)) {
+          hbsTemplates[key] = _private.hbs.get(key);
         }
-        if (hbsTemplates[key]) {
-          elements[key] = $("#" + key);
+        if (typeof hbsTemplates[key] !== "undefined" && hbsTemplates[key]) {
+          elements[key] = $('[data-cards="' + key + '"]');
           elements[key].html(
-              hbsTemplates[key]({
+              _private.hbs.compile(hbsTemplates[key], {
                 cards: _private.getAllUserCurrentCards(),
                 isRegistered: logic.isRegistered
               })
           );
-          _private.views.moreTipsList();
+          _private.views.moreTips();
           _private.actions.bindClickOnDataTriggerBtn(elements[key]);
         }
       }
     };
     view.cardTips = function (key) {
+      view.toggleCardTipContainers(allCardTips);
       if (allCardTips.length) {
         key = key || containerIds.cardTips;
-        if (!hbsTemplates[key]) {
-          hbsTemplates[key] = Handlebars.compile(
-              $("script[" + attrs.dataHbs + '="' + key + '"]').html()
-          );
+        if (typeof hbsTemplates[key] === "undefined" && _private.hbs.exists(key)) {
+          hbsTemplates[key] = _private.hbs.get(key);
         }
-        if (hbsTemplates[key]) {
-          let cards = allCardTips; //_private.getMoreTipCards();
-          elements[key] = $("#" + key);
-          elements[key].html(
-              hbsTemplates[key]({ cards: cards, isRegistered: logic.isRegistered })
-          );
+        if (typeof hbsTemplates[key] !== "undefined" && hbsTemplates[key]) {
+          let cards = allCardTips;
+          elements[key] = $('[data-cards="' + key + '"]');
+          elements[key].html(_private.hbs.compile(hbsTemplates[key], {cards: cards, isRegistered: logic.isRegistered}));
           _private.actions.bindClickOnDataTriggerBtn(elements[key]);
           elements[key] = elements[key].find("[" + attrs.dataCard + "]");
           elements[key].each(function (i) {
@@ -876,10 +904,10 @@ let Mindful = (function ($) {
       if (elements.previousBtnContainer.length) {
         elements.previousBtnContainer.addClass("d-none");
         let seeLikedTipsEle = elements.previousBtnContainer.find(
-            "[" + attrs.dataTrigger + '="seeLikedTips"]'
+          "[" + attrs.dataTrigger + '="seeLikedTips"]'
         );
         let previousTipEle = elements.previousBtnContainer.find(
-            "[" + attrs.dataTrigger + '="previousTip"]'
+          "[" + attrs.dataTrigger + '="previousTip"]'
         );
         seeLikedTipsEle.addClass("d-none");
         previousTipEle.addClass("d-none");
@@ -907,8 +935,133 @@ let Mindful = (function ($) {
         i.removeClass("d-none");
       }
     };
+    view.collapsible = function () {
+      let tabs = $('[data-tabs="nav"] a'), tabPanes = $('[data-tabs="content"] .tab-pane');
+      if (tabs.length && tabPanes.length === tabs.length) {
+        tabs.each(function(i){
+          if (i === 0) {
+            let t = $(this);
+            t.addClass('active');
+            $(t.attr('href')).addClass('active');
+          }
+        });
+        tabs.on("click", function (e) {
+          e.preventDefault();
+          let t = $(this),
+              h = t.attr("href");
+          tabPanes.removeClass("show").removeClass("active");
+          $(h).addClass("show active");
+          tabs.removeClass("active");
+          t.addClass("active");
+        });
+      }
+    };
+    view.signUpForm = function() {
+      let container = $('[data-form="signup"]');
+      if (container.length) {
+        container.on('submit', function(e){
+          e.preventDefault();
+          _private.actions.signUpFormData = [];
+          _private.actions.registerUser(container, function (resp, form) {
+
+            if (resp.hasOwnProperty("isRegistered")) {
+              logic.isRegistered = resp.isRegistered;
+            }
+
+            if (resp.hasOwnProperty("userId")) {
+              userData.userId = resp.userId;
+            }
+
+            _private.cookie.set({name: mindfulRegisteredCookieName, value: userData.userId});
+
+            _private.actions.getCDMID(function ({ cdmid }) {
+              if (cdmid) {
+                logic.hasCDMID = true;
+                userData.cdmid = cdmid;
+                _private.cookie.set({
+                  name: mindfulCDMIDCookieName,
+                  value: userData.cdmid,
+                  days: cookieMaxLife,
+                });
+              }
+              _private.actions.getMCID(function ({ mcid }) {
+                if (mcid) {
+                  logic.hasMCID = true;
+                  userData.mcid = mcid;
+                  _private.cookie.set({
+                    name: mindfulMCIDCookieName,
+                    value: userData.mcid,
+                    days: cookieMaxLife,
+                  });
+                }
+                _private.setUserDataCookie();
+              });
+            });
+          });
+        });
+      }
+    };
+    view.toggleCardTipContainers = function(cards) {
+      let noCardsContainerEle = $('[data-cards="empty"]'), hasCardsContainerEle = $('[data-cards="not-empty"]');
+      if (noCardsContainerEle.length) {
+        if (cards.length) {
+          hasCardsContainerEle.removeClass('d-none');
+          noCardsContainerEle.addClass('d-none');
+        }
+        else {
+          hasCardsContainerEle.addClass('d-none');
+          noCardsContainerEle.removeClass('d-none');
+        }
+      }
+    };
     return view;
   })();
+
+  _private.hbs = function() {
+    let hbs = {}, attr = attrs.dataHbs;
+    let templates = {};
+    hbs.exists = function(t) {return typeof templates[t] !== 'undefined';};
+    hbs.get = function(t, v) {
+      if (hbs.exists(t)) {return templates[t];}
+      else {
+        let e = $('['+attr+'="'+t+'"]');
+        if (e.length) {
+          templates[t] = e.html();
+          return templates[t];
+        }
+      }
+      if (v) {return v;}
+      console.error('Handlebars template: ' + t + ' does not exist.');
+      return '';
+    };
+    hbs.set = function(k,v){templates[k]=v;};
+    hbs.scan = function() {
+      assign($('['+attr+']'), attr);
+      function assign(ele, attr) {
+        if (ele.length){
+          ele.each(function(){
+            let e = $(this), t = e.attr(attr);
+            templates[t] = e.html();
+            e.remove();
+          });
+        }
+      }
+    };
+    hbs.compile = function(s, c) {
+      try {
+        if (hbs.exists(s)) {s = hbs.get(s);}
+        if (typeof c === "undefined" || !c) {c = {};}
+        else if (_private.isValidJSONString(c)) {c = _private.toJSONObject(c);}
+        else if (typeof c === "number" || typeof c === "boolean") {c = {};}
+        return Handlebars.compile(s)(c);
+      }
+      catch (e) {
+        console.log(e);
+        return e.message;
+      }
+    };
+    return hbs;
+  }();
 
   _private.cookie = (function () {
     let o = {};
@@ -965,20 +1118,20 @@ let Mindful = (function ($) {
           obj.expires = d.hasOwnProperty("toGMTString") ? d.toGMTString() : "";
         }
         document.cookie =
-            name +
-            "=" +
-            value +
-            (typeof obj.expires !== "undefined"
-                ? "; expires=" + obj.expires
-                : "") +
-            ("; path=" + (obj.path || "/")) +
-            (typeof obj.domain !== "undefined" ? "; domain=" + obj.domain : "") +
-            (obj.hasOwnProperty("secure") && obj.secure ? "; secure" : "");
+          name +
+          "=" +
+          value +
+          (typeof obj.expires !== "undefined"
+            ? "; expires=" + obj.expires
+            : "") +
+          ("; path=" + (obj.path || "/")) +
+          (typeof obj.domain !== "undefined" ? "; domain=" + obj.domain : "") +
+          (obj.hasOwnProperty("secure") && obj.secure ? "; secure" : "");
       }
     };
     o.delete = function (name) {
       document.cookie =
-          name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     };
     return o;
   })();
@@ -986,7 +1139,7 @@ let Mindful = (function ($) {
   _private.getAllUserCurrentCards = function () {
     let cards = [];
     let currentUserCards = _private.cookie.getAllNameStartsWith(
-        mindfulTipCookieName
+      mindfulTipCookieName
     );
     if (currentUserCards) {
       for (let i = 0; i < allCardTips.length; i++) {
@@ -1002,7 +1155,7 @@ let Mindful = (function ($) {
   _private.getMoreTipCards = function () {
     let cards = [];
     let currentUserCards = _private.cookie.getAllNameStartsWith(
-        mindfulTipCookieName
+      mindfulTipCookieName
     );
     if (currentUserCards) {
       for (let i = 0; i < allCardTips.length; i++) {
@@ -1041,22 +1194,6 @@ let Mindful = (function ($) {
     return e;
   };
 
-  _private.collapsible = function () {
-    let tabs = $("#nav-tab a"),
-        tabPanes = $("#nav-tabContent .tab-pane");
-    if (tabs.length && tabPanes.length === tabs.length) {
-      tabs.on("click", function (e) {
-        e.preventDefault();
-        let t = $(this),
-            h = t.attr("href");
-        tabPanes.removeClass("show").removeClass("active");
-        $(h).addClass("show active");
-        tabs.removeClass("active");
-        t.addClass("active");
-      });
-    }
-  };
-
   _private.randomCookieNameFromPfx = function (pfx) {
     let rand = Math.floor(Math.random() * 1000000);
     return pfx + parseInt("" + rand);
@@ -1072,12 +1209,12 @@ let Mindful = (function ($) {
     $.ajax({
       url: csrfTokenPath,
       success:
-          callbackOnSuccess ||
-          function (resp) {
-            if (resp && resp.token) {
-              csrfToken = resp.token;
-            }
-          },
+        callbackOnSuccess ||
+        function (resp) {
+          if (resp && resp.token) {
+            csrfToken = resp.token;
+          }
+        },
     });
   };
 
@@ -1171,6 +1308,5 @@ let Mindful = (function ($) {
   }();
 
   return _;
-})(jQuery);
 
-Mindful.init();
+})(jQuery);

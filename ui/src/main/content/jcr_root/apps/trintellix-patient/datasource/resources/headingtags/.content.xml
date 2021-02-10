@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+          jcr:primaryType="nt:unstructured">
+    <none
+            jcr:primaryType="nt:unstructured"
+            text="None"
+            value=""/>
+    <h1
+            jcr:primaryType="nt:unstructured"
+            text="Heading 1"
+            value="h1"/>
+    <h2
+            jcr:primaryType="nt:unstructured"
+            text="Heading 2"
+            value="h2"/>
+    <h3
+            jcr:primaryType="nt:unstructured"
+            text="Heading 3"
+            value="h3"/>
+    <h4
+            jcr:primaryType="nt:unstructured"
+            text="Heading 4"
+            value="h4"/>
+    <h5
+            jcr:primaryType="nt:unstructured"
+            text="Heading 5"
+            value="h5"/>
+    <h6
+            jcr:primaryType="nt:unstructured"
+            text="Heading 6"
+            value="h6"/>
+    <p
+            jcr:primaryType="nt:unstructured"
+            text="Paragraph"
+            value="p"/>
+    <div
+            jcr:primaryType="nt:unstructured"
+            text="DIV"
+            value="div"/>
+    <pre
+            jcr:primaryType="nt:unstructured"
+            text="PRE"
+            value="pre"/>
+    <code
+            jcr:primaryType="nt:unstructured"
+            text="Code"
+            value="code"/>
+</jcr:root>

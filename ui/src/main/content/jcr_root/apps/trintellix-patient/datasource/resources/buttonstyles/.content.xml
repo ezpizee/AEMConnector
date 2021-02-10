@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+          jcr:primaryType="nt:unstructured">
+    <default
+            jcr:primaryType="nt:unstructured"
+            text="None"
+            value=""/>
+    <primary
+            jcr:primaryType="nt:unstructured"
+            text="Primary"
+            value="btn btn-primary"/>
+    <primaryBorder
+            jcr:primaryType="nt:unstructured"
+            text="Primary Border"
+            value="btn btn-primary btn-primary--border"/>
+    <primaryLarge
+            jcr:primaryType="nt:unstructured"
+            text="Primary Large"
+            value="btn btn-primary btn-lg"/>
+    <primaryLargeBorder
+            jcr:primaryType="nt:unstructured"
+            text="Primary Border Large"
+            value="btn btn-primary btn-primary--border btn-lg"/>
+    <secondary
+            jcr:primaryType="nt:unstructured"
+            text="Secondary"
+            value="btn btn-secondary"/>
+    <secondaryBorder
+            jcr:primaryType="nt:unstructured"
+            text="Secondary Border"
+            value="btn btn-secondary btn-secondary--border"/>
+    <secondaryLarge
+            jcr:primaryType="nt:unstructured"
+            text="Secondary Large"
+            value="btn btn-secondary btn-lg"/>
+    <secondaryLargeBorder
+            jcr:primaryType="nt:unstructured"
+            text="Secondary Border Large"
+            value="btn btn-secondary btn-secondary--border btn-lg"/>
+    <success
+            jcr:primaryType="nt:unstructured"
+            text="Success"
+            value="btn btn-success"/>
+    <successBorder
+            jcr:primaryType="nt:unstructured"
+            text="Success Border"
+            value="btn btn-success btn-success--border"/>
+    <successLarge
+            jcr:primaryType="nt:unstructured"
+            text="Success Large"
+            value="btn btn-success btn-lg"/>
+    <successLargeBorder
+            jcr:primaryType="nt:unstructured"
+            text="Success Border Large"
+            value="btn btn-success btn-success--border btn-lg"/>
+    <danger
+            jcr:primaryType="nt:unstructured"
+            text="Danger"
+            value="btn btn-success"/>
+    <dangerBorder
+            jcr:primaryType="nt:unstructured"
+            text="Danger Border"
+            value="btn btn-success btn-success--border"/>
+    <dangerLarge
+            jcr:primaryType="nt:unstructured"
+            text="Danger Large"
+            value="btn btn-danger btn-lg"/>
+    <dangerLargeBorder
+            jcr:primaryType="nt:unstructured"
+            text="Danger Border Large"
+            value="btn btn-danger btn-danger--border btn-lg"/>
+    <dark
+            jcr:primaryType="nt:unstructured"
+            text="Dark"
+            value="btn btn-dark"/>
+    <darkBorder
+            jcr:primaryType="nt:unstructured"
+            text="Dark Border"
+            value="btn btn-dark btn-dark--border"/>
+    <darkLarge
+            jcr:primaryType="nt:unstructured"
+            text="Dark Large"
+            value="btn btn-dark btn-lg"/>
+    <darkLargeBorder
+            jcr:primaryType="nt:unstructured"
+            text="Dark Border Large"
+            value="btn btn-dark btn-dark--border btn-lg"/>
+</jcr:root>

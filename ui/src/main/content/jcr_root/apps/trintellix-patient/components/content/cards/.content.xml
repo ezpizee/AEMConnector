@@ -3,4 +3,4 @@
           cq:noDecoration="{Boolean}false"
           jcr:primaryType="cq:Component"
           jcr:title="Cards"
-          componentGroup="Ezpizee Website"/>
+          componentGroup="Trintellix Patient"/>

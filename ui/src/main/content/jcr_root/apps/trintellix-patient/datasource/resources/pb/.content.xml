@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+          jcr:primaryType="nt:unstructured">
+    <default
+            jcr:primaryType="nt:unstructured"
+            text="Do not set"
+            value=""/>
+    <pb0
+            jcr:primaryType="nt:unstructured"
+            text="Padding Bottom - 0"
+            value="pb-0"/>
+    <pb1
+            jcr:primaryType="nt:unstructured"
+            text="Padding Bottom - 1"
+            value="pb-1"/>
+    <pb2
+            jcr:primaryType="nt:unstructured"
+            text="Padding Bottom - 2"
+            value="pb-2"/>
+    <pb3
+            jcr:primaryType="nt:unstructured"
+            text="Padding Bottom - 3"
+            value="pb-3"/>
+    <pb4
+            jcr:primaryType="nt:unstructured"
+            text="Padding Bottom - 4"
+            value="pb-4"/>
+    <pb5
+            jcr:primaryType="nt:unstructured"
+            text="Padding Bottom - 5"
+            value="pb-5"/>
+</jcr:root>

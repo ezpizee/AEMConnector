@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+          jcr:primaryType="nt:unstructured">
+    <default
+            jcr:primaryType="nt:unstructured"
+            text="None"
+            value=""/>
+    <facebook
+            jcr:primaryType="nt:unstructured"
+            text="Facebook"
+            value="facebook"/>
+    <linkedin
+            jcr:primaryType="nt:unstructured"
+            text="LinkedIn"
+            value="linkedin"/>
+    <twitter
+            jcr:primaryType="nt:unstructured"
+            text="Twitter"
+            value="twitter"/>
+    <instagram
+            jcr:primaryType="nt:unstructured"
+            text="Instagram"
+            value="instagram"/>
+</jcr:root>

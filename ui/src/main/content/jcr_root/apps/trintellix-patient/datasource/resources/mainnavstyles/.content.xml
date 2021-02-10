@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+          jcr:primaryType="nt:unstructured">
+    <default
+            jcr:primaryType="nt:unstructured"
+            text="Default"
+            value="nav-main"/>
+    <absolute
+            jcr:primaryType="nt:unstructured"
+            text="Absolute"
+            value="nav--absolute nav-main"/>
+</jcr:root>
